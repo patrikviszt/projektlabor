@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FirestoreService } from '../services/firestore.service.spec';
+import { FirestoreService } from '../services/firestore.service';
+import { SnackbarService } from '../services/snackbar.service';
+import { AuthService } from '../services/auth.service'; // Firebase Auth Service
 
 @Component({
   selector: 'app-user-info',
@@ -10,9 +12,10 @@ import { FirestoreService } from '../services/firestore.service.spec';
   styleUrls: ['./user-info.component.css'],
   standalone: true,
 })
-export class UserInfoComponent {
+export class UserInfoComponent implements OnInit {
   step: number = 1;  // Jelenlegi lépés
   userData: any = {
+    email: '',  // Email mező hozzáadása
     weight: null,
     height: null,
     age: null,
@@ -20,7 +23,20 @@ export class UserInfoComponent {
     activityLevel: ''
   };
 
-  constructor(private firestoreService: FirestoreService) {}
+  constructor(
+    private firestoreService: FirestoreService,
+    private snackbar: SnackbarService,
+    private authService: AuthService // Firebase Auth Service injektálása
+  ) {}
+
+  ngOnInit() {
+    // Bejelentkezett felhasználó adatainak lekérése
+    this.authService.getCurrentUser().subscribe(user => {
+      if (user) {
+        this.userData.email = user.email; // Email cím beállítása
+      }
+    });
+  }
 
   nextStep() {
     if (this.step < 5) {
@@ -37,9 +53,10 @@ export class UserInfoComponent {
   submit() {
     // Adatok mentése a Firestore-ba
     this.firestoreService.addUserData(this.userData).then(() => {
-      console.log('Adatok sikeresen mentve!');
+      this.snackbar.open('Adatok sikeresen mentve!', 'Ok');  // Sikeres mentés értesítése
     }).catch((error) => {
       console.error('Hiba történt az adatok mentése közben:', error);
+      this.snackbar.open('Hiba történt az adatok mentése közben!', 'Ok');
     });
   }
 }

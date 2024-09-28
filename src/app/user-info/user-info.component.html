@@ -1,7 +1,9 @@
 <div class="card-container">
+  
     <div *ngIf="step === 1" class="card">
       <h3>Mennyi a súlyod?</h3>
       <input type="number" [(ngModel)]="userData.weight" placeholder="Súly (kg)" />
+      <button (click)="previousStep()">Vissza</button>
       <button (click)="nextStep()">Tovább</button>
     </div>
   
