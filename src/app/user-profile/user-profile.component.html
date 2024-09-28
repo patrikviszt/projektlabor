@@ -1,0 +1,13 @@
+<h1>Felhasználói Profil</h1>
+<div *ngIf="userData$ | async as userData; else loading">
+  <h2>Adatok:</h2>
+  <p><strong>Súly:</strong> {{ userData.weight }} kg</p>
+  <p><strong>Magasság:</strong> {{ userData.height }} cm</p>
+  <p><strong>Kor:</strong> {{ userData.age }} év</p>
+  <p><strong>E-mail:</strong> {{ userData.email }}</p>
+  <p><strong>Edzési cél:</strong> {{ userData.goal }}</p>
+  <p><strong>Aktivitási szint:</strong> {{ userData.activityLevel }}</p>
+</div>
+<ng-template #loading>
+  <p>Töltés...</p>
+</ng-template>

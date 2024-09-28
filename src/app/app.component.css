@@ -1,72 +1,53 @@
-/* Alap stílusok */
+/* Általános stílusok */
 body {
+    font-family: Arial, sans-serif; /* Betűtípus */
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh; /* Teljes magasság */
+    background-color: #f0f0f0; /* Háttérszín */
   }
   
-  /* Alapértelmezett margók eltávolítása a gombokról */
-  button {
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-  }
-  
-  /* Főoldal központozása */
+  /* Cím stílus */
   h1 {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 24px;
-    color: #444;
+    text-align: center; /* Középre igazítás */
+    margin-top: 50px; /* Felső margó */
+    color: #333; /* Cím színe */
   }
   
-  /* Gombok elhelyezése az oldal aljára */
+  /* Gombok tároló */
+  .button-container,
+  .auth-button-container {
+    margin-top: auto; /* Automatikus margó a gombok aljára helyezéshez */
+    padding: 20px; /* Padding a gombok körül */
+    display: flex; /* Flexbox a gombok elrendezéséhez */
+    justify-content: center; /* Középre igazítás */
+    gap: 15px; /* Gombok közötti távolság */
+  }
+  
+  /* Gomb stílusok */
   button {
-    width: 100%;
-    padding: 15px 0;
-    font-size: 18px;
-    background-color: #ff5722;
-    color: white;
-    cursor: pointer;
-    border-radius: 0;
-    border-top: 1px solid #ddd;
-    transition: background-color 0.3s ease;
+    background-color: #4CAF50; /* Zöld háttérszín */
+    border: none; /* Nincs keret */
+    color: white; /* Szöveg színe */
+    padding: 15px 25px; /* Padding */
+    text-align: center; /* Középre igazítás */
+    text-decoration: none; /* Nincs aláhúzás */
+    display: inline-block; /* Inline blokk */
+    font-size: 16px; /* Betűméret */
+    border-radius: 5px; /* Lekerekített sarkok */
+    cursor: pointer; /* Kéz ikon a kurzornál */
+    transition: background-color 0.3s ease; /* Háttérszín animáció */
   }
   
-  /* Hover hatás a gombokon */
+  /* Gomb hover állapot */
   button:hover {
-    background-color: #e64a19;
+    background-color: #45a049; /* Sötétebb zöld hover állapot */
   }
   
-  /* Gombok konténere */
-  .button-container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* Egyenlő méretű gombok a tartályban */
-  button {
-    flex: 1;
-  }
-  
-  /* Mobil reszponzivitás */
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 32px;
-    }
-  
-    button {
-      font-size: 20px;
-      padding: 20px 0;
-    }
+  /* Gomb aktív állapot */
+  button:active {
+    background-color: #388e3c; /* Még sötétebb zöld aktív állapot */
   }
   
