@@ -1,0 +1,72 @@
+/* Alap stílusok */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Alapértelmezett margók eltávolítása a gombokról */
+  button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+  
+  /* Főoldal központozása */
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 24px;
+    color: #444;
+  }
+  
+  /* Gombok elhelyezése az oldal aljára */
+  button {
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    background-color: #ff5722;
+    color: white;
+    cursor: pointer;
+    border-radius: 0;
+    border-top: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover hatás a gombokon */
+  button:hover {
+    background-color: #e64a19;
+  }
+  
+  /* Gombok konténere */
+  .button-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Egyenlő méretű gombok a tartályban */
+  button {
+    flex: 1;
+  }
+  
+  /* Mobil reszponzivitás */
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 32px;
+    }
+  
+    button {
+      font-size: 20px;
+      padding: 20px 0;
+    }
+  }
+  
