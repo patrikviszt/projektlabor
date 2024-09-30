@@ -1,0 +1,78 @@
+/* Alap stílusok */
+body {
+    font-family: 'Roboto', sans-serif; /* Letisztult, modern betűtípus */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* A teljes magasságot lefedi */
+    background-color: #f8f9fa; /* Világos háttér a friss megjelenésért */
+    color: #212529; /* Sötét szövegszín */
+  }
+  
+  /* Cím stílus */
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+    color: #495057; /* Kellemes sötétszürke szín */
+    font-size: 36px; /* Nagyobb, figyelemfelkeltő betűméret */
+    letter-spacing: 1px; /* Kisebb betűtávolság */
+  }
+  
+  /* Gombok tároló */
+  .button-container,
+  .auth-button-container {
+    margin-top: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Ha kisebb a kijelző, akkor a gombok sorba rendeződnek */
+  }
+  
+  /* Gomb stílusok */
+  button {
+    background-color: #007bff; /* Bootstrap-kék, modern árnyalat */
+    border: none;
+    color: white;
+    padding: 15px 30px; /* Kényelmes méretű padding */
+    font-size: 18px; /* Nagyobb betűméret a jobb olvashatóságért */
+    border-radius: 50px; /* Lekerekített, modern gombok */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Finom árnyék a mélységérzetért */
+    transition: all 0.3s ease; /* Simább animáció */
+  }
+  
+  /* Gomb hover állapot */
+  button:hover {
+    background-color: #0056b3; /* Sötétebb árnyalat hover állapotban */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Nagyobb árnyék hover esetén */
+    transform: translateY(-2px); /* Kis felfele mozgás hover-nél */
+  }
+  
+  /* Gomb aktív állapot */
+  button:active {
+    background-color: #004085; /* Még sötétebb árnyalat aktív állapotban */
+    transform: translateY(0); /* Visszaállás aktív állapotban */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Árnyék csökkentése */
+  }
+  
+  /* Mobilbarát gombméretezés */
+  @media (max-width: 768px) {
+    button {
+      width: 100%; /* Gombok teljes szélességet kitöltik kisebb kijelzőkön */
+      margin-bottom: 10px;
+    }
+  }
+  
+  /* Vendég és bejelentkezett állapot stílusai */
+  p {
+    text-align: center;
+    font-size: 18px;
+    color: #6c757d; /* Szürke szín */
+  }
+  
+  p strong {
+    color: #495057; /* Kiemelés a bejelentkezett felhasználónak */
+  }
+  

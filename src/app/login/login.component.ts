@@ -28,4 +28,8 @@ export class LoginComponent {
       console.error('Hiba történt a bejelentkezés során:', error);
     });
   }
+  navigateToRegister() {
+    this.router.navigate(['/register']); // Navigálás a regisztrációs oldalra
+  }
+
 }

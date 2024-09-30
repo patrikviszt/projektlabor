@@ -1,21 +1,2 @@
-
-
-<div *ngIf="userEmail$ | async as email; else guest">
-  <p>Bejelentkezve mint: {{ email }}</p>
-</div>
-<ng-template #guest>
-  <p>Vendég</p>
-</ng-template>
-
-<div class="button-container">
-  <button (click)="navigateToProfile()">Felhasználói Profil</button>
-  <button (click)="navigateToUserInfo()">Edzésterv Készítő</button>
-  <button (click)="navigateToMealPlan()">Étrendtervező</button>
-</div>
-
-<div class="auth-button-container">
-  <button (click)="navigateToLogin()">Bejelentkezés</button>
-  <button (click)="navigateToRegister()">Regisztráció</button>
-</div>
-
-<router-outlet></router-outlet>
+<app-header></app-header> <!-- A header itt tartalmazza a felhasználói adatokat és a navigációs gombokat -->
+<router-outlet></router-outlet> <!-- A route-ok tartalma itt jelenik meg -->

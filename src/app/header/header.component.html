@@ -1,0 +1,18 @@
+<div *ngIf="userEmail$ | async as email; else guest">
+    <p>Bejelentkezve mint: <strong>{{ email }}</strong></p>
+  </div>
+  <ng-template #guest>
+    <p>Vendég</p>
+  </ng-template>
+  
+  <div class="button-container">
+    <button (click)="navigateToProfile()">Felhasználói Profil</button>
+    <button (click)="navigateToUserInfo()">Edzésterv Készítő</button>
+    <button (click)="navigateToMealPlan()">Étrendtervező</button>
+  </div>
+  
+  <div class="auth-button-container">
+    <button (click)="navigateToLogin()">Bejelentkezés</button>
+    <button (click)="navigateToRegister()">Regisztráció</button>
+  </div>
+  

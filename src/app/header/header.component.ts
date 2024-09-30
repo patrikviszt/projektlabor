@@ -1,21 +1,24 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-header',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, HeaderComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, FormsModule, CommonModule],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class AppComponent {
-  title = 'projektlabor';
-  constructor(private router: Router) {}
+export class HeaderComponent {
+ 
+  userEmail$: Observable<string | null>;
+  constructor(private router: Router, private authService: AuthService) {
+    // Inicializálás
+    this.userEmail$ = this.authService.getCurrentUserEmail(); 
+  }
 
   navigateToProfile() {
     this.router.navigate(['/userprofile']);
@@ -34,6 +37,7 @@ export class AppComponent {
   }
 
   navigateToRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register']); 
   }
+  
 }

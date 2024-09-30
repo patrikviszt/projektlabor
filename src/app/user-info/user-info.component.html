@@ -1,46 +1,54 @@
 <div class="card-container">
-  
-    <div *ngIf="step === 1" class="card">
-      <h3>Mennyi a súlyod?</h3>
-      <input type="number" [(ngModel)]="userData.weight" placeholder="Súly (kg)" />
+  <div *ngIf="step === 1" class="card">
+    <h3>Mennyi a súlyod?</h3>
+    <input type="number" [(ngModel)]="userData.weight" placeholder="Súly (kg)" />
+    <div class="button-group">
       <button (click)="previousStep()">Vissza</button>
       <button (click)="nextStep()">Tovább</button>
     </div>
-  
-    <div *ngIf="step === 2" class="card">
-      <h3>Mennyi a magasságod?</h3>
-      <input type="number" [(ngModel)]="userData.height" placeholder="Magasság (cm)" />
+  </div>
+
+  <div *ngIf="step === 2" class="card">
+    <h3>Mennyi a magasságod?</h3>
+    <input type="number" [(ngModel)]="userData.height" placeholder="Magasság (cm)" />
+    <div class="button-group">
       <button (click)="previousStep()">Vissza</button>
       <button (click)="nextStep()">Tovább</button>
     </div>
-  
-    <div *ngIf="step === 3" class="card">
-      <h3>Hány éves vagy?</h3>
-      <input type="number" [(ngModel)]="userData.age" placeholder="Kor (év)" />
+  </div>
+
+  <div *ngIf="step === 3" class="card">
+    <h3>Hány éves vagy?</h3>
+    <input type="number" [(ngModel)]="userData.age" placeholder="Kor (év)" />
+    <div class="button-group">
       <button (click)="previousStep()">Vissza</button>
       <button (click)="nextStep()">Tovább</button>
     </div>
-  
-    <div *ngIf="step === 4" class="card">
-      <h3>Mi az edzési célod?</h3>
-      <select [(ngModel)]="userData.goal">
-        <option value="weight_loss">Fogyás</option>
-        <option value="muscle_gain">Izomépítés</option>
-        <option value="strength_gain">Erőnövelés</option>
-      </select>
+  </div>
+
+  <div *ngIf="step === 4" class="card">
+    <h3>Mi az edzési célod?</h3>
+    <select [(ngModel)]="userData.goal">
+      <option value="weight_loss">Fogyás</option>
+      <option value="muscle_gain">Izomépítés</option>
+      <option value="strength_gain">Erőnövelés</option>
+    </select>
+    <div class="button-group">
       <button (click)="previousStep()">Vissza</button>
       <button (click)="nextStep()">Tovább</button>
     </div>
-  
-    <div *ngIf="step === 5" class="card">
-      <h3>Milyen az aktivitási szinted?</h3>
-      <select [(ngModel)]="userData.activityLevel">
-        <option value="low">Alacsony</option>
-        <option value="medium">Közepes</option>
-        <option value="high">Magas</option>
-      </select>
+  </div>
+
+  <div *ngIf="step === 5" class="card">
+    <h3>Milyen az aktivitási szinted?</h3>
+    <select [(ngModel)]="userData.activityLevel">
+      <option value="low">Alacsony</option>
+      <option value="medium">Közepes</option>
+      <option value="high">Magas</option>
+    </select>
+    <div class="button-group">
       <button (click)="previousStep()">Vissza</button>
       <button (click)="submit()">Küldés</button>
     </div>
   </div>
-  
+</div>
