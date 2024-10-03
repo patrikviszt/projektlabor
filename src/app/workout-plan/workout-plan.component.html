@@ -1,0 +1,36 @@
+<div class="workout-plan-container">
+    <h2>Válassz gyakorlatokat az edzéstervhez</h2>
+  
+
+    <div class="exercise-selector">
+      <h3>Testtáj kiválasztása</h3>
+      <div class="body-part-buttons">
+        <button *ngFor="let part of bodyParts" (click)="toggleExercises(part)">
+          {{ part }}
+        </button>
+      </div>
+  
+      <div *ngIf="selectedPart" class="exercises-container">
+        <h4>{{ selectedPart }} gyakorlatok</h4>
+        <ul>
+          <li *ngFor="let exercise of exercises[selectedPart]">
+            {{ exercise }}
+            <button (click)="addToWorkout(exercise)">Hozzáadás</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+
+    <div class="workout-plan">
+      <h3>Az edzésterv</h3>
+      <ul>
+        <li *ngFor="let workout of workoutPlan">
+          {{ workout }}
+          <button (click)="removeFromWorkout(workout)">Eltávolítás</button>
+        </li>
+      </ul>
+      <button (click)="saveWorkoutPlan()">Edzésterv mentése</button>
+    </div>
+  </div>
+  

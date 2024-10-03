@@ -1,18 +1,24 @@
-<div *ngIf="userEmail$ | async as email; else guest">
-    <p>Bejelentkezve mint: <strong>{{ email }}</strong></p>
-  </div>
+<div class="header">
+  <img src="assets/images/logo.png" alt="Logo" class="logo" />
+  <nav class="nav">
+    <a class="nav-link" (click)="navigateToProfile()">Felhasználói Profil</a>
+    <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv Készítő</a>
+    <a class="nav-link" (click)="navigateToMealPlan()">Étrendtervező</a>
+    
+    <div *ngIf="userEmail$ | async as email; else guest">
+      <span class="nav-link">Bejelentkezve mint: <strong>{{ email }}</strong></span>
+      <a class="nav-link" (click)="logout()">Kijelentkezés</a>
+    </div>
+    
+    <ng-template #guest>
+      <a class="nav-link" (click)="navigateToLogin()">Bejelentkezés</a>
+      <a class="nav-link" (click)="navigateToRegister()">Regisztráció</a>
+    </ng-template>
+  </nav>
+</div>
+
+<div class="user-status">
   <ng-template #guest>
     <p>Vendég</p>
   </ng-template>
-  
-  <div class="button-container">
-    <button (click)="navigateToProfile()">Felhasználói Profil</button>
-    <button (click)="navigateToUserInfo()">Edzésterv Készítő</button>
-    <button (click)="navigateToMealPlan()">Étrendtervező</button>
-  </div>
-  
-  <div class="auth-button-container">
-    <button (click)="navigateToLogin()">Bejelentkezés</button>
-    <button (click)="navigateToRegister()">Regisztráció</button>
-  </div>
-  
+</div>

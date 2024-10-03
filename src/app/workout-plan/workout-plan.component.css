@@ -1,0 +1,104 @@
+.workout-plan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .exercise-selector {
+    margin-bottom: 30px;
+  }
+  
+  .body-part-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .body-part-buttons button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .body-part-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .exercises-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .exercises-container ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .exercises-container ul li button {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .exercises-container ul li button:hover {
+    background-color: #218838;
+  }
+  
+  .workout-plan ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .workout-plan ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .workout-plan ul li button {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .workout-plan ul li button:hover {
+    background-color: #c0392b;
+  }
+  
+  .workout-plan button {
+    padding: 10px 20px;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .workout-plan button:hover {
+    background-color: #e64a19;
+  }
+  

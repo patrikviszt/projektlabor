@@ -34,4 +34,34 @@ export class FirestoreService {
       });
     });
   }
+  addWorkoutPlan(userId: string, workoutData: any) {
+    const workoutPlansCollection = collection(this.firestore, 'workoutPlans');
+    const workoutPlanData = {
+      userId: userId,
+      userEmail: workoutData.userEmail,  // Including the user's email
+      exercises: workoutData.workoutPlan, // The exercises array
+      createdAt: new Date() // Save the creation date for reference
+    };
+  
+    return addDoc(workoutPlansCollection, workoutPlanData);
+  }
+  getWorkoutPlans(userEmail: string): Observable<any[]> {
+    const workoutPlansRef = collection(this.firestore, 'workoutPlans');
+    const q = query(workoutPlansRef, where('userEmail', '==', userEmail));
+    return new Observable<any[]>((observer) => {
+      getDocs(q).then((querySnapshot) => {
+        const workoutPlans: any[] = [];
+        querySnapshot.forEach((doc) => {
+          workoutPlans.push({ id: doc.id, ...doc.data() });
+        });
+        observer.next(workoutPlans);
+        observer.complete();
+      }).catch((error) => {
+        console.error('Error fetching workout plans:', error);
+        observer.next([]);
+        observer.complete();
+      });
+    });
+  }
+  
 }

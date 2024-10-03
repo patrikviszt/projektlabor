@@ -1,35 +1,36 @@
+/* Alap beállítások */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  font-family: 'Arial', sans-serif;
   background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
 .register-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Háttér átmenet */
+  }
+
 
 .register-container {
   max-width: 400px;
   width: 100%;
   padding: 40px;
-  background-color: #ffffff;
-  border-radius: 12px;
+  background-color: white;
+  border-radius: 10px; /* Hasonló a bejelentkezőhöz */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 28px; /* Hasonló a bejelentkezőhöz */
   margin-bottom: 20px;
   color: #333;
+  font-family: 'Poppins', sans-serif; /* Modern betűtípus */
 }
 
 .input-group {
@@ -39,24 +40,25 @@ h2 {
 
 label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-weight: bold;
-  color: #555;
+  color: #333;
+  font-size: 14px;
 }
 
 input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 6px;
   font-size: 16px;
-  box-sizing: border-box;
+  transition: border-color 0.3s;
 }
 
 input:focus {
   border-color: #007bff;
   outline: none;
-  background-color: #f9f9f9;
+  box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3); /* Kiemelés fókusznál */
 }
 
 .register-btn {
@@ -64,22 +66,33 @@ input:focus {
   padding: 12px;
   background-color: #007bff;
   color: white;
-  font-size: 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.1s;
 }
 
 .register-btn:hover {
   background-color: #0056b3;
 }
 
+.register-btn:active {
+  transform: scale(0.98); /* Kis méretváltozás kattintáskor */
+}
+
 .error-message {
-  color: #ff3333;
-  background-color: #ffe6e6;
-  padding: 10px;
-  margin-top: 15px;
-  border-radius: 5px;
+  color: red;
+  text-align: center;
+  margin-top: 10px;
   font-size: 14px;
+}
+
+/* Mobilbarát felbontás */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 20px;
+    width: 90%;
+  }
 }

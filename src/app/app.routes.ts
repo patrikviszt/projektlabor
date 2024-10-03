@@ -7,6 +7,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HeaderComponent } from './header/header.component';
+import { DietComponent } from './diet/diet.component';
+import { WorkoutPlanComponent } from './workout-plan/workout-plan.component';
 
 // Útvonalak definiálása
 export const routes: Routes = [
@@ -15,7 +17,9 @@ export const routes: Routes = [
   {path:'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   { path: 'userprofile', component: UserProfileComponent},
-  { path: 'header', component: HeaderComponent}
+  { path: 'header', component: HeaderComponent},
+  { path: 'diet', component: DietComponent},
+  { path: 'workout', component: WorkoutPlanComponent},
 ];
 
 @NgModule({

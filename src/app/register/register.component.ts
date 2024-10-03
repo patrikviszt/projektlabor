@@ -15,7 +15,9 @@ export class RegisterComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    
+  }
 
   register() {
     this.authService.register(this.email, this.password).then(() => {

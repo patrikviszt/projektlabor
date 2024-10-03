@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
  
   userEmail$: Observable<string | null>;
+  
   constructor(private router: Router, private authService: AuthService) {
     // Inicializálás
     this.userEmail$ = this.authService.getCurrentUserEmail(); 
@@ -24,12 +25,12 @@ export class HeaderComponent {
     this.router.navigate(['/userprofile']);
   }
 
-  navigateToUserInfo() {
-    this.router.navigate(['/userinfo']);
+  navigateToWorkoutPlan() {
+    this.router.navigate(['/workout']);
   }
 
   navigateToMealPlan() {
-    this.router.navigate(['/meal-plan']);
+    this.router.navigate(['/diet']);
   }
 
   navigateToLogin() {
@@ -39,5 +40,13 @@ export class HeaderComponent {
   navigateToRegister() {
     this.router.navigate(['/register']); 
   }
-  
+
+  logout() {
+    this.authService.logout().then(() => {
+      console.log('Successfully logged out.');
+      this.router.navigate(['/login']); // Redirect to login page after logging out
+    }).catch(error => {
+      console.error('Logout error:', error);
+    });
+  }
 }

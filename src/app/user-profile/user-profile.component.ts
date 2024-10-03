@@ -15,27 +15,28 @@ import { User } from 'firebase/auth';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  userData$: Observable<UserData | undefined> = of(undefined); // Inicializálás undefined értékkel
-
+  userData$: Observable<UserData | undefined> = of(undefined); 
+  workoutPlans$: Observable<any[]> = of([]);
   constructor(
     private firestoreService: FirestoreService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
-    // Ellenőrizzük, hogy az authService nem undefined
+    
     if (!this.authService) {
       console.error('AuthService nem elérhető');
       return;
     }
 
-    // Feliratkozás a user$ observable-ra
     this.authService.user$?.subscribe((user: User | null) => {
-      if (user && user.email) { // Ellenőrizd, hogy a user és az email nem null
-        this.userData$ = this.firestoreService.getUserData(user.email); 
+      if (user && user.email) {
+        this.userData$ = this.firestoreService.getUserData(user.email);
+        this.workoutPlans$ = this.firestoreService.getWorkoutPlans(user.email);
       } else {
-        console.warn('Nincs bejelentkezett felhasználó, vagy az email nem érhető el.');
-        this.userData$ = of(undefined); 
+        console.warn('No logged-in user or email not available.');
+        this.userData$ = of(undefined);
+        this.workoutPlans$ = of([]); 
       }
     });
   }

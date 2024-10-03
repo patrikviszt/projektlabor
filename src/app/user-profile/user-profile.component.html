@@ -8,6 +8,24 @@
   <p><strong>Edzési cél:</strong> {{ userData.goal }}</p>
   <p><strong>Aktivitási szint:</strong> {{ userData.activityLevel }}</p>
 </div>
+
+<div *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
+  <h2>Edzéstervek:</h2>
+  <ul *ngIf="workoutPlans.length > 0; else noPlans">
+    <li *ngFor="let plan of workoutPlans">
+      <strong>Edzésterv ID:</strong> {{ plan.id }}<br />
+      <strong>Gyakorlatok:</strong> {{ plan.exercises.join(', ') }}
+    </li>
+  </ul>
+  <ng-template #noPlans>
+    <p>Nincsenek edzéstervek.</p>
+  </ng-template>
+</div>
+
 <ng-template #loading>
   <p>Töltés...</p>
+</ng-template>
+
+<ng-template #loadingPlans>
+  <p>Edzéstervek betöltése...</p>
 </ng-template>
