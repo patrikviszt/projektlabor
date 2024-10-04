@@ -1,4 +1,6 @@
 <h1>Felhasználói Profil</h1>
+
+
 <div *ngIf="userData$ | async as userData; else loading">
   <h2>Adatok:</h2>
   <p><strong>Súly:</strong> {{ userData.weight }} kg</p>
@@ -9,12 +11,22 @@
   <p><strong>Aktivitási szint:</strong> {{ userData.activityLevel }}</p>
 </div>
 
+
 <div *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
   <h2>Edzéstervek:</h2>
   <ul *ngIf="workoutPlans.length > 0; else noPlans">
     <li *ngFor="let plan of workoutPlans">
-      <strong>Edzésterv ID:</strong> {{ plan.id }}<br />
-      <strong>Gyakorlatok:</strong> {{ plan.exercises.join(', ') }}
+      <strong>Edzésterv neve:</strong> {{ plan.workoutName }}<br />
+      <strong>Gyakorlatok:</strong>
+      <ul *ngFor="let day of plan.exercises">
+        <li>{{ day.day }}:
+          <ul>
+            <li *ngFor="let exercise of day.exercises">
+              {{ exercise.name }} - {{ exercise.sets }} szett, {{ exercise.reps }} ismétlés
+            </li>
+          </ul>
+        </li>
+      </ul>
     </li>
   </ul>
   <ng-template #noPlans>
@@ -22,10 +34,35 @@
   </ng-template>
 </div>
 
+<div *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
+  <h2>Étrendek:</h2>
+  <ul *ngIf="dietPlans.length > 0; else noDietPlans">
+    <li *ngFor="let diet of dietPlans">
+      <strong>Kiválasztott nap:</strong> {{ diet.selectedDay }}<br />
+      <strong>Ételek:</strong>
+      <ul>
+        <li><strong>Reggeli:</strong> {{ diet.meals.breakfast || 'Nincs adat' }}</li>
+        <li><strong>Ebéd:</strong> {{ diet.meals.dinner || 'Nincs adat' }}</li>
+        <li><strong>Vacsora:</strong> {{ diet.meals.lunch || 'Nincs adat' }}</li>
+      </ul>
+      <p><strong>Létrehozva:</strong> {{ diet.createdAt | date: 'short' }}</p>
+    </li>
+  </ul>
+  <ng-template #noDietPlans>
+    <p>Nincsenek étrendek.</p>
+  </ng-template>
+</div>
+
+
+
 <ng-template #loading>
   <p>Töltés...</p>
 </ng-template>
 
 <ng-template #loadingPlans>
   <p>Edzéstervek betöltése...</p>
+</ng-template>
+
+<ng-template #loadingDietPlans>
+  <p>Étrendek betöltése...</p>
 </ng-template>

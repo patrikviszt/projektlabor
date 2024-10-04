@@ -16,7 +16,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
-
+  passwordVisible: boolean = false;
   constructor(private authService: AuthService, private snackbar: SnackbarService, private router: Router) {}
 
   login() {
@@ -30,6 +30,9 @@ export class LoginComponent {
   }
   navigateToRegister() {
     this.router.navigate(['/register']); // Navigálás a regisztrációs oldalra
+  }
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
   }
 
 }

@@ -27,8 +27,8 @@ export class AuthService {
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
-  getCurrentUser(): Observable<any> {
-    return authState(this.auth); // Visszaadja a bejelentkezett felhasználó állapotát
+  getCurrentUser(): Observable<User | null> {
+    return authState(this.auth);
   }
   getCurrentUserEmail(): Observable<string | null> {
     return new Observable<string | null>((observer) => {

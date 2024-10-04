@@ -1,36 +1,51 @@
 <div class="workout-plan-container">
     <h2>Válassz gyakorlatokat az edzéstervhez</h2>
-  
 
-    <div class="exercise-selector">
-      <h3>Testtáj kiválasztása</h3>
-      <div class="body-part-buttons">
-        <button *ngFor="let part of bodyParts" (click)="toggleExercises(part)">
-          {{ part }}
-        </button>
-      </div>
-  
-      <div *ngIf="selectedPart" class="exercises-container">
-        <h4>{{ selectedPart }} gyakorlatok</h4>
-        <ul>
-          <li *ngFor="let exercise of exercises[selectedPart]">
-            {{ exercise }}
-            <button (click)="addToWorkout(exercise)">Hozzáadás</button>
-          </li>
-        </ul>
-      </div>
+    <div class="workout-name-input">
+        <input type="text" [(ngModel)]="workoutName" placeholder="Adj nevet az edzéstervednek" />
     </div>
-  
+
+    <div class="day-selector">
+        <h3>Napok hozzáadása</h3>
+        <div class="days">
+            <button *ngFor="let day of days" (click)="selectDay(day)">
+                {{ day }}
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="selectedDay" class="exercise-selector">
+        <h3>Testtáj kiválasztása {{ selectedDay }}i napra</h3>
+        <div class="body-part-buttons">
+            <button *ngFor="let part of bodyParts" (click)="toggleExercises(part)">
+                {{ part }}
+            </button>
+        </div>
+
+        <div *ngIf="selectedPart" class="exercises-container">
+            <h4>{{ selectedPart }} gyakorlatok</h4>
+            <ul>
+                <li *ngFor="let exercise of exercises[selectedPart]">
+                    {{ exercise }}
+                    <button (click)="addToWorkout(selectedDay, exercise)">Hozzáadás</button>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <div class="workout-plan">
-      <h3>Az edzésterv</h3>
-      <ul>
-        <li *ngFor="let workout of workoutPlan">
-          {{ workout }}
-          <button (click)="removeFromWorkout(workout)">Eltávolítás</button>
-        </li>
-      </ul>
-      <button (click)="saveWorkoutPlan()">Edzésterv mentése</button>
+        <h3>Az edzésterved:</h3>
+        <div *ngFor="let day of days">
+            <h4>{{ day }}</h4>
+            <ul *ngIf="workoutPlan[day] && workoutPlan[day].length > 0">
+                <li *ngFor="let workout of workoutPlan[day]">
+                    {{ workout.name }}
+                    <input type="number" [(ngModel)]="workout.sets" placeholder="Szériák" />
+                    <input type="number" [(ngModel)]="workout.reps" placeholder="Ismétlések" />
+                    <button (click)="removeFromWorkout(day, workout.name)">Eltávolítás</button>
+                </li>
+            </ul>
+        </div>
+        <button (click)="saveWorkoutPlan()">Edzésterv mentése</button>
     </div>
-  </div>
-  
+</div>

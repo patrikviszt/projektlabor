@@ -7,4 +7,19 @@ export interface UserData {
     goal: string;
     activityLevel: string;
   }
+  export interface Exercise {
+    name: string;
+    reps: number;
+    sets: number;
+  }
   
+  export interface DayExercises {
+    day: string;
+    exercises: Exercise[];
+  }
+  
+  export interface WorkoutPlan {
+    workoutName: string;
+    exercises: DayExercises[];
+    createdAt: Date;
+  }

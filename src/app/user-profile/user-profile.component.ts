@@ -4,7 +4,7 @@ import { FirestoreService } from '../services/firestore.service';
 import { Observable, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserData } from '../user-data.model';
+import { UserData, WorkoutPlan } from '../user-data.model';
 import { User } from 'firebase/auth';
 
 @Component({
@@ -16,27 +16,25 @@ import { User } from 'firebase/auth';
 })
 export class UserProfileComponent implements OnInit {
   userData$: Observable<UserData | undefined> = of(undefined); 
-  workoutPlans$: Observable<any[]> = of([]);
+  workoutPlans$: Observable<WorkoutPlan[]> = of([]);
+  dietPlans$: Observable<any[]> = of([]);
+
   constructor(
     private firestoreService: FirestoreService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
-    
-    if (!this.authService) {
-      console.error('AuthService nem elérhető');
-      return;
-    }
-
     this.authService.user$?.subscribe((user: User | null) => {
       if (user && user.email) {
         this.userData$ = this.firestoreService.getUserData(user.email);
         this.workoutPlans$ = this.firestoreService.getWorkoutPlans(user.email);
+        this.dietPlans$ = this.firestoreService.getDietPlans(user.email); // Fetch diet plans
       } else {
         console.warn('No logged-in user or email not available.');
         this.userData$ = of(undefined);
-        this.workoutPlans$ = of([]); 
+        this.workoutPlans$ = of([]);
+        this.dietPlans$ = of([]); 
       }
     });
   }

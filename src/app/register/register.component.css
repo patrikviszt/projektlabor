@@ -7,14 +7,12 @@ body {
 }
 
 .register-wrapper {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to right, #6a11cb, #2575fc); /* Háttér átmenet */
-  }
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #6a11cb, #2575fc); /* Háttér átmenet */
+}
 
 .register-container {
   max-width: 400px;
@@ -23,8 +21,9 @@ body {
   background-color: white;
   border-radius: 10px; /* Hasonló a bejelentkezőhöz */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  text-align: middle; /* Balra zárás */
 }
+
 
 h2 {
   font-size: 28px; /* Hasonló a bejelentkezőhöz */
@@ -35,18 +34,20 @@ h2 {
 
 .input-group {
   margin-bottom: 20px;
-  text-align: left;
+  display: flex;
+  flex-direction: column; /* Minden input egy oszlopban */
 }
 
 label {
-  display: block;
   margin-bottom: 8px;
   font-weight: bold;
   color: #333;
   font-size: 14px;
 }
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
@@ -95,4 +96,31 @@ input:focus {
     padding: 20px;
     width: 90%;
   }
+}
+
+/* Checkbox stílus */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Space above the checkbox */
+}
+
+input[type="checkbox"] {
+  margin-left: 10px; /* Space between the input and the checkbox */
+  transform: scale(1.2); /* Makes the checkbox slightly larger for easier clicking */
+}
+.login-prompt {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-prompt a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
 }

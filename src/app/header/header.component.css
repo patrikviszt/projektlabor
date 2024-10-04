@@ -1,73 +1,71 @@
-/* Alap stílusok */
 body {
-  font-family: 'Roboto', sans-serif; /* Modern betűtípus */
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa; /* Világos háttér */
-  color: #212529; /* Sötét szövegszín */
+  background-color: #f8f9fa;
+  color: #212529;
 }
 
-/* Fejléc stílus */
 .header {
   display: flex;
-  justify-content: space-between; /* Jobbra és balra igazítás */
-  align-items: center; /* Középre igazítás */
-  padding: 20px 40px; /* Padding a fejlécen */
-  background-color: #007bff; /* Kék háttér */
-  color: white; /* Fehér szöveg */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Finom árnyék a mélység érzetért */
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Logo stílus */
 .logo {
-  height: 50px; /* Logó magassága */
+  height: 50px;
 }
 
-/* Navigációs menü stílus */
 .nav {
   display: flex;
-  gap: 30px; /* Részek közötti távolság */
+  gap: 30px;
 }
 
 .nav-link {
-  color: white; /* Fehér szöveg */
-  text-decoration: none; /* Nincs aláhúzás */
-  font-size: 18px; /* Betűméret */
-  transition: color 0.3s; /* Színátmenet */
-  
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-link:hover {
-  color: #e0e0e0; /* Világosabb szín hover állapotban */
-  cursor:pointer; /*Megváltozik a kattintható linken a kurzor*/
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  cursor: pointer;
 }
 
-/* Felhasználói státusz stílus */
 .user-status {
   text-align: center;
-  margin: 20px 0; /* Margó a felhasználói státusz körül */
-  font-size: 18px; /* Betűméret */
-  color: #6c757d; /* Szürke szín */
+  margin: 20px 0;
+  font-size: 18px;
+  color: #6c757d;
 }
 
 .user-status p strong {
-  color: #495057; /* Kiemelés a bejelentkezett felhasználónak */
+  color: #495057;
 }
 
-/* Mobilbarát dizájn */
 @media (max-width: 768px) {
   .header {
-    flex-direction: column; /* Függőleges irányú elrendezés mobilon */
-    align-items: flex-start; /* Balra igazítás mobilon */
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .nav {
-    flex-direction: column; /* Függőleges navigációs menü */
-    align-items: flex-start; /* Balra igazítás a menüelemeknél */
-    gap: 10px; /* Kisebb távolság a menüelemek között */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
   .nav-link {
-    font-size: 16px; /* Kisebb betűméret mobilon */
+    font-size: 16px;
+    padding: 6px 10px;
   }
 }

@@ -46,10 +46,14 @@ export class DietPlanComponent {
 
   // Étel hozzáadása az étrendhez
   addToDiet(meal: string) {
-    if (!this.dietPlan.includes(meal)) {
-      this.dietPlan.push(meal);
+    if (this.selectedMealTime && this.selectedDay) {
+      const formattedMeal = `${this.selectedMealTime}: ${meal}`;
+      if (!this.dietPlan.includes(formattedMeal)) {
+        this.dietPlan.push(formattedMeal);
+      }
     }
   }
+  
 
   // Étel eltávolítása az étrendből
   removeFromDiet(meal: string) {

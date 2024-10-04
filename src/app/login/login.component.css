@@ -39,20 +39,36 @@ label {
   font-size: 14px;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
+.input-group {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
-  border-radius: 5px;
+}
+
+.email-input, .password-input {
+  flex-grow: 1; /* This allows both inputs to take the available space */
+  padding: 10px;
+  border-radius: 5px 0 0 5px; /* Rounded corners on the left */
   border: 1px solid #ccc;
   font-size: 16px;
   transition: border-color 0.3s;
 }
 
-input:focus {
+.email-input:focus, .password-input:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3); /* Kiemelés fókusznál */
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  margin-left: 10px; /* Space between the input and checkbox */
+  transform: scale(1.2); /* Makes the checkbox slightly larger for easier clicking */
+  cursor: pointer;
 }
 
 .login-btn {

@@ -1,5 +1,8 @@
 <div class="header">
-  <img src="assets/images/logo.png" alt="Logo" class="logo" />
+  <a [routerLink]="['/userinfo']">
+    <img src="assets/images/logo.png" alt="Logo" class="logo" />
+  </a>
+  
   <nav class="nav">
     <a class="nav-link" (click)="navigateToProfile()">Felhasználói Profil</a>
     <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv Készítő</a>
