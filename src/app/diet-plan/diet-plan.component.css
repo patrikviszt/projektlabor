@@ -1,0 +1,149 @@
+/* Általános konténer */
+.diet-plan-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Gombok stílusa */
+  button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Étkezési időpont és gombok */
+  .meal-time-buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .meal-time-buttons button {
+    flex: 1;
+    margin: 0 10px;
+    font-size: 1rem;
+  }
+  
+  /* Étkezési ételek listája */
+  .exercises-container, .meals-container {
+    margin-top: 20px;
+  }
+  
+  .meals-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .meals-container li {
+    margin-bottom: 10px;
+  }
+  
+  .meals-container button {
+    margin-left: 10px;
+  }
+  
+  /* Kiválasztott étrend */
+  .diet-plan {
+    margin-top: 30px;
+  }
+  
+  .diet-plan ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .diet-plan li {
+    margin-bottom: 10px;
+  }
+  
+  .diet-plan button {
+    background-color: #ff4c4c;
+  }
+  
+  .diet-plan button:hover {
+    background-color: #ff3333;
+  }
+
+  .diet-plan-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .day-selector, .meal-time-selector, .diet-plan {
+    margin-bottom: 20px;
+  }
+  
+  h2, h3, h4 {
+    color: #333;
+  }
+  
+  button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  
+
+  .diet-plan-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .day-selector, .meal-time-selector, .diet-plan {
+    margin-bottom: 20px;
+  }
+  
+  h2, h3, h4 {
+    color: #333;
+  }
+  
+  button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  .selected {
+    background-color: #007bff; /* Kiemelés színe */
+    border: none;
+  }
+  

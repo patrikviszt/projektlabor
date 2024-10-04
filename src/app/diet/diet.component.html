@@ -1,1 +1,57 @@
-<p>diet works!</p>
+<div class="container">
+    <h1>Heti Étkezési Terv</h1>
+  
+    <!-- Napok gombjai egy sorban -->
+    <div class="days">
+      <button class="day-button" *ngFor="let day of days" (click)="toggleMeals(day)">
+        {{ day }}
+      </button>
+    </div>
+  
+    <!-- Étkezések a kiválasztott nap szerint -->
+    <div *ngIf="selectedDay" class="meals-container">
+      <h2>{{ selectedDay }}</h2>
+      <ul>
+        <li><button (click)="showMeals('breakfast')">Reggeli</button></li>
+        <li><button (click)="showMeals('lunch')">Ebéd</button></li>
+        <li><button (click)="showMeals('dinner')">Vacsora</button></li>
+      </ul>
+  
+      <!-- Reggeli opciók -->
+      <div *ngIf="selectedMeal === 'breakfast'" class="meal-options">
+        <h3>Reggeli:</h3>
+        <ul>
+          <li>Zabkása</li>
+          <li>Tojásrántotta</li>
+          <li>Müzli joghurttal</li>
+          <li>Avokádós pirítós</li>
+          <li>Főtt tojás</li>
+        </ul>
+      </div>
+  
+      <!-- Ebéd opciók -->
+      <div *ngIf="selectedMeal === 'lunch'" class="meal-options">
+        <h3>Ebéd:</h3>
+        <ul>
+          <li>Grillezett csirke salátával</li>
+          <li>Párolt zöldségek rizzsel</li>
+          <li>Paradicsomos tészta</li>
+          <li>Rántott hal burgonyával</li>
+          <li>Sült zöldségek quinoával</li>
+        </ul>
+      </div>
+  
+      <!-- Vacsora opciók -->
+      <div *ngIf="selectedMeal === 'dinner'" class="meal-options">
+        <h3>Vacsora:</h3>
+        <ul>
+          <li>Grillezett hal zöldségekkel</li>
+          <li>Gombapörkölt nokedlivel</li>
+          <li>Túrós tészta</li>
+          <li>Sült csirkemell édesburgonyával</li>
+          <li>Leves és saláta</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  

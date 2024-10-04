@@ -34,10 +34,12 @@ body {
   text-decoration: none; /* Nincs aláhúzás */
   font-size: 18px; /* Betűméret */
   transition: color 0.3s; /* Színátmenet */
+  
 }
 
 .nav-link:hover {
   color: #e0e0e0; /* Világosabb szín hover állapotban */
+  cursor:pointer; /*Megváltozik a kattintható linken a kurzor*/
 }
 
 /* Felhasználói státusz stílus */

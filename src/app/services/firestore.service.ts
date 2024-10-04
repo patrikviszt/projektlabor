@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { UserData } from '../user-data.model';
 
@@ -63,5 +63,26 @@ export class FirestoreService {
       });
     });
   }
-  
+
+  async addDietPlan(userId: string, dietData: any) {
+    const dietPlansCollection = collection(this.firestore, 'dietPlans');
+    const dietPlanData = {
+      userId: userId,
+      userEmail: dietData.userEmail,
+      selectedDay: dietData.selectedDay, // A kiválasztott nap elmentése
+      meals: {
+        Reggeli: dietData.dietPlan.filter((meal: string) => meal.startsWith('Reggeli:')),
+        Ebéd: dietData.dietPlan.filter((meal: string) => meal.startsWith('Ebéd:')),
+        Vacsora: dietData.dietPlan.filter((meal: string) => meal.startsWith('Vacsora:')),
+      },
+      createdAt: new Date(),
+    };
+
+    try {
+      await addDoc(dietPlansCollection, dietPlanData);
+      console.log('Diet plan saved successfully!');
+    } catch (error) {
+      console.error('Error saving diet plan:', error);
+    }
+  }
 }

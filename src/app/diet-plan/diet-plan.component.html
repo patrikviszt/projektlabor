@@ -1,0 +1,44 @@
+<div class="diet-plan-container">
+    <h2>Válassz ételeket az étrendedhez</h2>
+
+    <div class="day-selector">
+      <h3>Nap kiválasztása</h3>
+      <div class="day-buttons">
+        <button *ngFor="let day of daysOfWeek" (click)="selectDay(day)"
+                [class.selected]="selectedDay === day"> <!-- Kiemelés a kiválasztott naphoz -->
+          {{ day }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Étkezési időpontok csak akkor láthatóak, ha van kiválasztott nap -->
+    <div class="meal-time-selector" *ngIf="selectedDay">
+      <h3>{{ selectedDay }} étkezései</h3>
+      <div class="meal-time-buttons">
+        <button *ngFor="let mealTime of mealTimes" (click)="toggleMealTime(mealTime)">
+          {{ mealTime }}
+        </button>
+      </div>
+
+      <div *ngIf="selectedMealTime" class="meals-container">
+        <h4>{{ selectedMealTime }} ételei</h4>
+        <ul>
+          <li *ngFor="let meal of meals[selectedMealTime]">
+            {{ meal }}
+            <button (click)="addToDiet(meal)">Hozzáadás</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="diet-plan">
+      <h3>Az étrended</h3>
+      <ul>
+        <li *ngFor="let meal of dietPlan">
+          {{ meal }}
+          <button (click)="removeFromDiet(meal)">Eltávolítás</button>
+        </li>
+      </ul>
+      <button (click)="saveDietPlan()">Étrend mentése</button>
+    </div>
+</div>

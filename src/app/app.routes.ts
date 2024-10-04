@@ -9,6 +9,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HeaderComponent } from './header/header.component';
 import { DietComponent } from './diet/diet.component';
 import { WorkoutPlanComponent } from './workout-plan/workout-plan.component';
+import { DietPlanComponent } from './diet-plan/diet-plan.component';
 
 // Útvonalak definiálása
 export const routes: Routes = [
@@ -18,7 +19,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   { path: 'userprofile', component: UserProfileComponent},
   { path: 'header', component: HeaderComponent},
-  { path: 'diet', component: DietComponent},
+  { path: 'diet', component: DietPlanComponent},
   { path: 'workout', component: WorkoutPlanComponent},
 ];
 
