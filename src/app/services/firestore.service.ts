@@ -15,25 +15,28 @@ export class FirestoreService {
   }
 
   getUserData(email: string): Observable<UserData | undefined> {
-    const usersRef = collection(this.firestore, 'users'); // 'users' kollekció
+    const usersRef = collection(this.firestore, 'users'); 
     return new Observable<UserData | undefined>((observer) => {
-      getDocs(usersRef).then((querySnapshot) => {
-        let userData: UserData | undefined;
-        querySnapshot.forEach((doc) => {
-          const data = doc.data() as UserData;
-          if (data.email === email) {
-            userData = { ...data };
-          }
+        getDocs(usersRef).then((querySnapshot) => {
+            let userData: UserData | undefined;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data() as UserData;
+                console.log('Document Data:', data); // Debugging line
+                if (data.email === email) {
+                    userData = { ...data };
+                    console.log('Retrieved User Data:', userData); // Check if userData has firstName and lastName
+                }
+            });
+            observer.next(userData);
+            observer.complete();
+        }).catch((error) => {
+            console.error('Error fetching user data:', error);
+            observer.next(undefined);
+            observer.complete();
         });
-        observer.next(userData); 
-        observer.complete();
-      }).catch((error) => {
-        console.error('Hiba történt a felhasználói adatok lekérésekor:', error);
-        observer.next(undefined);
-        observer.complete();
-      });
     });
-  }
+}
+
   addWorkoutPlan(userId: string, workoutData: any) {
     const workoutPlansCollection = collection(this.firestore, 'workoutPlans');
   

@@ -27,14 +27,16 @@ export class RegisterComponent {
       this.errorMessage = 'A jelszavak nem egyeznek!';
       return;
     }
-
-    this.authService.register(this.email, this.password).then(() => {
+  
+    this.authService.register(this.email, this.password, this.firstName, this.lastName).then(() => {
       console.log('Sikeres regisztráció!');
+      this.router.navigate(['/profile']); // Navigálás a profilra
     }).catch(error => {
       this.errorMessage = error.message;
       console.error('Hiba történt a regisztráció során:', error);
     });
   }
+  
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;

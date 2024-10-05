@@ -1,9 +1,12 @@
 // user-data.model.ts
 export interface UserData {
+    firstName: string;
+    lastName: string;
     weight: number;
     height: number;
     age: number;
     email:string;
+    gender: string;
     goal: string;
     activityLevel: string;
   }

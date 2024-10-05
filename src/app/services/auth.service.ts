@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, createUserWithEmailAndPassword,signInWithEmailAndPassword, user, User } from '@angular/fire/auth';
+import { Firestore } from '@angular/fire/firestore';
+import { doc, setDoc } from '@firebase/firestore';
 import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
@@ -8,21 +10,27 @@ import { firstValueFrom, Observable } from 'rxjs';
 export class AuthService {
   user$: Observable<User | null>;
 
-  constructor(private auth: Auth) { 
+  constructor(private auth: Auth, private firestore: Firestore) { 
     this.user$ = authState(this.auth);
   }
 
-  register(email: string, password: string): Promise<void> {
-    return createUserWithEmailAndPassword(this.auth, email, password)
-      .then(() => {
-     
-        console.log('Sikeres regisztráció!');
-      })
-      .catch(error => {
-       
-        console.error('Hiba történt a regisztráció során:', error);
-        throw error; 
+  async register(email: string, password: string, firstName: string, lastName: string): Promise<void> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const userId = userCredential.user.uid;
+
+      // Save user data to Firestore
+      await setDoc(doc(this.firestore, 'users', userId), {
+        email,
+        firstName,
+        lastName
       });
+
+      console.log('Sikeres regisztráció és adatok mentése!');
+    } catch (error) {
+      console.error('Hiba történt a regisztráció során:', error);
+      throw error;
+    }
   }
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password);

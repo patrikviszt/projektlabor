@@ -1,20 +1,90 @@
 h1 {
-    text-align: center;
-    color: #333;
-    margin-top: 20px;
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+.profile-container,
+.plans-container,
+.user-data-container {
+  padding: 20px;
+  margin: auto;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.profile-container:hover,
+.plans-container:hover,
+.user-data-container:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+.profile-details {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.data-item {
+  font-size: 18px;
+  color: #555;
+  margin: 8px 0;
+}
+
+.plan-item,
+.diet-item {
+  margin: 10px 0;
+}
+
+strong {
+  color: #333;
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 10px 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #007bff;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.not-logged-in {
+  text-align: center;
+  font-size: 20px;
+  color: #777;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .profile-container,
+  .plans-container,
+  .user-data-container {
+    padding: 15px;
+    margin: 10px;
+    font-size: 16px;
   }
-  
-  div {
-    padding: 20px;
-    margin: auto;
-    max-width: 600px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .profile-picture {
+    width: 80px;
+    height: 80px;
   }
-  
-  p {
-    font-size: 18px;
-    color: #555;
-  }
-  
+}

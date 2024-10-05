@@ -1,59 +1,79 @@
 <h1>Felhasználói Profil</h1>
 
+<ng-template #notLoggedIn>
+  <div class="not-logged-in">
+    <p>A profilod megtekintéséhez <a routerLink="/login">jelentkezz be</a>.</p>
+  </div>
+</ng-template>
 
-<div *ngIf="userData$ | async as userData; else loading">
-  <h2>Adatok:</h2>
-  <p><strong>Súly:</strong> {{ userData.weight }} kg</p>
-  <p><strong>Magasság:</strong> {{ userData.height }} cm</p>
-  <p><strong>Kor:</strong> {{ userData.age }} év</p>
-  <p><strong>E-mail:</strong> {{ userData.email }}</p>
-  <p><strong>Edzési cél:</strong> {{ userData.goal }}</p>
-  <p><strong>Aktivitási szint:</strong> {{ userData.activityLevel }}</p>
+<div *ngIf="userData$ | async as userData; else notLoggedIn">
+  <div class="profile-container">
+    <h2>Profil</h2>
+    <img [src]="userData.gender === 'female' ? 'assets/images/no.png' : 'assets/images/ferfi.png'" 
+         alt="Profilkép" class="profile-picture">
+         <div class="profile-details">
+          <p><strong>Név:</strong> {{ userData.firstName }} {{ userData.lastName }}</p>
+          <p><strong>Email:</strong> {{ userData.email }}</p>
+      </div>
+      
+  </div>
+
+  <div class="user-data-container">
+    <h2>Adatok:</h2>
+    <div class="data-item" *ngFor="let item of [
+      { label: 'Súly', value: userData.weight + ' kg' },
+      { label: 'Magasság', value: userData.height + ' cm' },
+      { label: 'Kor', value: userData.age + ' év' },
+      { label: 'Edzési cél', value: getGoal(userData.goal) },
+      { label: 'Aktivitási szint', value: getActivityLevel(userData.activityLevel) },
+      { label: 'Nem', value: getGender(userData.gender) }
+    ]">
+      <strong>{{ item.label }}:</strong> {{ item.value }}
+    </div>
+  </div>
+
+  <div class="plans-container" *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
+    <h2>Edzéstervek:</h2>
+    <ul *ngIf="workoutPlans.length > 0; else noPlans">
+      <li *ngFor="let plan of workoutPlans" class="plan-item">
+        <strong>Edzésterv neve:</strong> {{ plan.workoutName }}<br />
+        <strong>Gyakorlatok:</strong>
+        <ul>
+          <li *ngFor="let day of plan.exercises">
+            {{ day.day }}:
+            <ul>
+              <li *ngFor="let exercise of day.exercises">
+                {{ exercise.name }} - {{ exercise.sets }} szett, {{ exercise.reps }} ismétlés
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ng-template #noPlans>
+      <p>Nincsenek edzéstervek.</p>
+    </ng-template>
+  </div>
+
+  <div class="plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
+    <h2>Étrendek:</h2>
+    <ul *ngIf="dietPlans.length > 0; else noDietPlans">
+      <li *ngFor="let diet of dietPlans" class="diet-item">
+        <strong>Kiválasztott nap:</strong> {{ diet.selectedDay }}<br />
+        <strong>Ételek:</strong>
+        <ul>
+          <li><strong>Reggeli:</strong> {{ diet.meals.breakfast || 'Nincs adat' }}</li>
+          <li><strong>Ebéd:</strong> {{ diet.meals.dinner || 'Nincs adat' }}</li>
+          <li><strong>Vacsora:</strong> {{ diet.meals.lunch || 'Nincs adat' }}</li>
+        </ul>
+        <p><strong>Létrehozva:</strong> {{ diet.createdAt | date: 'short' }}</p>
+      </li>
+    </ul>
+    <ng-template #noDietPlans>
+      <p>Nincsenek étrendek.</p>
+    </ng-template>
+  </div>
 </div>
-
-
-<div *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
-  <h2>Edzéstervek:</h2>
-  <ul *ngIf="workoutPlans.length > 0; else noPlans">
-    <li *ngFor="let plan of workoutPlans">
-      <strong>Edzésterv neve:</strong> {{ plan.workoutName }}<br />
-      <strong>Gyakorlatok:</strong>
-      <ul *ngFor="let day of plan.exercises">
-        <li>{{ day.day }}:
-          <ul>
-            <li *ngFor="let exercise of day.exercises">
-              {{ exercise.name }} - {{ exercise.sets }} szett, {{ exercise.reps }} ismétlés
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <ng-template #noPlans>
-    <p>Nincsenek edzéstervek.</p>
-  </ng-template>
-</div>
-
-<div *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
-  <h2>Étrendek:</h2>
-  <ul *ngIf="dietPlans.length > 0; else noDietPlans">
-    <li *ngFor="let diet of dietPlans">
-      <strong>Kiválasztott nap:</strong> {{ diet.selectedDay }}<br />
-      <strong>Ételek:</strong>
-      <ul>
-        <li><strong>Reggeli:</strong> {{ diet.meals.breakfast || 'Nincs adat' }}</li>
-        <li><strong>Ebéd:</strong> {{ diet.meals.dinner || 'Nincs adat' }}</li>
-        <li><strong>Vacsora:</strong> {{ diet.meals.lunch || 'Nincs adat' }}</li>
-      </ul>
-      <p><strong>Létrehozva:</strong> {{ diet.createdAt | date: 'short' }}</p>
-    </li>
-  </ul>
-  <ng-template #noDietPlans>
-    <p>Nincsenek étrendek.</p>
-  </ng-template>
-</div>
-
-
 
 <ng-template #loading>
   <p>Töltés...</p>

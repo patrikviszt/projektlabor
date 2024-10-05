@@ -27,6 +27,19 @@
   </div>
 
   <div *ngIf="step === 4" class="card">
+    <h3>Mi a nemed?</h3>
+    <select [(ngModel)]="userData.gender">
+      <option value="male">Férfi</option>
+      <option value="female">Nő</option>
+      <option value="other">Egyéb</option>
+    </select>
+    <div class="button-group">
+      <button (click)="previousStep()">Vissza</button>
+      <button (click)="nextStep()">Tovább</button>
+    </div>
+  </div>
+
+  <div *ngIf="step === 5" class="card">
     <h3>Mi az edzési célod?</h3>
     <select [(ngModel)]="userData.goal">
       <option value="weight_loss">Fogyás</option>
@@ -39,7 +52,7 @@
     </div>
   </div>
 
-  <div *ngIf="step === 5" class="card">
+  <div *ngIf="step === 6" class="card">
     <h3>Milyen az aktivitási szinted?</h3>
     <select [(ngModel)]="userData.activityLevel">
       <option value="low">Alacsony</option>

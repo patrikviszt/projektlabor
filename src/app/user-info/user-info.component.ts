@@ -13,11 +13,12 @@ import { AuthService } from '../services/auth.service'; // Firebase Auth Service
   standalone: true,
 })
 export class UserInfoComponent implements OnInit {
-  step: number = 1;  // Jelenlegi lépés
+  step: number = 1;  
   userData: any = {
-    email: '',  // Email mező hozzáadása
+    email: '', 
     weight: null,
     height: null,
+    gender: '',
     age: null,
     goal: '',
     activityLevel: ''
@@ -26,11 +27,10 @@ export class UserInfoComponent implements OnInit {
   constructor(
     private firestoreService: FirestoreService,
     private snackbar: SnackbarService,
-    private authService: AuthService // Firebase Auth Service injektálása
+    private authService: AuthService 
   ) {}
 
   ngOnInit() {
-    // Bejelentkezett felhasználó adatainak lekérése
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         this.userData.email = user.email; // Email cím beállítása
@@ -39,7 +39,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.step < 5) {
+    if (this.step < 6) {
       this.step++;
     }
   }
@@ -51,9 +51,8 @@ export class UserInfoComponent implements OnInit {
   }
 
   submit() {
-    // Adatok mentése a Firestore-ba
     this.firestoreService.addUserData(this.userData).then(() => {
-      this.snackbar.open('Adatok sikeresen mentve!', 'Ok');  // Sikeres mentés értesítése
+      this.snackbar.open('Adatok sikeresen mentve!', 'Ok'); 
     }).catch((error) => {
       console.error('Hiba történt az adatok mentése közben:', error);
       this.snackbar.open('Hiba történt az adatok mentése közben!', 'Ok');
