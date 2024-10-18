@@ -61,6 +61,18 @@
     </select>
     <div class="button-group">
       <button (click)="previousStep()">Vissza</button>
+      <button (click)="nextStep()">Tovább</button>
+    </div>
+  </div>
+
+  <div *ngIf="step === 7" class="card">
+    <h3>Otthoni edzés vagy edzőtermi súlyzós edzés?</h3>
+    <select [(ngModel)]="userData.workoutPreference">
+      <option value="home">Otthoni edzés</option>
+      <option value="gym">Edzőtermi súlyzós edzés</option>
+    </select>
+    <div class="button-group">
+      <button (click)="previousStep()">Vissza</button>
       <button (click)="submit()">Küldés</button>
     </div>
   </div>

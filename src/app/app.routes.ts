@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { DietComponent } from './diet/diet.component';
 import { WorkoutPlanComponent } from './workout-plan/workout-plan.component';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
+import { ExercisesComponent } from './exercises/exercises.component';
 
 // Útvonalak definiálása
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'header', component: HeaderComponent},
   { path: 'diet', component: DietPlanComponent},
   { path: 'workout', component: WorkoutPlanComponent},
+  {path: 'exercises', component: ExercisesComponent}
 ];
 
 @NgModule({

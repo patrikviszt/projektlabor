@@ -1,0 +1,21 @@
+.exercise-container {
+    margin: 20px;
+  }
+  
+  button {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #007bff; /* Customize your color */
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker shade for hover */
+  }
+  
+  .exercise-list {
+    margin-left: 20px;
+  }
+  

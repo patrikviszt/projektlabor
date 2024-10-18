@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, createUserWithEmailAndPassword,signInWithEmailAndPassword, user, User } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
-import { doc, setDoc } from '@firebase/firestore';
-import { firstValueFrom, Observable } from 'rxjs';
+import { doc, getDoc, setDoc } from '@firebase/firestore';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { UserData } from '../user-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   user$: Observable<User | null>;
+  private userDataSubject = new BehaviorSubject<UserData | null>(null);
 
   constructor(private auth: Auth, private firestore: Firestore) { 
     this.user$ = authState(this.auth);
@@ -18,22 +20,37 @@ export class AuthService {
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       const userId = userCredential.user.uid;
-
+  
       // Save user data to Firestore
       await setDoc(doc(this.firestore, 'users', userId), {
         email,
         firstName,
         lastName
       });
-
-      console.log('Sikeres regisztráció és adatok mentése!');
+  
+      console.log('User data saved:', { email, firstName, lastName }); // Log saved user data
     } catch (error) {
       console.error('Hiba történt a regisztráció során:', error);
       throw error;
     }
   }
-  login(email: string, password: string) {
-    return signInWithEmailAndPassword(this.auth, email, password);
+  
+  async login(email: string, password: string): Promise<UserData | null> {
+    try {
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      const userId = userCredential.user.uid;
+
+      const userDoc = await getDoc(doc(this.firestore, 'users', userId));
+      if (userDoc.exists()) {
+        return userDoc.data() as UserData; // Cast to your UserData model
+      } else {
+        console.error('No such user data!');
+        return null;
+      }
+    } catch (error) {
+      console.error('Hiba történt a bejelentkezés során:', error);
+      throw error;
+    }
   }
   getCurrentUser(): Observable<User | null> {
     return authState(this.auth);
@@ -49,6 +66,10 @@ export class AuthService {
     const user$ = user(this.auth);
     const currentUser = await firstValueFrom(user$);
     return currentUser ? currentUser.uid : null;
+  }
+  async getUserData(uid: string): Promise<UserData | null> {
+    const userDoc = await getDoc(doc(this.firestore, 'users', uid));
+    return userDoc.exists() ? userDoc.data() as UserData : null;
   }
   logout(): Promise<void> {
     return this.auth.signOut();

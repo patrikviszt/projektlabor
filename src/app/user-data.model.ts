@@ -9,6 +9,7 @@ export interface UserData {
     gender: string;
     goal: string;
     activityLevel: string;
+    workoutType: string
   }
   export interface Exercise {
     name: string;

@@ -2,17 +2,17 @@
   <a [routerLink]="['/userinfo']">
     <img src="assets/images/logo.png" alt="Logo" class="logo" />
   </a>
-  
+
   <nav class="nav">
     <a class="nav-link" (click)="navigateToProfile()">Felhasználói Profil</a>
     <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv Készítő</a>
     <a class="nav-link" (click)="navigateToMealPlan()">Étrendtervező</a>
-    
+
     <div *ngIf="userEmail$ | async as email; else guest">
       <span class="nav-link">Bejelentkezve mint: <strong>{{ email }}</strong></span>
       <a class="nav-link" (click)="logout()">Kijelentkezés</a>
     </div>
-    
+
     <ng-template #guest>
       <a class="nav-link" (click)="navigateToLogin()">Bejelentkezés</a>
       <a class="nav-link" (click)="navigateToRegister()">Regisztráció</a>

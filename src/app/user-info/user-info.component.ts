@@ -21,7 +21,8 @@ export class UserInfoComponent implements OnInit {
     gender: '',
     age: null,
     goal: '',
-    activityLevel: ''
+    activityLevel: '',
+    workoutPreference: ''
   };
 
   constructor(
@@ -39,7 +40,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.step < 6) {
+    if (this.step < 7) {
       this.step++;
     }
   }
@@ -65,33 +66,56 @@ export class UserInfoComponent implements OnInit {
   
   
   generateDefaultWorkoutPlan() {
-    const { goal, activityLevel, gender, age, email } = this.userData;
+    const { goal, activityLevel, gender, age, email, workoutPreference } = this.userData;
     const defaultPlan: { [key: string]: any[] } = {};
   
-    // Generating a workout plan based on user goals
-    if (goal === 'muscle_gain') {
-      defaultPlan['Hétfő'] = [{ name: 'Fekvenyomás', sets: 3, reps: 10 }];
-      defaultPlan['Szerda'] = [{ name: 'Guggolás', sets: 3, reps: 12 }];
-      defaultPlan['Péntek'] = [{ name: 'Húzódzkodás', sets: 3, reps: 8 }];
-    } else if (goal === 'weight_loss') {
-      defaultPlan['Hétfő'] = [{ name: 'Futás', sets: 1, reps: 30 }];
-      defaultPlan['Szerda'] = [{ name: 'Kerékpározás', sets: 1, reps: 30 }];
-      defaultPlan['Péntek'] = [{ name: 'Evezőgép', sets: 1, reps: 20 }];
-    } else if (goal === 'strength_gain') {
-      defaultPlan['Hétfő'] = [{ name: 'Deadlift', sets: 5, reps: 5 }];
-      defaultPlan['Szerda'] = [{ name: 'Guggolás', sets: 5, reps: 5 }];
-      defaultPlan['Péntek'] = [{ name: 'Vállból nyomás', sets: 5, reps: 5 }];
+    // Generating a workout plan based on user goals and workout preference
+    if (workoutPreference === 'home') {
+      if (goal === 'muscle_gain') {
+        defaultPlan['Hétfő'] = [{ name: 'Fekvőtámasz', sets: 3, reps: 10 }]; // Push-ups
+        defaultPlan['Szerda'] = [{ name: 'Guggolás', sets: 3, reps: 15 }]; // Squats
+        defaultPlan['Péntek'] = [{ name: 'Plank', sets: 3, reps: 30 }]; // Plank hold in seconds
+      } else if (goal === 'weight_loss') {
+        defaultPlan['Hétfő'] = [{ name: 'Futás (helyben)', sets: 1, reps: 30 }]; // Running in place
+        defaultPlan['Szerda'] = [{ name: 'Jumping Jacks', sets: 3, reps: 20 }];
+        defaultPlan['Péntek'] = [{ name: 'Burpees', sets: 3, reps: 10 }];
+      } else if (goal === 'strength_gain') {
+        defaultPlan['Hétfő'] = [{ name: 'Húzódzkodás (súlyzók nélkül)', sets: 3, reps: 8 }]; // Bodyweight pull-ups
+        defaultPlan['Szerda'] = [{ name: 'Kitörés', sets: 3, reps: 10 }]; // Lunges
+        defaultPlan['Péntek'] = [{ name: 'Fekvőtámasz (variációk)', sets: 3, reps: 8 }]; // Push-ups (variations)
+      }
+    } else {
+      // Gym workouts
+      if (goal === 'muscle_gain') {
+        defaultPlan['Hétfő'] = [{ name: 'Fekvenyomás', sets: 3, reps: 10 }];
+        defaultPlan['Szerda'] = [{ name: 'Guggolás', sets: 3, reps: 12 }];
+        defaultPlan['Péntek'] = [{ name: 'Húzódzkodás', sets: 3, reps: 8 }];
+      } else if (goal === 'weight_loss') {
+        defaultPlan['Hétfő'] = [{ name: 'Futás', sets: 1, reps: 30 }];
+        defaultPlan['Szerda'] = [{ name: 'Kerékpározás', sets: 1, reps: 30 }];
+        defaultPlan['Péntek'] = [{ name: 'Evezőgép', sets: 1, reps: 20 }];
+      } else if (goal === 'strength_gain') {
+        defaultPlan['Hétfő'] = [{ name: 'Deadlift', sets: 5, reps: 5 }];
+        defaultPlan['Szerda'] = [{ name: 'Guggolás', sets: 5, reps: 5 }];
+        defaultPlan['Péntek'] = [{ name: 'Vállból nyomás', sets: 5, reps: 5 }];
+      }
     }
   
-    // Logging the generated workout plan for debugging
-    console.log('Generált alapértelmezett edzésterv:', defaultPlan);
+    const orderedDays = ['Hétfő', 'Szerda', 'Péntek'];
+    const orderedDefaultPlan: { [key: string]: any[] } = {};
+  
+    for (const day of orderedDays) {
+      orderedDefaultPlan[day] = defaultPlan[day];
+    }
+  
+    console.log('Generált alapértelmezett edzésterv:', orderedDefaultPlan);
   
     // Save the workout plan to Firestore
     this.firestoreService.addWorkoutPlan(email, {
       workoutName: 'Alapértelmezett edzésterv',
-      workoutPlan: defaultPlan,
-      selectedDays: Object.keys(defaultPlan),  // Passing the selected days
-      userEmail: email // Ensure the email is passed correctly
+      workoutPlan: orderedDefaultPlan,
+      selectedDays: orderedDays,
+      userEmail: email
     }).then(() => {
       this.snackbar.open('Edzésterv sikeresen mentve!', 'Ok');
     }).catch((error) => {
@@ -99,6 +123,7 @@ export class UserInfoComponent implements OnInit {
       this.snackbar.open('Hiba történt az edzésterv mentése közben!', 'Ok');
     });
   }
+  
   
   
 }

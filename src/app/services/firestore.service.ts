@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Exercise, UserData, WorkoutPlan } from '../user-data.model';
 
@@ -76,6 +76,26 @@ export class FirestoreService {
       console.error('Error updating workout plan:', error);
     }
   }
+  async deleteWorkoutPlan(userEmail: string, workoutName: string) {
+    const workoutPlansRef = collection(this.firestore, 'workoutPlans');
+    const q = query(workoutPlansRef, where('userEmail', '==', userEmail), where('workoutName', '==', workoutName));
+  
+    try {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const docId = querySnapshot.docs[0].id;
+        const workoutPlanDocRef = doc(this.firestore, 'workoutPlans', docId);
+        await deleteDoc(workoutPlanDocRef);
+        console.log('Workout plan deleted successfully');
+      } else {
+        console.error('No workout plan found for deletion');
+      }
+    } catch (error) {
+      console.error('Error deleting workout plan:', error);
+    }
+  }
+  
+  
   async deleteExercise(userEmail: string, workoutName: string, day: string, exerciseName: string) {
     const workoutPlansRef = collection(this.firestore, 'workoutPlans');
     const q = query(workoutPlansRef, where('userEmail', '==', userEmail), where('workoutName', '==', workoutName));
@@ -123,16 +143,17 @@ export class FirestoreService {
           const workoutPlans: WorkoutPlan[] = [];
           querySnapshot.forEach((doc) => {
             const data = doc.data();
-            console.log('Workout Plan Data:', data); 
+            console.log('Workout Plan Data:', data); // Log the raw data
+  
             workoutPlans.push({
               workoutName: data['workoutName'],
               exercises: Object.entries(data['exercises']).map(([day, exercises]) => ({
                 day,
-                exercises: (exercises as Exercise[]).map((exercise: any) => ({ 
+                exercises: Array.isArray(exercises) ? exercises.map((exercise: any) => ({ 
                   name: exercise.name,
                   reps: exercise.reps,
                   sets: exercise.sets,
-                })),
+                })) : [] // Handle non-array case
               })),
               createdAt: data['createdAt'].toDate(), 
             });
@@ -147,6 +168,7 @@ export class FirestoreService {
         });
     });
   }
+  
   
   
 

@@ -1,0 +1,12 @@
+<div class="exercise-container">
+    <h2>Gyakorlatok</h2>
+    <div *ngFor="let group of getExerciseGroups()">
+      <button (click)="toggleGroup(group)">{{ group }}</button>
+      <div *ngIf="visibleGroups[group]" class="exercise-list">
+        <ul>
+          <li *ngFor="let exercise of exercises[group]">{{ exercise.name }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
