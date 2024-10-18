@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Exercise, UserData, WorkoutPlan } from '../user-data.model';
 
@@ -54,7 +54,65 @@ export class FirestoreService {
   }
   
 
+  async updateWorkoutPlan(userEmail: string, workoutName: string, updatedExercises: any) {
+    const workoutPlansRef = collection(this.firestore, 'workoutPlans');
+    const q = query(workoutPlansRef, where('userEmail', '==', userEmail), where('workoutName', '==', workoutName));
 
+    try {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const docId = querySnapshot.docs[0].id;
+        const workoutPlanDocRef = doc(this.firestore, 'workoutPlans', docId);
+
+        // Merge new exercises into the existing workout plan
+        await updateDoc(workoutPlanDocRef, {
+          exercises: updatedExercises
+        });
+        console.log('Workout plan updated successfully');
+      } else {
+        console.error('No workout plan found for update');
+      }
+    } catch (error) {
+      console.error('Error updating workout plan:', error);
+    }
+  }
+  async deleteExercise(userEmail: string, workoutName: string, day: string, exerciseName: string) {
+    const workoutPlansRef = collection(this.firestore, 'workoutPlans');
+    const q = query(workoutPlansRef, where('userEmail', '==', userEmail), where('workoutName', '==', workoutName));
+  
+    try {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const docId = querySnapshot.docs[0].id;
+        const workoutPlanDocRef = doc(this.firestore, 'workoutPlans', docId);
+  
+        const workoutPlan = querySnapshot.docs[0].data() as WorkoutPlan;
+  
+        // Find the day in the workout plan
+        const dayExercises = workoutPlan.exercises.find(d => d.day === day);
+  
+        if (dayExercises) {
+          // Filter out the exercise to be deleted
+          dayExercises.exercises = dayExercises.exercises.filter(exercise => exercise.name !== exerciseName);
+  
+          // Update Firestore with the modified exercises
+          await updateDoc(workoutPlanDocRef, {
+            exercises: workoutPlan.exercises
+          });
+  
+          console.log('Exercise removed successfully');
+        } else {
+          console.error(`No exercises found for day: ${day}`);
+        }
+      } else {
+        console.error('No workout plan found for deleting exercise');
+      }
+    } catch (error) {
+      console.error('Error deleting exercise:', error);
+    }
+  }
+  
+  
   
   getWorkoutPlans(userEmail: string): Observable<WorkoutPlan[]> { 
     const workoutPlansRef = collection(this.firestore, 'workoutPlans');

@@ -55,25 +55,37 @@
     </ng-template>
   </div>
 
-  <div class="plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
-    <h2>Étrendek:</h2>
-    <ul *ngIf="dietPlans.length > 0; else noDietPlans">
-      <li *ngFor="let diet of dietPlans" class="diet-item">
-        <strong>Kiválasztott nap:</strong> {{ diet.selectedDay }}<br />
-        <strong>Ételek:</strong>
+  <div class="plans-container" *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
+    <h2>Edzéstervek:</h2>
+    <ul *ngIf="workoutPlans.length > 0; else noPlans">
+      <li *ngFor="let plan of workoutPlans" class="plan-item">
+        <strong>Edzésterv neve:</strong> {{ plan.workoutName }}<br />
+        <strong>Gyakorlatok:</strong>
         <ul>
-          <li><strong>Reggeli:</strong> {{ diet.meals.breakfast || 'Nincs adat' }}</li>
-          <li><strong>Ebéd:</strong> {{ diet.meals.dinner || 'Nincs adat' }}</li>
-          <li><strong>Vacsora:</strong> {{ diet.meals.lunch || 'Nincs adat' }}</li>
+          <li *ngFor="let day of plan.exercises">
+            {{ day.day }}:
+            <ul>
+              <li *ngFor="let exercise of day.exercises; let i = index">
+                {{ exercise.name }} - {{ exercise.sets }} szett, {{ exercise.reps }} ismétlés
+                <button (click)="removeExercise(plan, day, i)">Törlés</button>
+              </li>
+            </ul>
+            <div>
+              <label>Új gyakorlat:</label>
+              <input [(ngModel)]="newExercise.name" placeholder="Gyakorlat neve">
+              <input [(ngModel)]="newExercise.sets" type="number" placeholder="Szett">
+              <input [(ngModel)]="newExercise.reps" type="number" placeholder="Ismétlés">
+              <button (click)="addExercise(plan, day)">Hozzáadás</button>
+            </div>
+          </li>
         </ul>
-        <p><strong>Létrehozva:</strong> {{ diet.createdAt | date: 'short' }}</p>
       </li>
     </ul>
-    <ng-template #noDietPlans>
-      <p>Nincsenek étrendek.</p>
+    <ng-template #noPlans>
+      <p>Nincsenek edzéstervek.</p>
     </ng-template>
   </div>
-</div>
+  
 
 <ng-template #loading>
   <p>Töltés...</p>

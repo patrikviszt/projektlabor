@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
   userData$: Observable<UserData | undefined> = of(undefined); 
   workoutPlans$: Observable<WorkoutPlan[]> = of([]);
   dietPlans$: Observable<any[]> = of([]);
+  newExercise: any = { name: '', sets: 0, reps: 0 };
   firstName: string = '';
   lastName: string = '';
   email: string = '';
@@ -50,7 +51,36 @@ export class UserProfileComponent implements OnInit {
     });
 }
 
+removeExercise(plan: WorkoutPlan, day: any, exerciseIndex: number) {
+  day.exercises.splice(exerciseIndex, 1);
+  this.updateWorkoutPlan(plan);
+}
 
+addExercise(plan: WorkoutPlan, day: any) {
+  if (this.newExercise.name && this.newExercise.sets > 0 && this.newExercise.reps > 0) {
+    day.exercises.push({ ...this.newExercise });
+    this.newExercise = { name: '', sets: 0, reps: 0 };
+    this.updateWorkoutPlan(plan);
+  }
+}
+
+updateWorkoutPlan(plan: WorkoutPlan) {
+  this.userData$.subscribe((userData) => {
+    if (userData) {
+      this.firestoreService.updateWorkoutPlan(userData.email, plan.workoutName, plan.exercises)
+        .then(() => {
+          console.log('Workout plan updated successfully');
+        })
+        .catch((error) => {
+          console.error('Error updating workout plan:', error);
+        });
+    } else {
+      console.error('No user data available for updating workout plan');
+    }
+  });
+  
+  
+}
   getGoal(goal: string): string {
     return goal === 'weight_loss' ? 'Fogyás' : goal === 'muscle_gain' ? 'Izomépítés' : 'Erőnövelés';
   }
