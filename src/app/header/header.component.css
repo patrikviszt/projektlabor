@@ -1,79 +1,42 @@
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-  color: #212529;
-}
-
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-  height: 50px;
+  background: linear-gradient(to right, #4a90e2, #50b3e0); /* or use a background image */
+  padding: 10px;
 }
 
 .nav {
   display: flex;
-  gap: 20px;
-  flex-wrap: nowrap; /* Prevent wrapping */
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .nav-link {
-  color: white;
   text-decoration: none;
-  font-size: 16px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+  color: #333;
+  padding: 10px 15px;
+  font-size: 16px; /* Ensuring consistent size for menu items */
 }
 
 .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #e0e0e0;
-  cursor: pointer;
+  color: #007BFF;
 }
 
-.user-status {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 16px;
-  color: #6c757d;
-}
-
-.user-status p strong {
-  color: #495057;
+.logo {
+  width: 60px; /* Fixed size for the logo */
+  height: auto;
+  margin-right: 20px;
 }
 
 @media (max-width: 768px) {
-  .header {
-    padding: 10px 15px;
-  }
-
-  .nav {
-    gap: 15px;
-  }
-
   .nav-link {
-    font-size: 14px;
-    padding: 6px 10px;
+    padding: 3px 6px;
+    font-size: 12px; /* Keep the same size as on larger screens */
   }
-}
-
-@media (max-width: 480px) {
   .logo {
-    height: 40px;
-  }
-
-  .nav-link {
-    font-size: 12px;
+    width: 50px; /* Slightly smaller logo on mobile */
   }
 }

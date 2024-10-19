@@ -20,7 +20,8 @@ export class UserProfileComponent implements OnInit {
   dietPlans$: Observable<any[]> = of([]);
   editingPlans: WorkoutPlan[] = [];
   workoutPlans: WorkoutPlan[] = [];
-  newExercise: any = { name: '', sets: 0, reps: 0 };
+  newExercise: any = { name: '', sets: undefined, reps: undefined };
+
   firstName: string = '';
   lastName: string = '';
   email: string = '';
@@ -74,11 +75,11 @@ export class UserProfileComponent implements OnInit {
   addExercise(plan: WorkoutPlan, day: any) {
     if (this.newExercise.name && this.newExercise.sets > 0 && this.newExercise.reps > 0) {
       day.exercises.push({ ...this.newExercise });
-      this.newExercise = { name: '', sets: 0, reps: 0 };
       this.updateWorkoutPlan(plan);
+      this.newExercise = { name: '', sets: undefined, reps: undefined }; // Reset values to undefined
     }
   }
-
+  
   updateWorkoutPlan(plan: WorkoutPlan) {
     this.userData$.subscribe((userData) => {
       if (userData) {

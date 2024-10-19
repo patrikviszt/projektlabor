@@ -1,79 +1,92 @@
-<div class="card-container">
-  <div *ngIf="step === 1" class="card">
-    <h3>Mennyi a súlyod?</h3>
-    <input type="number" [(ngModel)]="userData.weight" placeholder="Súly (kg)" />
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="nextStep()">Tovább</button>
+<div class="form-container">
+  <div class="card">
+    <div class="card-header">
+      <h3>{{ step === 1 ? 'Mennyi a súlyod?' : 
+             step === 2 ? 'Mennyi a magasságod?' :
+             step === 3 ? 'Hány éves vagy?' :
+             step === 4 ? 'Mi a nemed?' :
+             step === 5 ? 'Mi az edzési célod?' :
+             step === 6 ? 'Milyen az aktivitási szinted?' :
+             'Otthoni edzés vagy edzőtermi súlyzós edzés?' 
+      }}</h3>
     </div>
-  </div>
-
-  <div *ngIf="step === 2" class="card">
-    <h3>Mennyi a magasságod?</h3>
-    <input type="number" [(ngModel)]="userData.height" placeholder="Magasság (cm)" />
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="nextStep()">Tovább</button>
+    <div class="card-body">
+      <ng-container *ngIf="step === 1">
+        <input 
+          type="number" 
+          [(ngModel)]="userData.weight" 
+          placeholder="Súly (kg)" 
+          min="1" 
+          max="300" 
+          (input)="onInputChange()" 
+          required
+        />
+        <span *ngIf="!currentValid[0] && userData.weight !== null">Adj meg 1 és 300 közötti értéket!</span>
+      </ng-container>
+      <ng-container *ngIf="step === 2">
+        <input 
+          type="number" 
+          [(ngModel)]="userData.height" 
+          placeholder="Magasság (cm)" 
+          min="30" 
+          max="300" 
+          (input)="onInputChange()" 
+          required
+        />
+        <span *ngIf="!currentValid[1] && userData.height !== null">Adj meg 30 és 250 közötti értéket!</span>
+      </ng-container>
+      <ng-container *ngIf="step === 3">
+        <input 
+          type="number" 
+          [(ngModel)]="userData.age" 
+          placeholder="Kor (év)" 
+          min="1" 
+          max="120" 
+          (input)="onInputChange()" 
+          required
+        />
+        <span *ngIf="!currentValid[2] && userData.age !== null">Adj meg 1 és 120 közötti értéket!</span>
+      </ng-container>
+      <ng-container *ngIf="step === 4">
+        <select [(ngModel)]="userData.gender" (change)="onInputChange()" required>
+          <option value="" disabled selected>Válaszd ki a nemed</option>
+          <option value="male">Férfi</option>
+          <option value="female">Nő</option>
+          <option value="other">Egyéb</option>
+        </select>
+        <span *ngIf="!currentValid[3] && userData.gender !== ''">Kérlek válassz egy nemet!</span>
+      </ng-container>
+      <ng-container *ngIf="step === 5">
+        <select [(ngModel)]="userData.goal" (change)="onInputChange()" required>
+          <option value="" disabled selected>Válaszd ki az edzési célod</option>
+          <option value="weight_loss">Fogyás</option>
+          <option value="muscle_gain">Izomépítés</option>
+          <option value="strength_gain">Erőnövelés</option>
+        </select>
+        <span *ngIf="!currentValid[4] && userData.goal !== ''">Kérlek válassz egy edzési célt!</span>
+      </ng-container>
+      <ng-container *ngIf="step === 6">
+        <select [(ngModel)]="userData.activityLevel" (change)="onInputChange()" required>
+          <option value="" disabled selected>Válaszd ki az aktivitási szinted</option>
+          <option value="low">Alacsony</option>
+          <option value="medium">Közepes</option>
+          <option value="high">Magas</option>
+        </select>
+        <span *ngIf="!currentValid[5] && userData.activityLevel !== ''">Kérlek válassz egy aktivitási szintet!</span>
+      </ng-container>
+      <ng-container *ngIf="step === 7">
+        <select [(ngModel)]="userData.workoutPreference" (change)="onInputChange()" required>
+          <option value="" disabled selected>Válaszd ki az edzés típusát</option>
+          <option value="home">Otthoni edzés</option>
+          <option value="gym">Edzőtermi súlyzós edzés</option>
+        </select>
+        <span *ngIf="!currentValid[6] && userData.workoutPreference !== ''">Kérlek válassz egy edzés típust!</span>
+      </ng-container>
     </div>
-  </div>
-
-  <div *ngIf="step === 3" class="card">
-    <h3>Hány éves vagy?</h3>
-    <input type="number" [(ngModel)]="userData.age" placeholder="Kor (év)" />
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="nextStep()">Tovább</button>
-    </div>
-  </div>
-
-  <div *ngIf="step === 4" class="card">
-    <h3>Mi a nemed?</h3>
-    <select [(ngModel)]="userData.gender">
-      <option value="male">Férfi</option>
-      <option value="female">Nő</option>
-      <option value="other">Egyéb</option>
-    </select>
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="nextStep()">Tovább</button>
-    </div>
-  </div>
-
-  <div *ngIf="step === 5" class="card">
-    <h3>Mi az edzési célod?</h3>
-    <select [(ngModel)]="userData.goal">
-      <option value="weight_loss">Fogyás</option>
-      <option value="muscle_gain">Izomépítés</option>
-      <option value="strength_gain">Erőnövelés</option>
-    </select>
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="nextStep()">Tovább</button>
-    </div>
-  </div>
-
-  <div *ngIf="step === 6" class="card">
-    <h3>Milyen az aktivitási szinted?</h3>
-    <select [(ngModel)]="userData.activityLevel">
-      <option value="low">Alacsony</option>
-      <option value="medium">Közepes</option>
-      <option value="high">Magas</option>
-    </select>
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="nextStep()">Tovább</button>
-    </div>
-  </div>
-
-  <div *ngIf="step === 7" class="card">
-    <h3>Otthoni edzés vagy edzőtermi súlyzós edzés?</h3>
-    <select [(ngModel)]="userData.workoutPreference">
-      <option value="home">Otthoni edzés</option>
-      <option value="gym">Edzőtermi súlyzós edzés</option>
-    </select>
-    <div class="button-group">
-      <button (click)="previousStep()">Vissza</button>
-      <button (click)="submit()">Küldés</button>
+    <div class="card-footer">
+      <button *ngIf="step > 1" (click)="previousStep()" class="back-button">Vissza</button>
+      <button *ngIf="step < 7" [disabled]="!currentValid[step - 1]" (click)="nextStep()" class="next-button">Tovább</button>
+      <button *ngIf="step === 7" [disabled]="!currentValid[6]" (click)="submit()" class="submit-button">Küldés</button>
     </div>
   </div>
 </div>

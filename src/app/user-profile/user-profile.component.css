@@ -81,16 +81,30 @@ a:hover {
   display: flex;
   align-items: center;
   margin-top: 10px;
-  flex-wrap: wrap; /* Allow wrapping if space is tight */
+  flex-direction: column; /* Stack inputs vertically */
+}
+
+.sets-reps-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Add some space above the input group */
+  width: 100%; /* Ensure full width */
+}
+
+.input-group {
+  flex: 1;
+  margin-right: 10px; /* Space between sets and reps */
+}
+
+.input-group:last-child {
+  margin-right: 0; /* No margin for the last input */
 }
 
 .exercise-input {
-  margin-right: 10px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  flex: 1 1 30%; /* Allow inputs to grow and shrink, minimum width 30% */
-  min-width: 100px; /* Set a minimum width to prevent too small inputs */
+  width: 100%; /* Make inputs full width */
 }
 
 .add-button {
@@ -98,14 +112,22 @@ a:hover {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 5px 10px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px; /* Space above button */
 }
-
 
 .add-button:hover {
   background-color: #0056b3;
+}
+
+.remove-exercise-button {
+  background-color: #ff3b3b;
+}
+
+.remove-exercise-button:hover {
+  background-color: #ff0000;
 }
 
 @media (max-width: 768px) {

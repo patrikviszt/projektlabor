@@ -4,12 +4,12 @@
   </a>
 
   <nav class="nav">
-    <a class="nav-link" (click)="navigateToProfile()">Felhasználói Profil</a>
-    <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv Készítő</a>
-    <a class="nav-link" (click)="navigateToMealPlan()">Étrendtervező</a>
+    <a class="nav-link" (click)="navigateToProfile()">Profil</a>
+    <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv</a>
+    <a class="nav-link" (click)="navigateToMealPlan()">Étrend</a>
 
     <div *ngIf="userEmail$ | async as email; else guest">
-      <span class="nav-link">Bejelentkezve mint: <strong>{{ email }}</strong></span>
+      <span class="nav-link">Bejelentkezve, mint: <strong>{{ email }}</strong></span>
       <a class="nav-link" (click)="logout()">Kijelentkezés</a>
     </div>
 
