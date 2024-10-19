@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../services/firestore.service';
 import { SnackbarService } from '../services/snackbar.service';
 import { AuthService } from '../services/auth.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-user-info',
@@ -15,6 +16,11 @@ import { AuthService } from '../services/auth.service';
 export class UserInfoComponent implements OnInit {
   step: number = 1;
   currentValid: boolean[] = Array(7).fill(false);
+
+  mealTimes: string[] = ['Reggeli', 'Ebéd', 'Vacsora'];
+  dietPlan: { [day: string]: string[] } = {};
+  daysOfWeek: string[] = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat', 'Vasárnap'];
+
   userData: any = {
     email: '',
     weight: null,
@@ -60,9 +66,10 @@ export class UserInfoComponent implements OnInit {
   submit() {
     if (this.validateInputs()) {
       this.generateDefaultWorkoutPlan();
+      this.generateDefaultDietPlan(); // Diet plan generálása is
   
       this.firestoreService.addUserData(this.userData).then(() => {
-        this.snackbar.open('Adatok sikeresen mentve!', 'Ok'); 
+        this.snackbar.open('Adatok sikeresen mentve!', 'Ok');
       }).catch((error) => {
         console.error('Hiba történt az adatok mentése közben:', error);
         this.snackbar.open('Hiba történt az adatok mentése közben!', 'Ok');
@@ -71,6 +78,7 @@ export class UserInfoComponent implements OnInit {
       this.snackbar.open('Kérjük, érvényes adatokat adj meg!', 'Ok');
     }
   }
+  
 
   validateWeight(weight: number): boolean {
     return weight > 0 && weight <= 300; 
@@ -183,4 +191,93 @@ export class UserInfoComponent implements OnInit {
     });
   }
   
+
+  
+// Étrendgeneráló
+
+
+generateDefaultDietPlan() {
+  const defaultDietPlan: { [day: string]: string[] } = {};
+
+  // Étkezések meghatározása az ételekkel
+  const mealsMapping: { [goal: string]: { [mealTime: string]: string } } = {
+    weight_loss: {
+      Reggeli: 'Zabkása',
+      Ebéd: 'Csirke rizs',
+      Vacsora: 'Leves'
+    },
+    muscle_gain: {
+      Reggeli: 'Tükörtojás',
+      Ebéd: 'Tészta',
+      Vacsora: 'Grillezett zöldségek'
+    },
+    healthy: {
+      Reggeli: 'Gyümölcs smoothie',
+      Ebéd: 'Quinoa saláta',
+      Vacsora: 'Sült hal'
+    }
+  };
+
+  // Generálás a hét minden napjára
+  for (const day of this.daysOfWeek) {
+    defaultDietPlan[day] = [];
+    
+    // Az étkezések hozzáadása a cél alapján
+    const mealsForGoal = mealsMapping[this.userData.goal] || mealsMapping['healthy']; // Alapértelmezett: egészséges étrend
+
+    for (const mealTime of this.mealTimes) {
+      const meal = mealsForGoal[mealTime]; // Az étkezés kiválasztása a cél alapján
+      if (meal) {
+        defaultDietPlan[day].push(meal); // Hozzáadás
+      }
+    }
+  }
+
+  this.dietPlan = defaultDietPlan;
+  console.log('Generált étrend:', this.dietPlan);  // Ellenőrzés
+
+  // Mentés a Firestore-ba
+  console.log('saveDietPlan meghívása');
+  this.saveDietPlan();
 }
+
+
+
+
+async saveDietPlan() {
+  console.log('saveDietPlan: Indítás');
+  const userId = await this.authService.getUserId();
+  console.log('saveDietPlan: User ID', userId);
+  
+  const userEmail = await firstValueFrom(this.authService.getCurrentUserEmail());
+  console.log('saveDietPlan: User Email', userEmail);
+
+  if (userId && userEmail && this.dietPlan) {  // Ellenőrizzük, hogy a dietPlan létezik
+    const dietData = {
+      userId,
+      userEmail,
+      dietPlan: this.dietPlan,
+    };
+    console.log('saveDietPlan: Diet Data to save', dietData);
+
+    // A dietData.ként való átkonvertálás
+    if (Object.keys(this.dietPlan).length > 0) { // Ellenőrizzük, hogy nem üres-e
+      this.firestoreService.addDietPlan(userId, dietData).then(() => {
+        console.log('Étrend sikeresen mentve!');
+        this.snackbar.open('Étrend sikeresen mentve!', 'Ok');
+      }).catch((error: any) => {
+        console.error('Hiba történt az étrend mentése közben:', error);
+        this.snackbar.open('Hiba történt az étrend mentése közben!', 'Ok');
+      });
+    } else {
+      console.error('A dietPlan üres, nem tud menteni.');
+    }
+  } else {
+    console.error('Felhasználói ID vagy email hiányzik. Kérjük, győződjön meg arról, hogy a felhasználó be van jelentkezve.');
+  }
+}
+
+
+
+}
+
