@@ -174,51 +174,40 @@ export class FirestoreService {
 
   async addDietPlan(userId: string, dietData: any) {
     const dietPlansCollection = collection(this.firestore, 'dietPlans');
-
-    const meals: {
-        breakfast: string[];
-        lunch: string[];
-        dinner: string[];
-    } = {
-        breakfast: [],
-        lunch: [],
-        dinner: [],
-    };
-
-    // Átnézzük a dietData.dietPlan-t és feltöltjük az étkezéseket
-    for (const day in dietData.dietPlan) {
-        if (dietData.dietPlan.hasOwnProperty(day)) {
-            const dailyMeals = dietData.dietPlan[day];
-
-            // Reggeli étkezések hozzáadása
-            meals.breakfast.push(...dailyMeals.filter((meal: string) => meal.startsWith('Reggeli:')).map((meal: string) => meal.replace('Reggeli: ', '')));
-
-            // Ebéd étkezések hozzáadása
-            meals.lunch.push(...dailyMeals.filter((meal: string) => meal.startsWith('Ebéd:')).map((meal: string) => meal.replace('Ebéd: ', '')));
-
-            // Vacsora étkezések hozzáadása
-            meals.dinner.push(...dailyMeals.filter((meal: string) => meal.startsWith('Vacsora:')).map((meal: string) => meal.replace('Vacsora: ', '')));
-        }
-    }
-
-    const dietPlanData = {
-        userId: userId,
-        userEmail: dietData.userEmail,
-        meals: meals,
-        createdAt: new Date(),
-    };
-
-    try {
-        await addDoc(dietPlansCollection, dietPlanData);
-        console.log('Diet plan saved successfully!');
-    } catch (error) {
-        console.error('Error saving diet plan:', error);
-    }
-}
-
-
-
   
+    const meals: { [key: string]: { breakfast: string; lunch: string; dinner: string } } = {};
+  
+    for (const day in dietData.dietPlan) {
+      if (dietData.dietPlan.hasOwnProperty(day)) {
+        const dailyMeals = dietData.dietPlan[day];
+  
+        meals[day] = {
+          breakfast: dailyMeals[0] || '',
+          lunch: dailyMeals[1] || '',
+          dinner: dailyMeals[2] || '',
+        };
+      }
+    }
+  
+    const dietPlanData = {
+      userId: userId,
+      userEmail: dietData.userEmail,
+      dietPlanName: dietData.dietPlanName, // Add dietPlanName here
+      meals: meals,
+      createdAt: new Date(),
+    };
+  
+    try {
+      await addDoc(dietPlansCollection, dietPlanData);
+      console.log('Diet plan saved successfully!');
+    } catch (error) {
+      console.error('Error saving diet plan:', error);
+    }
+  }
+  
+  
+
+
   
   
   getDietPlans(userEmail: string): Observable<any[]> {
@@ -231,11 +220,20 @@ export class FirestoreService {
           querySnapshot.forEach((doc) => {
             const data = doc.data();
             dietPlans.push({
+              dietPlanName: data['dietPlanName'],
               selectedDay: data['selectedDay'],
-              meals: data['meals'], 
-              createdAt: data['createdAt'].toDate(), 
+              meals: data['meals'],
+              createdAt: data['createdAt'].toDate(),
             });
           });
+          
+          // Sort diet plans by the selected day or another criteria
+          dietPlans.sort((a, b) => {
+            const dayA = new Date(a.selectedDay); // Convert to Date object
+            const dayB = new Date(b.selectedDay);
+            return dayA.getTime() - dayB.getTime(); // Compare timestamps
+          });
+  
           observer.next(dietPlans);
           observer.complete();
         })
@@ -246,4 +244,6 @@ export class FirestoreService {
         });
     });
   }
+  
+  
 }

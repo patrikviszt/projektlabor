@@ -1,9 +1,20 @@
+/* General Styles */
 h1 {
   text-align: center;
   color: #333;
   margin-top: 20px;
 }
 
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Container Styles */
 .profile-container,
 .plans-container,
 .user-data-container {
@@ -17,35 +28,14 @@ h1 {
   transition: box-shadow 0.3s ease;
 }
 
+/* Hover Effect for Containers */
 .profile-container:hover,
 .plans-container:hover,
 .user-data-container:hover {
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
 }
 
-.profile-details {
-  text-align: center;
-  margin-top: 15px;
-}
-
-.data-item {
-  font-size: 18px;
-  color: #555;
-  margin: 8px 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.plan-item {
-  margin: 10px 0;
-}
-
-strong {
-  color: #333;
-}
-
+/* Profile Picture */
 .profile-picture {
   width: 120px;
   height: 120px;
@@ -57,15 +47,33 @@ strong {
   border: 2px solid #007bff;
 }
 
-a {
-  color: #007bff;
-  text-decoration: none;
+/* Profile Details */
+.profile-details {
+  text-align: center;
+  margin-top: 15px;
 }
 
-a:hover {
-  text-decoration: underline;
+/* Data Items */
+.data-item {
+  font-size: 18px;
+  color: #555;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
 }
 
+strong {
+  color: #333;
+}
+
+/* Plan Items */
+.plan-item {
+  margin: 10px 0;
+}
+
+/* Not Logged-in Message */
 .not-logged-in {
   text-align: center;
   font-size: 20px;
@@ -77,6 +85,7 @@ a:hover {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Add Exercise Section */
 .add-exercise {
   display: flex;
   align-items: center;
@@ -100,6 +109,7 @@ a:hover {
   margin-right: 0; /* No margin for the last input */
 }
 
+/* Input Fields */
 .exercise-input {
   padding: 5px;
   border: 1px solid #ccc;
@@ -107,29 +117,39 @@ a:hover {
   width: 100%; /* Make inputs full width */
 }
 
+/* Buttons */
+.add-button,
+.remove-exercise-button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px; /* Space above buttons */
+}
+
+/* Add Button */
 .add-button {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px; /* Space above button */
 }
 
 .add-button:hover {
   background-color: #0056b3;
 }
 
+/* Remove Button */
 .remove-exercise-button {
   background-color: #ff3b3b;
+  color: white;
+  border: none;
 }
 
 .remove-exercise-button:hover {
   background-color: #ff0000;
 }
 
+/* Media Queries for Responsive Design */
 @media (max-width: 768px) {
   .profile-container,
   .plans-container,

@@ -21,7 +21,12 @@ export class UserProfileComponent implements OnInit {
   editingPlans: WorkoutPlan[] = [];
   workoutPlans: WorkoutPlan[] = [];
   newExercise: any = { name: '', sets: undefined, reps: undefined };
-
+  meals: any[] = [];
+sections = {
+    data: false,
+    workouts: false,
+    diets: false
+  };
   firstName: string = '';
   lastName: string = '';
   email: string = '';
@@ -45,13 +50,19 @@ export class UserProfileComponent implements OnInit {
     this.userData$ = this.firestoreService.getUserData(email);
     this.workoutPlans$ = this.firestoreService.getWorkoutPlans(email).pipe(
       map((plans) => {
-        this.workoutPlans = plans; // Assign the fetched plans to the local array
+        this.workoutPlans = plans; 
         return plans;
       })
     );
-    this.dietPlans$ = this.firestoreService.getDietPlans(email);
-
-    // Subscribe to user data to set local variables
+    this.dietPlans$ = this.firestoreService.getDietPlans(email).pipe(
+      map((plans) => {
+        if (plans.length > 0) {
+          this.meals = plans[0].meals;  // Assume the first diet plan for simplicity
+        }
+        return plans;
+      })
+    );
+  
     this.userData$.subscribe((userData) => {
       if (userData) {
         this.firstName = userData.firstName;
@@ -60,6 +71,7 @@ export class UserProfileComponent implements OnInit {
       }
     });
   }
+  
 
   private resetUserData() {
     this.userData$ = of(undefined);
