@@ -16,6 +16,7 @@ import { RouterLink } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   userData$: Observable<UserData | undefined> = of(undefined);
+  private dayOrder = ['hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat', 'vasárnap'];
   workoutPlans$: Observable<WorkoutPlan[]> = of([]);
   dietPlans$: Observable<any[]> = of([]);
   editingPlans: WorkoutPlan[] = [];
@@ -50,18 +51,21 @@ sections = {
     this.userData$ = this.firestoreService.getUserData(email);
     this.workoutPlans$ = this.firestoreService.getWorkoutPlans(email).pipe(
       map((plans) => {
-        this.workoutPlans = plans; 
+        this.workoutPlans = plans;
         return plans;
       })
     );
     this.dietPlans$ = this.firestoreService.getDietPlans(email).pipe(
       map((plans) => {
-        if (plans.length > 0) {
-          this.meals = plans[0].meals;  // Assume the first diet plan for simplicity
-        }
-        return plans;
+        return plans.map(plan => ({
+          ...plan,
+          sortedMeals: this.sortDays(plan.meals) // Sort meals for each plan
+        }));
       })
     );
+    
+    
+  
   
     this.userData$.subscribe((userData) => {
       if (userData) {
@@ -71,6 +75,18 @@ sections = {
       }
     });
   }
+  private sortDays(meals: { [key: string]: any }): any[] {
+    const sortedMeals: any[] = [];
+  
+    Object.keys(meals)
+      .sort((a, b) => this.dayOrder.indexOf(a.toLowerCase()) - this.dayOrder.indexOf(b.toLowerCase()))
+      .forEach(key => {
+        sortedMeals.push({ day: key, ...meals[key] }); // Add an object with the day and its meals
+      });
+  
+    return sortedMeals;
+  }
+  
   
 
   private resetUserData() {

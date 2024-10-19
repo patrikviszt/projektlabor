@@ -171,7 +171,6 @@ export class FirestoreService {
   
   
   
-
   async addDietPlan(userId: string, dietData: any) {
     const dietPlansCollection = collection(this.firestore, 'dietPlans');
   
@@ -192,7 +191,7 @@ export class FirestoreService {
     const dietPlanData = {
       userId: userId,
       userEmail: dietData.userEmail,
-      dietPlanName: dietData.dietPlanName, // Add dietPlanName here
+      dietPlanName: dietData.dietPlanName || `Étrend ${new Date().toISOString()}`, // Create a unique name if not provided
       meals: meals,
       createdAt: new Date(),
     };
@@ -204,6 +203,7 @@ export class FirestoreService {
       console.error('Error saving diet plan:', error);
     }
   }
+  
   
   
 

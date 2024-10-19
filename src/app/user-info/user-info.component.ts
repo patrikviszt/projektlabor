@@ -319,10 +319,9 @@ async saveDietPlan() {
   const userEmail = await firstValueFrom(this.authService.getCurrentUserEmail());
 
   if (userId && userEmail && this.dietPlan) {
-    // Use firstValueFrom to get the actual array from the observable
-    const dietPlans = await firstValueFrom(this.firestoreService.getDietPlans(userId));
+    const dietPlans = await firstValueFrom(this.firestoreService.getDietPlans(userEmail));
     const dietNumber = dietPlans.length + 1;
-    const dietPlanName = dietNumber === 1 ? 'Alapértelmezett étrend' : `Második étrendem`;
+    const dietPlanName = dietNumber === 1 ? 'Első étrendem' : `${dietNumber}. étrendem`;
 
     const dietData = {
       userId,

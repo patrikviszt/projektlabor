@@ -9,7 +9,7 @@
     <a class="nav-link" (click)="navigateToMealPlan()">Étrend</a>
 
     <div *ngIf="userEmail$ | async as email; else guest">
-      <span class="nav-link">Bejelentkezve, mint: <strong>{{ email }}</strong></span>
+      <span class="nav-link"(click)="navigateToProfile()">Bejelentkezve, mint: <strong>{{ email }}</strong></span>
       <a class="nav-link" (click)="logout()">Kijelentkezés</a>
     </div>
 

@@ -69,28 +69,30 @@
           </div>
         </div>
       </div>
-       <!-- Diet Plans Section -->
-  <div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
-    <h2>Étrendtervek:</h2>
-    <div *ngIf="dietPlans.length > 0; else noDietPlans">
-      <div *ngFor="let plan of dietPlans" class="diet-plan-card">
-        <div class="diet-plan-header">
-          <strong>Étrend neve:</strong> {{ plan.dietPlanName || '-' }}
-        </div>
-        <ul>
-          <div *ngFor="let meal of meals | keyvalue">
-            <strong>{{ meal.key }}</strong>:
-            Reggeli - {{ meal.value.breakfast || '-' }},
-            Ebéd - {{ meal.value.lunch || '-' }},
-            Vacsora - {{ meal.value.dinner || '-' }}
-          </div>
-        </ul>
+<!-- Diet Plans Section -->
+<div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
+  <h2>Étrendtervek:</h2>
+  <div *ngIf="dietPlans.length > 0; else noDietPlans">
+    <div *ngFor="let plan of dietPlans" class="diet-plan-card">
+      <div class="diet-plan-header">
+        <strong>Étrend neve:</strong> {{ plan.dietPlanName || '-' }}
       </div>
+      <ul>
+        <div *ngFor="let meal of plan.sortedMeals">
+          <strong>{{ meal.day }}</strong>:
+          Reggeli - {{ meal.breakfast || '-' }},
+          Ebéd - {{ meal.lunch || '-' }},
+          Vacsora - {{ meal.dinner || '-' }}
+        </div>
+      </ul>
     </div>
-    <ng-template #noDietPlans>
-      <p>Nincsenek étrendtervek.</p>
-    </ng-template>
   </div>
+  <ng-template #noDietPlans>
+    <p>Nincsenek étrendtervek.</p>
+  </ng-template>
+</div>
+
+
 
   <!-- Loading states -->
   <ng-template #loadingPlans>
