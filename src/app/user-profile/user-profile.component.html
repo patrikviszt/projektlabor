@@ -42,7 +42,9 @@
             <button (click)="toggleEdit(plan)" class="plan-button edit-button">Módosítás</button>
           </div>
         </div>
-        <div class="exercise-list" *ngIf="isEditing(plan)">
+  
+        <!-- Show exercises without the need for clicking edit -->
+        <div class="exercise-list">
           <strong>Gyakorlatok:</strong>
           <div *ngFor="let day of plan.exercises" class="day-exercises">
             <div class="day-header">
@@ -50,11 +52,14 @@
             </div>
             <ul>
               <li *ngFor="let exercise of day.exercises; let i = index" class="exercise-item">
-                {{ exercise.name || '-' }} - {{ exercise.sets > 0 ? exercise.sets + ' szett' : 'Sorozatszám' }}, {{ exercise.reps > 0 ? exercise.reps + ' ismétlés' : 'Ismétlésszám' }}
+                {{ exercise.name || '-' }} - {{ exercise.sets > 0 ? exercise.sets + ' szett' : 'Sorozatszám' }},
+                {{ exercise.reps > 0 ? exercise.reps + ' ismétlés' : 'Ismétlésszám' }}
                 <button (click)="removeExercise(plan, day, i)" class="remove-exercise-button">Törlés</button>
               </li>
             </ul>
-            <div class="add-exercise">
+  
+            <!-- Add new exercises -->
+            <div class="add-exercise" *ngIf="isEditing(plan)">
               <input [(ngModel)]="newExercise.name" class="exercise-input" placeholder="Gyakorlat neve">
               <input [(ngModel)]="newExercise.sets" type="number" class="exercise-input" placeholder="Szett" [title]="'Sorozatszám'">
               <input [(ngModel)]="newExercise.reps" type="number" class="exercise-input" placeholder="Ismétlés" [title]="'Ismétlésszám'">
@@ -64,11 +69,12 @@
         </div>
       </div>
     </div>
-   
+  
     <ng-template #noPlans>
       <p>Nincsenek edzéstervek.</p>
     </ng-template>
   </div>
+  
 
   <ng-template #loadingPlans>
     <p>Edzéstervek betöltése...</p>
