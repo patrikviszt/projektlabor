@@ -12,10 +12,9 @@ import { WorkoutPlanComponent } from './workout-plan/workout-plan.component';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 
-// Útvonalak definiálása
 export const routes: Routes = [
-  { path: '', component: LoginComponent },  // Alapértelmezett útvonal
-  { path: 'userinfo', component: UserInfoComponent },  // Útvonal a felhasználói adatkomponenshez
+  { path: '', component: LoginComponent }, 
+  { path: 'userinfo', component: UserInfoComponent }, 
   {path:'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   { path: 'userprofile', component: UserProfileComponent},

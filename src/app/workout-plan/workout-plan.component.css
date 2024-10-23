@@ -169,8 +169,8 @@ button:hover {
     }
 
     .days button {
-        flex: 1; /* Allow buttons to grow equally */
-        margin: 5px 0; /* Add vertical spacing */
+        flex: 1; 
+        margin: 5px 0;
     }
 
     .exercise-selector, .workout-plan {
@@ -178,11 +178,11 @@ button:hover {
     }
 
     .body-part-buttons button {
-        flex: 1; /* Allow buttons to grow equally */
-        margin: 5px 0; /* Add vertical spacing */
+        flex: 1;
+        margin: 5px 0; 
     }
 
     .workout-plan ul li input {
-        width: 50px; /* Adjust input width for smaller screens */
+        width: 50px; 
     }
 }

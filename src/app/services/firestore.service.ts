@@ -21,10 +21,10 @@ export class FirestoreService {
             let userData: UserData | undefined;
             querySnapshot.forEach((doc) => {
                 const data = doc.data() as UserData;
-                console.log('Document Data:', data); // Debugging line
+                console.log('Document Data:', data); 
                 if (data.email === email) {
                     userData = { ...data };
-                    console.log('Retrieved User Data:', userData); // Check if userData has firstName and lastName
+                    console.log('Retrieved User Data:', userData); 
                 }
             });
             observer.next(userData);
@@ -64,7 +64,7 @@ export class FirestoreService {
         const docId = querySnapshot.docs[0].id;
         const workoutPlanDocRef = doc(this.firestore, 'workoutPlans', docId);
 
-        // Merge new exercises into the existing workout plan
+       
         await updateDoc(workoutPlanDocRef, {
           exercises: updatedExercises
         });
@@ -108,14 +108,14 @@ export class FirestoreService {
   
         const workoutPlan = querySnapshot.docs[0].data() as WorkoutPlan;
   
-        // Find the day in the workout plan
+       
         const dayExercises = workoutPlan.exercises.find(d => d.day === day);
   
         if (dayExercises) {
-          // Filter out the exercise to be deleted
+          
           dayExercises.exercises = dayExercises.exercises.filter(exercise => exercise.name !== exerciseName);
   
-          // Update Firestore with the modified exercises
+        
           await updateDoc(workoutPlanDocRef, {
             exercises: workoutPlan.exercises
           });
@@ -143,7 +143,7 @@ export class FirestoreService {
           const workoutPlans: WorkoutPlan[] = [];
           querySnapshot.forEach((doc) => {
             const data = doc.data();
-            console.log('Workout Plan Data:', data); // Log the raw data
+            console.log('Workout Plan Data:', data); 
   
             workoutPlans.push({
               workoutName: data['workoutName'],
@@ -153,7 +153,7 @@ export class FirestoreService {
                   name: exercise.name,
                   reps: exercise.reps,
                   sets: exercise.sets,
-                })) : [] // Handle non-array case
+                })) : []
               })),
               createdAt: data['createdAt'].toDate(), 
             });
@@ -191,7 +191,7 @@ export class FirestoreService {
     const dietPlanData = {
       userId: userId,
       userEmail: dietData.userEmail,
-      dietPlanName: dietData.dietPlanName || `Étrend ${new Date().toISOString()}`, // Create a unique name if not provided
+      dietPlanName: dietData.dietPlanName || `Étrend ${new Date().toISOString()}`,
       meals: meals,
       createdAt: new Date(),
     };
@@ -227,11 +227,11 @@ export class FirestoreService {
             });
           });
           
-          // Sort diet plans by the selected day or another criteria
+         
           dietPlans.sort((a, b) => {
-            const dayA = new Date(a.selectedDay); // Convert to Date object
+            const dayA = new Date(a.selectedDay); 
             const dayB = new Date(b.selectedDay);
-            return dayA.getTime() - dayB.getTime(); // Compare timestamps
+            return dayA.getTime() - dayB.getTime(); 
           });
   
           observer.next(dietPlans);

@@ -5,13 +5,13 @@
       <h3>Nap kiválasztása</h3>
       <div class="day-buttons">
         <button *ngFor="let day of daysOfWeek" (click)="selectDay(day)"
-                [class.selected]="selectedDay === day"> <!-- Kiemelés a kiválasztott naphoz -->
+                [class.selected]="selectedDay === day">
           {{ day }}
         </button>
       </div>
     </div>
 
-    <!-- Étkezési időpontok csak akkor láthatóak, ha van kiválasztott nap -->
+
     <div class="meal-time-selector" *ngIf="selectedDay">
       <h3>{{ selectedDay }} étkezései</h3>
       <div class="meal-time-buttons">

@@ -1,4 +1,4 @@
-/* Alap beállítások */
+
 body {
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to right, #6a11cb, #2575fc); /* Háttér átmenet */
+  background: linear-gradient(to right, #6a11cb, #2575fc); 
 }
 
 .login-container {
@@ -28,7 +28,7 @@ h2 {
   color: #333;
   font-size: 28px;
   margin-bottom: 20px;
-  font-family: 'Poppins', sans-serif; /* Modern betűtípus */
+  font-family: 'Poppins', sans-serif;
 }
 
 label {
@@ -46,9 +46,9 @@ label {
 }
 
 .email-input, .password-input {
-  flex-grow: 1; /* This allows both inputs to take the available space */
+  flex-grow: 1; 
   padding: 10px;
-  border-radius: 5px 0 0 5px; /* Rounded corners on the left */
+  border-radius: 5px 0 0 5px; 
   border: 1px solid #ccc;
   font-size: 16px;
   transition: border-color 0.3s;
@@ -57,7 +57,7 @@ label {
 .email-input:focus, .password-input:focus {
   border-color: #007bff;
   outline: none;
-  box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3); /* Kiemelés fókusznál */
+  box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3); 
 }
 
 .checkbox-container {
@@ -66,8 +66,8 @@ label {
 }
 
 .checkbox {
-  margin-left: 10px; /* Space between the input and checkbox */
-  transform: scale(1.2); /* Makes the checkbox slightly larger for easier clicking */
+  margin-left: 10px; 
+  transform: scale(1.2); 
   cursor: pointer;
 }
 
@@ -89,7 +89,7 @@ label {
 }
 
 .login-btn:active {
-  transform: scale(0.98); /* Kis méretváltozás kattintáskor */
+  transform: scale(0.98); 
 }
 
 .error-message {
@@ -115,7 +115,7 @@ label {
   text-decoration: underline;
 }
 
-/* Mobilbarát felbontás */
+
 @media (max-width: 768px) {
   .login-container {
     padding: 20px;

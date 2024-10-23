@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #4a90e2, #50b3e0); /* or use a background image */
+  background: linear-gradient(to right, #4a90e2, #50b3e0);
   padding: 10px;
 }
 
@@ -18,7 +18,7 @@
   text-decoration: none;
   color: #333;
   padding: 10px 15px;
-  font-size: 16px; /* Ensuring consistent size for menu items */
+  font-size: 16px; 
 }
 
 .nav-link:hover {
@@ -26,7 +26,7 @@
 }
 
 .logo {
-  width: 60px; /* Fixed size for the logo */
+  width: 60px;
   height: auto;
   margin-right: 20px;
 }
@@ -34,9 +34,9 @@
 @media (max-width: 768px) {
   .nav-link {
     padding: 3px 6px;
-    font-size: 12px; /* Keep the same size as on larger screens */
+    font-size: 12px; 
   }
   .logo {
-    width: 50px; /* Slightly smaller logo on mobile */
+    width: 50px;
   }
 }

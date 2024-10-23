@@ -59,7 +59,7 @@ sections = {
       map((plans) => {
         return plans.map(plan => ({
           ...plan,
-          sortedMeals: this.sortDays(plan.meals) // Sort meals for each plan
+          sortedMeals: this.sortDays(plan.meals)
         }));
       })
     );
@@ -81,7 +81,7 @@ sections = {
     Object.keys(meals)
       .sort((a, b) => this.dayOrder.indexOf(a.toLowerCase()) - this.dayOrder.indexOf(b.toLowerCase()))
       .forEach(key => {
-        sortedMeals.push({ day: key, ...meals[key] }); // Add an object with the day and its meals
+        sortedMeals.push({ day: key, ...meals[key] }); 
       });
   
     return sortedMeals;
@@ -104,7 +104,7 @@ sections = {
     if (this.newExercise.name && this.newExercise.sets > 0 && this.newExercise.reps > 0) {
       day.exercises.push({ ...this.newExercise });
       this.updateWorkoutPlan(plan);
-      this.newExercise = { name: '', sets: undefined, reps: undefined }; // Reset values to undefined
+      this.newExercise = { name: '', sets: undefined, reps: undefined };
     }
   }
   
@@ -133,8 +133,8 @@ sections = {
     console.log('Removing workout plan:', plan);
     this.firestoreService.deleteWorkoutPlan(userEmail, plan.workoutName).then(() => {
       console.log('Workout plan removed successfully.');
-      this.workoutPlans = this.workoutPlans.filter(p => p.workoutName !== plan.workoutName); // Remove from local array
-      this.workoutPlans$ = of(this.workoutPlans); // Update observable
+      this.workoutPlans = this.workoutPlans.filter(p => p.workoutName !== plan.workoutName); 
+      this.workoutPlans$ = of(this.workoutPlans); 
     }).catch(error => {
       console.error('Error removing workout plan:', error);
     });

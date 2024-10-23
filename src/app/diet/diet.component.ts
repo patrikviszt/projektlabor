@@ -22,13 +22,13 @@ days: string[] = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szomb
   selectedDay: string = '';
   selectedMeal: string = '';
 
-  // Nap kiválasztása
+
   toggleMeals(day: string) {
-    this.selectedDay = this.selectedDay === day ? '' : day;  // Ha újra rákattintunk, elrejti
-    this.selectedMeal = ''; // Reseteljük az étkezés kiválasztást
+    this.selectedDay = this.selectedDay === day ? '' : day; 
+    this.selectedMeal = ''; 
   }
 
-  // Étkezés kiválasztása
+
   showMeals(meal: string) {
     this.selectedMeal = meal;
   }

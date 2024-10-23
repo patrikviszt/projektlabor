@@ -22,14 +22,14 @@ export class LoginComponent {
   login() {
     this.authService.login(this.email, this.password).then(() => {
       this.snackbar.open('Sikeres bejelentkezés!', 'Ok');
-      this.router.navigate(['/userinfo']);  // Átirányítás a felhasználói adatokhoz
+      this.router.navigate(['/userinfo']); 
     }).catch(error => {
       this.errorMessage = error.message;
       console.error('Hiba történt a bejelentkezés során:', error);
     });
   }
   navigateToRegister() {
-    this.router.navigate(['/register']); // Navigálás a regisztrációs oldalra
+    this.router.navigate(['/register']); 
   }
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;

@@ -1,13 +1,13 @@
 <h1>Felhasználói Profil</h1>
 
-<!-- Display if the user is not logged in -->
+
 <ng-template #notLoggedIn>
   <div class="not-logged-in">
     <p>A profilod megtekintéséhez <a routerLink="/login">jelentkezz be</a>.</p>
   </div>
 </ng-template>
 
-<!-- Display the profile if the user is logged in -->
+
 <div *ngIf="userData$ | async as userData; else notLoggedIn">
   
   <!-- Profile Section -->
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <!-- User Data Section -->
+
   <div class="user-data-container">
     <h2>Adatok:</h2>
     <div class="data-item" *ngFor="let item of [
@@ -59,7 +59,7 @@
               </li>
             </ul>
       
-            <!-- Adding a new exercise -->
+            
             <div class="add-exercise" *ngIf="isEditing(plan)">
               <input [(ngModel)]="newExercise.name" class="input exercise-input" placeholder="Gyakorlat neve">
               <input [(ngModel)]="newExercise.sets" type="number" class="input exercise-input" placeholder="Szett">
@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-<!-- Diet Plans Section -->
+
 <div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
   <h2>Étrendtervek:</h2>
   <div *ngIf="dietPlans.length > 0; else noDietPlans">
@@ -94,7 +94,7 @@
 
 
 
-  <!-- Loading states -->
+
   <ng-template #loadingPlans>
     <p>Edzéstervek betöltése...</p>
   </ng-template>

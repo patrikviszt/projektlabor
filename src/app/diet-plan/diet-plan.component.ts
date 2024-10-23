@@ -13,15 +13,15 @@ import { firstValueFrom } from 'rxjs';
   imports: [FormsModule, CommonModule],
 })
 export class DietPlanComponent {
-  // Hét napjai
+
   daysOfWeek: string[] = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat', 'Vasárnap'];
-  // Étkezési időpontok
+
   mealTimes: string[] = ['Reggeli', 'Ebéd', 'Vacsora'];
   dietPlan: string[] = [];
   selectedMealTime: string | null = null;
-  selectedDay: string | null = null; // Kiválasztott nap tárolása
+  selectedDay: string | null = null;
 
-  // Ételek listája étkezési időpontok szerint
+
   meals: any = {
     Reggeli: ['Zabkása', 'Tükörtojás', 'Szendvics'],
     Ebéd: ['Csirke rizs', 'Tészta', 'Saláta'],
@@ -30,21 +30,21 @@ export class DietPlanComponent {
 
   constructor(private firestoreService: FirestoreService, private authService: AuthService) {}
 
-   // Nap kiválasztása
+
    selectDay(day: string) {
     this.selectedDay = this.selectedDay === day ? null : day;
-    this.selectedMealTime = null; // Ha új napot választunk, állítsuk vissza az étkezési időpontot
-    this.dietPlan = []; // Új nap kiválasztásakor ürítsük ki az étrendet
+    this.selectedMealTime = null; 
+    this.dietPlan = []; 
   }
 
-  // Étkezési időpont kiválasztása
+
   toggleMealTime(mealTime: string) {
     if (this.selectedDay) {
       this.selectedMealTime = this.selectedMealTime === mealTime ? null : mealTime;
     }
   }
 
-  // Étel hozzáadása az étrendhez
+ 
   addToDiet(meal: string) {
     if (this.selectedMealTime && this.selectedDay) {
       const formattedMeal = `${this.selectedMealTime}: ${meal}`;
@@ -55,12 +55,12 @@ export class DietPlanComponent {
   }
   
 
-  // Étel eltávolítása az étrendből
+ 
   removeFromDiet(meal: string) {
     this.dietPlan = this.dietPlan.filter(item => item !== meal);
   }
 
-   // Étrend mentése a Firestore-ba
+
    async saveDietPlan() {
     const userId = await this.authService.getUserId();
     const userEmail = await firstValueFrom(this.authService.getCurrentUserEmail());
@@ -70,12 +70,12 @@ export class DietPlanComponent {
         userId,
         userEmail,
         dietPlan: this.dietPlan,
-        selectedDay: this.selectedDay, // A kiválasztott nap elmentése
+        selectedDay: this.selectedDay,
       };
       this.firestoreService.addDietPlan(userId, dietData).then(() => {
         console.log('Diet plan saved successfully!');
         this.dietPlan = [];
-        this.selectedDay = null; // Nap visszaállítása
+        this.selectedDay = null;
       }).catch((error: any) => {
         console.error('Error saving diet plan:', error);
       });

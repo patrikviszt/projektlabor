@@ -41,7 +41,7 @@ export class UserInfoComponent implements OnInit {
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
-        this.userData.email = user.email; // Set email
+        this.userData.email = user.email; 
       }
     });
   }
@@ -66,7 +66,7 @@ export class UserInfoComponent implements OnInit {
   submit() {
     if (this.validateInputs()) {
       this.generateDefaultWorkoutPlan();
-      this.generateDefaultDietPlan(); // Diet plan generálása is
+      this.generateDefaultDietPlan();
   
       this.firestoreService.addUserData(this.userData).then(() => {
         this.snackbar.open('Adatok sikeresen mentve!', 'Ok');
@@ -130,7 +130,7 @@ export class UserInfoComponent implements OnInit {
     const { goal, activityLevel, gender, age, email, workoutPreference } = this.userData;
     const defaultPlan: { [key: string]: any[] } = {};
   
-    // Generating a workout plan based on user goals and workout preference
+
     if (workoutPreference === 'home') {
       if (goal === 'muscle_gain') {
         defaultPlan['Hétfő'] = [
@@ -182,7 +182,7 @@ export class UserInfoComponent implements OnInit {
         ];
       }
     } else {
-      // Gym workouts
+
       if (goal === 'muscle_gain') {
         defaultPlan['Hétfő'] = [
           { name: 'Fekvenyomás', sets: 3, reps: 10 },
@@ -243,12 +243,12 @@ export class UserInfoComponent implements OnInit {
   
     console.log('Generált alapértelmezett edzésterv:', orderedDefaultPlan);
   
-    // Subscribe to the user's workout plans Observable
+
     this.firestoreService.getWorkoutPlans(email).subscribe((plans) => {
       const workoutNumber = plans.length + 1;
       const workoutName = `${workoutNumber === 1 ? 'Első' : workoutNumber === 2 ? 'Második' : `${workoutNumber}.`} edzéstervem`;
   
-      // Save the workout plan to Firestore with the dynamically generated name
+  
       this.firestoreService.addWorkoutPlan(email, {
         workoutName,
         workoutPlan: orderedDefaultPlan,
@@ -265,27 +265,27 @@ export class UserInfoComponent implements OnInit {
   
 
   
-// Étrendgeneráló
+
 
 
 generateDefaultDietPlan() {
   const defaultDietPlan: { [day: string]: string[] } = {};
 
-  const mealsMapping: { [goal: string]: { [mealTime: string]: string } } = {
+  const mealsMapping: { [goal: string]: { [mealTime: string]: string[] } } = {
     weight_loss: {
-      Reggeli: 'Zabkása',
-      Ebéd: 'Csirke rizs',
-      Vacsora: 'Leves'
+      Reggeli: ['Zabkása', 'Gyümölcs turmix', 'Főtt tojás'],
+      Ebéd: ['Csirke rizs', 'Grillezett lazac', 'Sült zöldségek'],
+      Vacsora: ['Leves', 'Saláta tonhallal', 'Zöldségleves']
     },
     muscle_gain: {
-      Reggeli: 'Tükörtojás',
-      Ebéd: 'Tészta',
-      Vacsora: 'Grillezett zöldségek'
+      Reggeli: ['Tükörtojás', 'Fehérjeturmix', 'Rántotta'],
+      Ebéd: ['Tészta', 'Csirke steak', 'Marha steak'],
+      Vacsora: ['Grillezett zöldségek', 'Sült csirke', 'Omelette']
     },
     healthy: {
-      Reggeli: 'Gyümölcs smoothie',
-      Ebéd: 'Quinoa saláta',
-      Vacsora: 'Sült hal'
+      Reggeli: ['Gyümölcs smoothie', 'Zabkása dióval', 'Avokádós pirítós'],
+      Ebéd: ['Quinoa saláta', 'Grillezett csirke saláta', 'Zöldséges wrap'],
+      Vacsora: ['Sült hal', 'Töltött paprika', 'Sütőtökkrémleves']
     }
   };
 
@@ -294,9 +294,11 @@ generateDefaultDietPlan() {
     const mealsForGoal = mealsMapping[this.userData.goal] || mealsMapping['healthy'];
 
     for (const mealTime of this.mealTimes) {
-      const meal = mealsForGoal[mealTime];
-      if (meal) {
-        defaultDietPlan[day].push(meal);
+     
+      const mealOptions = mealsForGoal[mealTime];
+      if (mealOptions && mealOptions.length > 0) {
+        const randomMeal = mealOptions[Math.floor(Math.random() * mealOptions.length)];
+        defaultDietPlan[day].push(randomMeal);
       }
     }
   }
@@ -304,7 +306,7 @@ generateDefaultDietPlan() {
   this.dietPlan = defaultDietPlan;
   console.log('Generált étrend:', this.dietPlan);
 
-  // Save the diet plan with a name
+
   this.saveDietPlan();
 }
 

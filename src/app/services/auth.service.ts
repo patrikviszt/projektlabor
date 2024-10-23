@@ -21,14 +21,14 @@ export class AuthService {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       const userId = userCredential.user.uid;
   
-      // Save user data to Firestore
+   
       await setDoc(doc(this.firestore, 'users', userId), {
         email,
         firstName,
         lastName
       });
   
-      console.log('User data saved:', { email, firstName, lastName }); // Log saved user data
+      console.log('User data saved:', { email, firstName, lastName });
     } catch (error) {
       console.error('Hiba történt a regisztráció során:', error);
       throw error;
@@ -42,7 +42,7 @@ export class AuthService {
 
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       if (userDoc.exists()) {
-        return userDoc.data() as UserData; // Cast to your UserData model
+        return userDoc.data() as UserData; 
       } else {
         console.error('No such user data!');
         return null;
