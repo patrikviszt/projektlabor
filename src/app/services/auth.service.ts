@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, createUserWithEmailAndPassword,signInWithEmailAndPassword, user, User } from '@angular/fire/auth';
+import { Auth, authState, createUserWithEmailAndPassword,GoogleAuthProvider,signInWithEmailAndPassword, signInWithPopup, user, User } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { doc, getDoc, setDoc } from '@firebase/firestore';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
@@ -49,6 +49,27 @@ export class AuthService {
       }
     } catch (error) {
       console.error('Hiba történt a bejelentkezés során:', error);
+      throw error;
+    }
+  }
+  async loginWithGoogle(): Promise<void> {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(this.auth, provider);
+      const user = result.user;
+
+      if (user) {
+        const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
+        if (!userDoc.exists()) {
+          await setDoc(doc(this.firestore, 'users', user.uid), {
+            email: user.email,
+            firstName: user.displayName?.split(' ')[0] || '',
+            lastName: user.displayName?.split(' ')[1] || ''
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error during Google Sign-In:', error);
       throw error;
     }
   }

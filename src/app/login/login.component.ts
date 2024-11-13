@@ -28,6 +28,15 @@ export class LoginComponent {
       console.error('Hiba történt a bejelentkezés során:', error);
     });
   }
+  loginWithGoogle() {
+    this.authService.loginWithGoogle().then(() => {
+      this.snackbar.open('Sikeres Google bejelentkezés!', 'Ok');
+      this.router.navigate(['/userinfo']);
+    }).catch(error => {
+      this.errorMessage = error.message;
+      console.error('Hiba történt a Google bejelentkezés során:', error);
+    });
+  }
   navigateToRegister() {
     this.router.navigate(['/register']); 
   }

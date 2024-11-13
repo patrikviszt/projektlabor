@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Exercise, UserData, WorkoutPlan } from '../user-data.model';
+import { Exercise, UserData, WorkoutPlan, WorkoutSession } from '../user-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -245,5 +245,13 @@ export class FirestoreService {
     });
   }
   
+  
+
+
+addWorkoutSession(workoutSession: WorkoutSession) {
+  const workoutSessionsCollection = collection(this.firestore, 'workoutSessions');
+  return addDoc(workoutSessionsCollection, workoutSession);
+}
+
   
 }

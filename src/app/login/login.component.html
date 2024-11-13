@@ -4,38 +4,21 @@
     <form (ngSubmit)="login()">
       <label for="email">Email:</label>
       <div class="input-group">
-        <input 
-          type="email" 
-          id="email" 
-          [(ngModel)]="email" 
-          name="email" 
-          required 
-          class="email-input" 
-        />
+        <input type="email" id="email" [(ngModel)]="email" name="email" required class="email-input" />
       </div>
 
       <label for="password">Jelszó:</label>
       <div class="input-group">
-        <input 
-          [type]="passwordVisible ? 'text' : 'password'" 
-          id="password" 
-          [(ngModel)]="password" 
-          name="password" 
-          required 
-          class="password-input"
-        />
+        <input [type]="passwordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required class="password-input" />
         <div class="checkbox-container">
-          <input 
-            type="checkbox" 
-            (change)="togglePasswordVisibility()" 
-            [checked]="passwordVisible" 
-            class="checkbox" 
-            aria-label="Show password" 
-          />
+          <input type="checkbox" (change)="togglePasswordVisibility()" [checked]="passwordVisible" class="checkbox" aria-label="Show password" />
         </div>
       </div>
 
       <button type="submit" class="login-btn">Bejelentkezés</button>
+      <button type="button" class="google-login-btn" (click)="loginWithGoogle()">
+        <img src="assets/images/google-logo.png" alt="Google logo" /> Bejelentkezés Google fiókkal
+      </button>
 
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 

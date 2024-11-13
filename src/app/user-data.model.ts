@@ -26,4 +26,18 @@ export interface UserData {
     workoutName: string;
     exercises: DayExercises[];
     createdAt: Date;
+    
   }
+  export interface WorkoutSession {
+    userId: string;
+    userEmail: string;
+    workoutName: string;
+    day: string;
+    date: Date;
+    exercises: {
+      name: string;
+      completedSets: number;
+      completedReps: number;
+    }[];
+  }
+  
