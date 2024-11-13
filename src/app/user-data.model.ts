@@ -9,7 +9,8 @@ export interface UserData {
     gender: string;
     goal: string;
     activityLevel: string;
-    workoutType: string
+    workoutType: string;
+    
   }
   export interface Exercise {
     name: string;
@@ -29,15 +30,12 @@ export interface UserData {
     
   }
   export interface WorkoutSession {
-    userId: string;
     userEmail: string;
     workoutName: string;
     day: string;
-    date: Date;
-    exercises: {
-      name: string;
-      completedSets: number;
-      completedReps: number;
-    }[];
+    exercises: { name: string, reps: number, sets: number }[];
+    sessionDate: any; // timestamp for when the session occurred
+    duration: number; // duration of the session in minutes
   }
+  
   

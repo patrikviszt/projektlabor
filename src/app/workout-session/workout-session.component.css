@@ -1,0 +1,199 @@
+/* Alap stílusok */
+.workout-session-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 700px;
+    margin: 30px auto;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.timer {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.buttons button {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 5px;
+}
+
+.start-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.pause-btn {
+    background-color: #ffc107;
+    color: white;
+}
+
+.pause-btn:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
+
+.resume-btn {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.resume-btn:hover {
+    background-color: #138496;
+    transform: scale(1.05);
+}
+
+.stop-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.stop-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+.exercises-list {
+    width: 100%;
+}
+
+.exercise-item {
+    padding: 18px;
+    background-color: #ffffff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.exercise-item h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 12px;
+}
+
+.exercise-item p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 12px;
+}
+
+.exercise-item label {
+    font-size: 1rem;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.exercise-item input {
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 100px;
+    transition: border-color 0.2s;
+}
+
+.exercise-item input:focus {
+    border-color: #80bdff;
+    outline: none;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #28a745;
+}
+
+.start-exercise-btn {
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+}
+
+.start-exercise-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.workout-session-container h3 {
+    font-size: 1.6rem;
+    color: #343a40;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.workout-session-container p {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.completed-workout-message {
+    background-color: #d4edda;
+    padding: 18px;
+    border-radius: 8px;
+    color: #155724;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.completed-workout-message h3 {
+    font-size: 1.5rem;
+    color: #155724;
+}
+
+.workout-session-container input[type="number"] {
+    font-size: 1.1rem;
+    padding: 8px;
+    width: 70px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+.workout-session-container input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+}

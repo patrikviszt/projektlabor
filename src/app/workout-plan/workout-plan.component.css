@@ -1,85 +1,71 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+}
+
 .workout-plan-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f0f0f0 30%, #ffffff 100%);
     padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    max-width: 800px;
     margin: 40px auto;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    text-align: center;
+    max-width: 700px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
 
 h2, h3, h4 {
-    color: #2c3e50;
-    margin-bottom: 20px;
+    color: #34495e;
+    margin-bottom: 15px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 h2 {
-    font-size: 2.2rem;
-    font-weight: 600;
+    font-size: 2.4rem;
+    margin-bottom: 20px;
 }
 
 h3, h4 {
     font-size: 1.6rem;
-    font-weight: 500;
 }
 
 .workout-name-input input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     outline: none;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s ease;
 }
 
 .workout-name-input input:focus {
     border-color: #3498db;
 }
 
-.day-selector {
-    margin-bottom: 20px;
-}
-button.selected {
-    background-color: #4CAF50; 
-    color: white;
-  }
-  
-
-.days {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.day-selector h3 {
-    margin-bottom: 10px;
+.day-selector, .exercise-selector, .workout-plan {
+    margin-top: 30px;
 }
 
 button {
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 0;
+    border-radius: 25px;
     padding: 12px 20px;
-    margin: 5px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s;
+    transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+    min-width: 160px;
+    text-transform: uppercase;
 }
 
 button:hover {
@@ -87,17 +73,32 @@ button:hover {
     transform: translateY(-2px);
 }
 
-.exercise-selector {
-    margin-bottom: 40px;
-    width: 100%;
+button.selected {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button.selected:hover {
+    background-color: #388e3c;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 
 .body-part-buttons {
     display: flex;
     flex-wrap: wrap;
+    gap: 15px;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
 }
 
 .exercises-container {
@@ -115,14 +116,9 @@ button:hover {
     align-items: center;
     margin-bottom: 12px;
     background-color: #ecf0f1;
-    padding: 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.workout-plan {
-    width: 100%;
-    margin-top: 40px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .workout-plan ul {
@@ -134,23 +130,20 @@ button:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     background-color: #f8f9fa;
     padding: 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .workout-plan button {
-    padding: 12px 25px;
     background-color: #ff5722;
     color: white;
-    border: none;
-    border-radius: 0;
+    padding: 12px 25px;
+    border-radius: 25px;
     cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -161,33 +154,29 @@ button:hover {
 
 @media (max-width: 768px) {
     .workout-plan-container {
-        padding: 20px;
-        margin: 20px;
+        padding: 15px;
+        margin: 15px;
     }
 
     h2 {
         font-size: 1.8rem;
     }
 
-    h3, h4 {
-        font-size: 1.4rem;
+    .workout-name-input input {
+        font-size: 1rem;
     }
 
     .days button {
-        flex: 1; 
+        flex: 1;
         margin: 5px 0;
-    }
-
-    .exercise-selector, .workout-plan {
-        width: 100%;
     }
 
     .body-part-buttons button {
         flex: 1;
-        margin: 5px 0; 
+        margin: 5px 0;
     }
 
     .workout-plan ul li input {
-        width: 50px; 
+        width: 50px;
     }
 }

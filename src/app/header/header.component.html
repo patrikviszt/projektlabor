@@ -1,15 +1,12 @@
 <div class="header">
-  <a [routerLink]="['/userinfo']">
-    <img src="assets/images/logo.png" alt="Logo" class="logo" />
-  </a>
+  <a [routerLink]="['/userinfo']"></a>
 
   <nav class="nav">
     <a class="nav-link" (click)="navigateToProfile()">Profil</a>
     <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv</a>
     <a class="nav-link" (click)="navigateToMealPlan()">Étrend</a>
 
-    <div *ngIf="userEmail$ | async as email; else guest">
-      <span class="nav-link"(click)="navigateToProfile()">Bejelentkezve, mint: <strong>{{ email }}</strong></span>
+    <div *ngIf="userEmail$ | async as email; else guest" class="nav-link-container">
       <a class="nav-link" (click)="logout()">Kijelentkezés</a>
     </div>
 
@@ -18,10 +15,4 @@
       <a class="nav-link" (click)="navigateToRegister()">Regisztráció</a>
     </ng-template>
   </nav>
-</div>
-
-<div class="user-status">
-  <ng-template #guest>
-    <p>Vendég</p>
-  </ng-template>
 </div>

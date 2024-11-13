@@ -245,13 +245,30 @@ export class FirestoreService {
     });
   }
   
-  
+  async addWorkoutSession(userEmail: string, workoutName: string, sessionData: any) {
+    const workoutSessionsCollection = collection(this.firestore, 'workoutSessions');
+    
 
+    const workoutSessionData = {
+      userEmail: userEmail,
+      workoutName: workoutName,
+      exercises: sessionData.exercises.map((exercise: any) => ({
+        name: exercise.name,
+        reps: exercise.reps,
+        sets: exercise.sets,
+      })),
+      duration: sessionData.duration,
+      createdAt: new Date(),
+    };
 
-addWorkoutSession(workoutSession: WorkoutSession) {
-  const workoutSessionsCollection = collection(this.firestore, 'workoutSessions');
-  return addDoc(workoutSessionsCollection, workoutSession);
-}
+    try {
+      await addDoc(workoutSessionsCollection, workoutSessionData);
+      console.log('Workout session saved successfully!');
+    } catch (error) {
+      console.error('Error saving workout session:', error);
+    }
+  }
+
 
   
 }

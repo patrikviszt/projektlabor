@@ -21,6 +21,8 @@ export class UserProfileComponent implements OnInit {
   dietPlans$: Observable<any[]> = of([]);
   editingPlans: WorkoutPlan[] = [];
   workoutPlans: WorkoutPlan[] = [];
+  stepCount: number = 0;
+goalSteps: number = 10000;
   newExercise: any = { name: '', sets: undefined, reps: undefined };
   meals: any[] = [];
 sections = {
@@ -45,6 +47,7 @@ sections = {
         this.resetUserData();
       }
     });
+    this.startStepCounter();
   }
 
   private loadUserData(email: string) {
@@ -87,7 +90,28 @@ sections = {
     return sortedMeals;
   }
   
+  startStepCounter() {
+    if ('Accelerometer' in window) {
+      try {
+        const accelerometer = new (window as any).Accelerometer({ frequency: 10 });
+        let previousY: number | null = null;
+        let stepThreshold = 1.2; // Érzékenység beállítása
   
+        accelerometer.addEventListener('reading', () => {
+          if (previousY !== null && Math.abs(accelerometer.y - previousY) > stepThreshold) {
+            this.stepCount++;
+          }
+          previousY = accelerometer.y;
+        });
+  
+        accelerometer.start();
+      } catch (error) {
+        console.error('Accelerometer initialization failed:', error);
+      }
+    } else {
+      console.error('Accelerometer API is not supported on this device');
+    }
+  }
 
   private resetUserData() {
     this.userData$ = of(undefined);
