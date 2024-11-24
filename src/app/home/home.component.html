@@ -1,0 +1,56 @@
+
+
+<div class="home-container">
+    
+    
+    <div class="intro">
+        <h2>Üdvözlünk az [Egészséges Életmód Applikációban!]</h2>
+        <p>Fedezd fel, hogyan érheted el a legjobb formádat az edzésekkel, személyre szabott étrendekkel és célkitűzésekkel. Az applikációnk segít abban, hogy minden nap egy lépéssel közelebb kerülj a fittebb, egészségesebb élethez.</p>
+        <p>Csatlakozz hozzánk, és vágj bele egy új, egészséges életmódba, ami nem csak a testedet, hanem a lelkedet is erősíti!adadadadad</p>
+      </div>
+      
+      
+        <!-- Receptek szekció -->
+        <div class="recipes">
+          <!-- Több receptcsoport -->
+          <div class="recipe-group" *ngFor="let group of recipeGroups">
+            <h3>{{ group.title }}</h3>
+            <div class="recipe-cards">
+              <!-- Minden recept a csoporton belül -->
+              
+              <div *ngFor="let recipe of group.recipes" class="recipe-card">
+                <img [src]="recipe.image" alt="{{ recipe.title }}" class="recipe-image">
+                <div class="card-content">
+                  <h4>{{ recipe.title }}</h4>
+                  <p>{{ recipe.description }}</p>
+                  <button class="details-button" (click)="toggleDetails(recipe)">Részletek</button>
+                </div>
+                <!-- Recept részletek -->
+                <div class="recipe-details" *ngIf="recipe.showDetails">
+                  <p>{{ recipe.instruction }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+          
+       
+      
+     
+      
+      
+        <!-- kövi csoport-->
+
+        
+
+      
+      
+      
+      
+      
+      
+  
+  

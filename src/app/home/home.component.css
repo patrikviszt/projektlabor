@@ -1,0 +1,197 @@
+/* Bemutatkozó szövegért felelős rész */
+.intro {
+    background: linear-gradient(to right, #4a90e2, #50b3e0);
+    color: white;
+    padding: 50px 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 40px auto;
+    max-width: 800px;
+}
+
+.intro h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.intro p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #f2f2f2;
+}
+
+.intro p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .intro {
+        padding: 30px 20px;
+    }
+
+    .intro h2 {
+        font-size: 28px;
+    }
+
+    .intro p {
+        font-size: 16px;
+    }
+}
+
+/* Receptek szekció */
+.recipes {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 1200px;
+}
+
+.recipes h3 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* A csoportok konténere */
+.recipe-group {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+.recipe-group h3 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* A kártyák konténere (vízszintes görgethetőség) */
+.recipe-cards {
+    display: flex;
+    flex-wrap: nowrap; /* Kártyák nem törhetnek új sorra */
+    overflow-x: auto; /* Vízszintes görgethetőség */
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.recipe-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 280px;
+    flex-shrink: 0; /* A kártyák nem zsugorodnak */
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.recipe-card:hover {
+    transform: scale(1.05); /* Kicsit megnöveli a kártyát hover esetén */
+}
+
+.recipe-card img {
+    width: 100%;
+    height: 180px; /* Rögzített magasság a képeknek */
+    object-fit: cover; /* Kép illesztése, ne torzuljon */
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-content h4 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.details-button {
+    background-color: #4CAF50; /* Zöld szín */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.details-button:hover {
+    background-color: #45a049; /* Sötétebb zöld hover esetén */
+}
+
+.recipe-details {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobil nézet */
+@media (max-width: 768px) {
+    .recipe-cards {
+        gap: 15px; /* Csökkentett távolság mobil nézetben */
+    }
+
+    .recipe-card {
+        width: 200px; /* Mobil nézetben kisebb kártyák */
+    }
+
+    .recipe-card img {
+        height: 150px; /* Kisebb képek mobilon */
+    }
+}
+
+/* További csoportok */
+.recipe-group-2 {
+    background-color: #e9f7fc; /* Más szín a második csoportnak */
+}
+
+.recipe-group-3 {
+    background-color: #f8f4e9; /* Harmadik csoport színe */
+}
+
+
+/* Kezdetben rejtve vannak a recept részletek */
+.recipe-details {
+    display: none;
+  }
+  
+  /* Ha a show-details osztály hozzáadódik, akkor láthatóvá válik */
+  .recipe-details.show-details {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+
+
+  .recipe-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  

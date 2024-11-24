@@ -5,17 +5,27 @@ import { AuthService } from './services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
+import { HomeComponent } from './home/home.component';
+import { BrowserModule } from '@angular/platform-browser';
+import bootstrap from '../main.server';
+
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, HeaderComponent],
+  imports: [RouterOutlet, FormsModule, CommonModule, HeaderComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'projektlabor';
   constructor(private router: Router) {}
+
+navigateToHome(){
+  this.router.navigate(['/home']);
+}
 
   navigateToProfile() {
     this.router.navigate(['/userprofile']);

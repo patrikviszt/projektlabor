@@ -1,14 +1,18 @@
 <div class="header">
-  <a [routerLink]="['/userinfo']"></a>
+  <div class="hamburger" (click)="toggleMenu()">
+    &#9776;
+  </div>
 
-  <nav class="nav">
+  <nav class="nav" [class.active]="menuOpen">
+    <a class="nav-link" (click)="navigateToHome()">Főoldal</a>
     <a class="nav-link" (click)="navigateToProfile()">Profil</a>
     <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv</a>
     <a class="nav-link" (click)="navigateToMealPlan()">Étrend</a>
 
     <div *ngIf="userEmail$ | async as email; else guest" class="nav-link-container">
-      <a class="nav-link" (click)="logout()">Kijelentkezés</a>
+      <a class="nav-link-container" (click)="logout()">Kijelentkezés</a>
     </div>
+    
 
     <ng-template #guest>
       <a class="nav-link" (click)="navigateToLogin()">Bejelentkezés</a>
