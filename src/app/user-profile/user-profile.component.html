@@ -1,16 +1,14 @@
 <h1>Felhasználói Profil</h1>
 
-
 <ng-template #notLoggedIn>
   <div class="not-logged-in">
     <p>A profilod megtekintéséhez <a routerLink="/login">jelentkezz be</a>.</p>
   </div>
 </ng-template>
 
-
 <div *ngIf="userData$ | async as userData; else notLoggedIn">
-  
-  <!-- Profile Section -->
+
+  <!-- Profil szekció -->
   <div class="profile-container">
     <h2>Profil</h2>
     <img [src]="userData.gender === 'female' ? 'assets/images/no.png' : 'assets/images/ferfi.png'" 
@@ -21,7 +19,7 @@
     </div>
   </div>
 
-
+  <!-- Felhasználói adatok -->
   <div class="user-data-container">
     <h2>Adatok:</h2>
     <div class="data-item" *ngFor="let item of [
@@ -36,6 +34,7 @@
     </div>
   </div>
 
+  <!-- Edzéstervek -->
   <div class="plans-container" *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
     <h2 class="section-title">Edzéstervek</h2>
     <div *ngIf="workoutPlans.length > 0; else noPlans">
@@ -53,13 +52,11 @@
             <div class="day-header">{{ day.day || 'Név nélküli nap' }}</div>
             <ul class="exercise-list">
               <li *ngFor="let exercise of day.exercises; let i = index" class="exercise-item">
-                <span class="exercise-name">{{ exercise.name || 'Ismeretlen gyakorlat' }}&nbsp;</span>
+                <span class="exercise-name">{{ exercise.name || 'Ismeretlen gyakorlat' }}</span>
                 <span class="exercise-details">{{ exercise.sets }} szett, {{ exercise.reps }} ismétlés</span>
                 <button (click)="removeExercise(plan, day, i)" class="button remove-exercise-button">✖</button>
               </li>
             </ul>
-      
-            
             <div class="add-exercise" *ngIf="isEditing(plan)">
               <input [(ngModel)]="newExercise.name" class="input exercise-input" placeholder="Gyakorlat neve">
               <input [(ngModel)]="newExercise.sets" type="number" class="input exercise-input" placeholder="Szett">
@@ -69,31 +66,34 @@
           </div>
         </div>
       </div>
-
-<div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
-  <h2>Étrendtervek:</h2>
-  <div *ngIf="dietPlans.length > 0; else noDietPlans">
-    <div *ngFor="let plan of dietPlans" class="diet-plan-card">
-      <div class="diet-plan-header">
-        <strong>Étrend neve:</strong> {{ plan.dietPlanName || '-' }}
-      </div>
-      <ul>
-        <div *ngFor="let meal of plan.sortedMeals">
-          <strong>{{ meal.day }}</strong>:
-          Reggeli - {{ meal.breakfast || '-' }},
-          Ebéd - {{ meal.lunch || '-' }},
-          Vacsora - {{ meal.dinner || '-' }}
-        </div>
-      </ul>
     </div>
+    <ng-template #noPlans>
+      <p class="no-plans">Nincsenek edzéstervek.</p>
+    </ng-template>
   </div>
-  <ng-template #noDietPlans>
-    <p>Nincsenek étrendtervek.</p>
-  </ng-template>
-</div>
 
-
-
+  <!-- Étrendtervek -->
+  <div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
+    <h2>Étrendtervek</h2>
+    <div *ngIf="dietPlans.length > 0; else noDietPlans">
+      <div *ngFor="let plan of dietPlans" class="diet-plan-card">
+        <div class="diet-plan-header">
+          <strong>Étrend neve:</strong> {{ plan.dietPlanName || '-' }}
+        </div>
+        <ul>
+          <div *ngFor="let meal of plan.sortedMeals">
+            <strong>{{ meal.day }}</strong>:
+            Reggeli - {{ meal.breakfast || '-' }},
+            Ebéd - {{ meal.lunch || '-' }},
+            Vacsora - {{ meal.dinner || '-' }}
+          </div>
+        </ul>
+      </div>
+    </div>
+    <ng-template #noDietPlans>
+      <p>Nincsenek étrendtervek.</p>
+    </ng-template>
+  </div>
 
   <ng-template #loadingPlans>
     <p>Edzéstervek betöltése...</p>
@@ -102,18 +102,4 @@
   <ng-template #loadingDietPlans>
     <p>Étrendtervek betöltése...</p>
   </ng-template>
-    </div>
-  
-    <ng-template #noPlans>
-      <p class="no-plans">Nincsenek edzéstervek.</p>
-    </ng-template>
-  </div>
-  
-  <ng-template #loadingPlans>
-    <p class="loading">Edzéstervek betöltése...</p>
-  </ng-template>
-  
-
- 
-
 </div>

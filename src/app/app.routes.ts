@@ -26,6 +26,7 @@ export const routes: Routes = [
   { path: 'workout', component: WorkoutPlanComponent},
   {path: 'exercises', component: ExercisesComponent},
   { path: 'workout-session', component: WorkoutSessionComponent },
+  {path: 'home', component: HomeComponent},
 ];
 
 @NgModule({

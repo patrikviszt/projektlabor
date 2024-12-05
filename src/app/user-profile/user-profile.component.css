@@ -181,3 +181,82 @@ strong {
     flex: 1;
   }
 }
+
+
+
+
+/* Étrendtervek konténer */
+.diet-plans-container {
+  padding: 20px;
+  margin: auto;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.diet-plans-container:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Egyes étrendtervek kártya */
+.diet-plan-card {
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.diet-plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Étrendterv fejléc */
+.diet-plan-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Ételek listája */
+.diet-plan-card ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.diet-plan-card ul div {
+  margin-bottom: 10px;
+}
+
+.diet-plan-card strong {
+  color: #007bff;
+}
+
+.diet-plan-card span {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Reszponzív design */
+@media (max-width: 768px) {
+  .diet-plans-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .diet-plan-header {
+    font-size: 18px;
+  }
+
+  .diet-plan-card ul div {
+    font-size: 14px;
+  }
+}
