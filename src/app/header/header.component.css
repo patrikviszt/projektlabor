@@ -1,41 +1,26 @@
 /* Általános stílusok a headerhez */
 .header {
-  display: flex;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  display: 100%;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #4a90e2, #50b3e0);
-  padding: 10px;
-  width: 100%;
-  z-index: 100;
-  position: sticky;
+  background: #4a90e2;
+  padding: 0;
+  z-index: 1000;
+  height: 40px;
 }
 
-/* A nav konténer */
-.nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;  /* Flex elrendezés, hogy minden gomb egy sorban legyen */
-  width: 100%;
-  max-width: 1200px;
-}
-
-/* A nav-linkek */
-.nav-link {
-  padding: 10px 15px;
-  font-size: 16px;
-  color: #333;
-  text-decoration: none;
-}
-
-.nav-link:hover {
-  color: #007BFF;
-}
 
 /* Mobil nézet */
 @media (max-width: 768px) {
   .header {
+    position: fixed;
     position: sticky;
     bottom: 0;
+    top:0;
     left: 0;
     right: 0;
     flex-direction: row;
@@ -45,18 +30,112 @@
     background-color: #4a90e2;
     color: white;
   }
-  .nav {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-  }
-  .nav-link {
-    padding: 8px 10px;
-    font-size: 13px;
-    color: white;
-    text-decoration: none;
-  }
+  
   .logo {
     width: 40px;
   }
+}
+
+
+/* Hamburger ikon */
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  left: 35px;
+  top: 15px;
+  z-index: 110;
+  color: white;
+}
+
+/* Oldalról nyíló menü alapértelmezett állapotban */
+.nav {
+  position: fixed;
+  top: 0px;
+  left: -100%; /* Kezdetben rejtve van */
+  height: 100%;
+  width: 150px;
+  background: #4a90e2;
+  display: flex;
+  flex-direction: column; /* Elemsorrend fentről lefelé */
+  justify-content: flex-start; /* A tartalom a tetejére kerül */
+  align-items: stretch; /* A linkek és a kijelentkezés gomb teljes szélességet foglalnak */
+  transition: left 1s ease; /* Animáció a menü nyitására/zárására */
+  padding: 20px; /* Térköz a tartalom körül */
+  z-index: 105;
+  
+}
+
+/* Aktív állapot (nyitott menü) */
+.nav.active {
+  left: 0;
+}
+
+/* Kijelentkezés gomb (nav-link-container) */
+/* Kijelentkezés gomb (nav-link-container) */
+.nav-link-container {
+  margin-top: auto; /* Az aljára helyezi a gombot */
+  width: 100%; /* Teljes szélesség */
+  padding: 10px 15px; /* Hozzáadunk egy kis térközt a gomb köré */
+  position: relative; /* A menü területén belül lesz */
+}
+
+/* Kijelentkezés gomb (a) */
+.nav-link-container a {
+  color: white; /* Fehér szöveg */
+  background-color: red; /* Piros háttér */
+  padding: 10px 15px;
+  text-decoration: none;
+  text-align: center;
+  width: 100%; /* A gomb kitölti a teljes szélességet */
+  display: block; /* A gomb elhelyezkedik a sorban */
+  box-sizing: border-box; /* A padding és border beleszámít a méretbe */
+  bottom: 30px;
+}
+
+.nav-link-container a:hover {
+  background-color: darkred; /* Hover állapotban sötétebb piros */
+}
+
+
+/* Menü linkek stílusa */
+.nav-link {
+  padding: 10px 15px; /* Azonos belső térköz */
+  font-size: 18px; /* Azonos betűméret */
+  color: white; /* Fehér szöveg */
+  text-decoration: none; /* Aláhúzás nélkül */
+  width: 100%; /* Kitölti a teljes szélességet */
+  text-align: left; /* Balra igazított szöveg */
+  box-sizing: border-box; /* A padding és border beleszámít a méretbe */
+  margin-top: 20px;
+}
+
+/* Hover állapot */
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* A háttér kivilágosodik hover esetén */
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Megakadályozza a vízszintes görgetést */
+}
+
+.parent {
+  overflow-x: hidden; /* Elrejti a túlnyúló elemeket */
+}
+
+
+
+
+.header .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fekete, áttetsző háttér */
+  z-index: 99; /* A menü alatt */
 }

@@ -12,6 +12,7 @@ import { WorkoutPlanComponent } from './workout-plan/workout-plan.component';
 import { DietPlanComponent } from './diet-plan/diet-plan.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { WorkoutSessionComponent } from './workout-session/workout-session.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent }, 
@@ -20,6 +21,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   { path: 'userprofile', component: UserProfileComponent},
   { path: 'header', component: HeaderComponent},
+  {path: 'home', component: HomeComponent},
   { path: 'diet', component: DietPlanComponent},
   { path: 'workout', component: WorkoutPlanComponent},
   {path: 'exercises', component: ExercisesComponent},
@@ -31,3 +33,4 @@ export const routes: Routes = [
     exports: [RouterModule]
   })
   export class AppRoutingModule {}
+  

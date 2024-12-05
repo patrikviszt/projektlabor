@@ -268,7 +268,14 @@ export class FirestoreService {
       console.error('Error saving workout session:', error);
     }
   }
-
+  async saveFavoriteRecipe(recipeName: string, userEmail: string): Promise<void> {
+    const favoritesCollection = collection(this.firestore, 'favorites');
+    await addDoc(favoritesCollection, {
+      recipeName,
+      userEmail,
+      createdAt: new Date(),
+    });
+  }
 
   
 }

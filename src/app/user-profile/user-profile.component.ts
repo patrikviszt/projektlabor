@@ -67,9 +67,8 @@ sections = {
       })
     );
     
-    
-  
-  
+   
+
     this.userData$.subscribe((userData) => {
       if (userData) {
         this.firstName = userData.firstName;

@@ -1,18 +1,37 @@
 <div class="header">
-  <a [routerLink]="['/userinfo']"></a>
-
-  <nav class="nav">
-    <a class="nav-link" (click)="navigateToProfile()">Profil</a>
-    <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv</a>
-    <a class="nav-link" (click)="navigateToMealPlan()">Étrend</a>
-
-    <div *ngIf="userEmail$ | async as email; else guest" class="nav-link-container">
-      <a class="nav-link" (click)="logout()">Kijelentkezés</a>
+    <div class="hamburger" (click)="toggleMenu()">
+      &#9776;
     </div>
-
-    <ng-template #guest>
-      <a class="nav-link" (click)="navigateToLogin()">Bejelentkezés</a>
-      <a class="nav-link" (click)="navigateToRegister()">Regisztráció</a>
-    </ng-template>
-  </nav>
-</div>
+  
+   <!--  <nav class="nav" [class.active]="menuOpen">
+      <a class="nav-link" (click)="navigateToHome()">Főoldal</a>
+      <a class="nav-link" (click)="navigateToProfile()">Profil</a>
+      <a class="nav-link" (click)="navigateToWorkoutPlan()">Edzésterv</a>
+      <a class="nav-link" (click)="navigateToMealPlan()">Étrend</a>
+  
+      <div *ngIf="userEmail$ | async as email; else guest" class="nav-link-container">
+        <a class="nav-link-container" (click)="logout()">Kijelentkezés</a>
+      </div>
+      
+  
+      <ng-template #guest>
+        <a class="nav-link" (click)="navigateToLogin()">Bejelentkezés</a>
+        <a class="nav-link" (click)="navigateToRegister()">Regisztráció</a>
+      </ng-template>
+    </nav>
+  </div>  */-->
+  
+  
+  
+  <div class="overlay" *ngIf="menuOpen" (click)="toggleMenu()"></div>
+  <div class="nav" [class.active]="menuOpen">
+    <!-- Menü tartalma -->
+    <a class="nav-link" (click)="navigateToHome(); toggleMenu()">Főoldal</a>
+    <a class="nav-link" (click)="navigateToProfile(); toggleMenu()">Profil</a>
+    <a class="nav-link" (click)="navigateToWorkoutPlan(); toggleMenu()">Edzésterv</a>
+    <a class="nav-link" (click)="navigateToMealPlan(); toggleMenu()">Étrend</a>
+    <div class="nav-link-container">
+      <a (click)="logout(); toggleMenu()">Kijelentkezés</a>
+    </div>
+  </div>
+  
