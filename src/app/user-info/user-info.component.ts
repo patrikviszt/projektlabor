@@ -5,6 +5,7 @@ import { FirestoreService } from '../services/firestore.service';
 import { SnackbarService } from '../services/snackbar.service';
 import { AuthService } from '../services/auth.service';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-info',
@@ -20,7 +21,7 @@ export class UserInfoComponent implements OnInit {
   mealTimes: string[] = ['Reggeli', 'Ebéd', 'Vacsora'];
   dietPlan: { [day: string]: string[] } = {};
   daysOfWeek: string[] = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat', 'Vasárnap'];
-
+  dataExists: boolean = false;
   userData: any = {
     email: '',
     weight: null,
@@ -35,16 +36,31 @@ export class UserInfoComponent implements OnInit {
   constructor(
     private firestoreService: FirestoreService,
     private snackbar: SnackbarService,
-    private authService: AuthService 
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
-      if (user) {
-        this.userData.email = user.email; 
+      if (user && user.email) { // Ensure user.email is not null
+        this.userData.email = user.email;
+        this.firestoreService.checkUserDataExists(user.email).then(exists => {
+          this.dataExists = exists;
+console.log('Profile exists:', this.dataExists);
+
+          if (this.dataExists) {
+            this.snackbar.open('Már létezik profil az email-címhez.', 'Ok');
+            this.router.navigate(['/userprofile']); // Redirect to another page
+          }
+        });
+      } else {
+        this.snackbar.open('Felhasználói email nem érhető el.', 'Ok');
+        this.router.navigate(['/login']); // Redirect if email is null
       }
     });
   }
+  
+
 
   nextStep() {
     console.log('Current step:', this.step, 'Valid:', this.currentValid[this.step - 1]);

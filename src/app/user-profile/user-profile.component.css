@@ -260,3 +260,366 @@ strong {
     font-size: 14px;
   }
 }
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.recipe-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.recipe-card h4 {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.recipe-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+/* General Styles */
+h1, h2 {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-bottom: 15px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Container for the plans */
+.plans-container {
+  padding: 20px;
+  margin: auto;
+  max-width: 800px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.plans-container:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Individual plan card */
+.plan-card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Plan Header */
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.plan-name {
+  font-size: 1.6rem;
+  color: #333;
+  font-weight: bold;
+  flex: 1;
+}
+
+.plan-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button {
+  background-color: #ff3b3b;
+  color: white;
+  border: none;
+}
+
+.delete-button:hover {
+  background-color: #ff0000;
+}
+
+.edit-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+.edit-button:hover {
+  background-color: #45a049;
+}
+
+/* Plan Body */
+.plan-body {
+  margin-top: 10px;
+}
+
+.exercise-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.day-section {
+  margin-bottom: 15px;
+}
+
+.day-header {
+  font-size: 1.1rem;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.exercise-list {
+  padding-left: 20px;
+}
+
+.exercise-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.exercise-name {
+  font-size: 1rem;
+  color: #555;
+}
+
+.exercise-details {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.remove-exercise-button {
+  background-color: #ff3b3b;
+  color: white;
+  border: none;
+}
+
+.remove-exercise-button:hover {
+  background-color: #ff0000;
+}
+
+/* Add Exercise Section */
+.add-exercise {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.sets-reps-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.exercise-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.add-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+/* No Plans Message */
+.no-plans {
+  text-align: center;
+  color: #777;
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .plans-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .plan-name {
+    font-size: 1.4rem;
+  }
+
+  .exercise-name,
+  .exercise-details {
+    font-size: 0.9rem;
+  }
+
+  .exercise-input {
+    font-size: 0.9rem;
+  }
+}
+/* Kedvenc receptek szakasz */
+.section-title {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.recipe-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.recipe-name {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recipe-description {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.view-recipe-button {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.view-recipe-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.no-recipes {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .recipe-card {
+    padding: 15px;
+  }
+
+  .recipe-name {
+    font-size: 1.3rem;
+  }
+
+  .recipe-description {
+    font-size: 0.9rem;
+  }
+}

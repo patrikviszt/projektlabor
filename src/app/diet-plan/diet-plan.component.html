@@ -1,44 +1,111 @@
+
+
+
 <div class="diet-plan-container">
-    <h2>Válassz ételeket az étrendedhez</h2>
-
-    <div class="day-selector">
-      <h3>Nap kiválasztása</h3>
-      <div class="day-buttons">
-        <button *ngFor="let day of daysOfWeek" (click)="selectDay(day)"
-                [class.selected]="selectedDay === day">
-          {{ day }}
-        </button>
+  <!-- Étrend neve mező -->
+  <div class="diet-name">
+    <label for="dietName"><strong>Étrended neve: </strong></label>
+    <input
+      type="text"
+      id="dietName"
+      [(ngModel)]="dietName"
+      placeholder="Add meg az étrended nevét"
+      required
+    />
+  </div>
+  
+  <!-- Nap kiválasztása -->
+  <div class="day-selector">
+    <h3>Válassz egy napot</h3>
+    <div class="day-cards">
+      <div 
+        *ngFor="let day of daysOfWeek" 
+        class="day-card" 
+        [class.selected]="selectedDay === day" 
+        (click)="selectDay(day)">
+        {{ day }}
       </div>
     </div>
+  </div>
 
-
-    <div class="meal-time-selector" *ngIf="selectedDay">
-      <h3>{{ selectedDay }} étkezései</h3>
-      <div class="meal-time-buttons">
-        <button *ngFor="let mealTime of mealTimes" (click)="toggleMealTime(mealTime)">
-          {{ mealTime }}
-        </button>
-      </div>
-
-      <div *ngIf="selectedMealTime" class="meals-container">
-        <h4>{{ selectedMealTime }} ételei</h4>
-        <ul>
-          <li *ngFor="let meal of meals[selectedMealTime]">
-            {{ meal }}
-            <button (click)="addToDiet(meal)">Hozzáadás</button>
-          </li>
-        </ul>
+  <!-- Étkezés kiválasztása -->
+  <div class="meal-time-selector" *ngIf="selectedDay">
+    <h3>Válassz egy étkezést</h3>
+    <div class="meal-time-cards">
+      <div 
+        *ngFor="let mealTime of mealTimes" 
+        class="meal-time-card" 
+        [class.selected]="selectedMealTime === mealTime" 
+        (click)="toggleMealTime(mealTime)">
+        {{ mealTime }}
       </div>
     </div>
+  </div>
 
-    <div class="diet-plan">
-      <h3>Az étrended</h3>
-      <ul>
-        <li *ngFor="let meal of dietPlan">
-          {{ meal }}
-          <button (click)="removeFromDiet(meal)">Eltávolítás</button>
-        </li>
-      </ul>
-      <button (click)="saveDietPlan()">Étrend mentése</button>
+  <!-- Ételek megjelenítése -->
+  <div class="meals-container" *ngIf="selectedMealTime && selectedDay">
+    <h4>{{ selectedMealTime }} - {{ selectedDay }}</h4>
+    <div class="meal-cards">
+      <div 
+        *ngFor="let meal of meals[selectedMealTime]" 
+        class="meal-card" 
+        (click)="selectMeal(meal)">
+        <p>{{ translateMeal(meal) }}</p>
+      </div>
     </div>
+    
+  </div>
+
+  <!-- Ételtípus adatainak megjelenítése -->
+ <!-- Ételtípus adatainak megjelenítése -->
+ <div *ngIf="selectedMeal && mealData[selectedMeal]" class="meal-details">
+  <h4>{{ translateMeal(selectedMeal) }}</h4>
+  <ul>
+    <li><strong>Kalória:</strong> {{ mealData[selectedMeal].calories }} kcal</li>
+    <li><strong>Adag méret:</strong> {{ mealData[selectedMeal].serving_size_g }} g</li>
+    <li><strong>Teljes zsír:</strong> {{ mealData[selectedMeal].fat_total_g }} g</li>
+    <li><strong>Fehérje:</strong> {{ mealData[selectedMeal].protein_g }} g</li>
+    <li><strong>Só:</strong> {{ mealData[selectedMeal].sodium_mg }} mg</li>
+    <li><strong>Kálium:</strong> {{ mealData[selectedMeal].potassium_mg }} mg</li>
+    <li><strong>Koleszterin:</strong> {{ mealData[selectedMeal].cholesterol_mg }} mg</li>
+    <li><strong>Szénhidrát:</strong> {{ mealData[selectedMeal].carbohydrates_total_g }} g</li>
+    <li><strong>Rost:</strong> {{ mealData[selectedMeal].fiber_g }} g</li>
+    <li><strong>Cukor:</strong> {{ mealData[selectedMeal].sugar_g }} g</li>
+  </ul>
+  <button (click)="addToDiet(selectedMeal, mealData[selectedMeal].calories)">Hozzáadás az étrendhez</button>
+</div>
+
+
+  <!-- Diétás terv megjelenítése -->
+  <div *ngIf="dietPlan.length > 0" class="diet-plan">
+    <h4>Aktuális Diétás Terv</h4>
+    <ul>
+      <li *ngFor="let meal of dietPlan">
+        {{ meal.name }} - {{ meal.calories }} kcal
+        <button (click)="removeFromDiet(meal)">Eltávolítás</button>
+      </li>
+    </ul>
+    <div class="total-calories">
+      <p><strong>Kalóriaszámláló: </strong>{{ getTotalCalories() }} kcal</p>
+    </div>
+    <button (click)="saveCostumDiet(dietName)">Étrend mentése</button>
+  </div>
+</div>
+
+
+<div *ngIf="showSuccessModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeSuccessModal()">×</span>
+    <h3>Sikeresen elmentetted az étrended! <br> Az elmentett étrendjeid megtekintheted a Profilodban!</h3>
+    <button (click)="closeSuccessModal()">Rendben</button>
+  </div>
+</div>
+
+
+<div *ngIf="showModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">×</span>
+    <h3>{{ errorMessage }}</h3>
+    <button (click)="closeModal()">Rendben</button>
+  </div>
 </div>

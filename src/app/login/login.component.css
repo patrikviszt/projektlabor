@@ -10,7 +10,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to right, #6a11cb, #2575fc); 
+  background: linear-gradient(to right, #5d50a2, #2575fc); 
 }
 
 .login-container {
@@ -69,7 +69,7 @@ label {
   transform: scale(1.2); 
   cursor: pointer;
 }
-
+ 
 .login-btn {
   width: 100%;
   padding: 12px;
@@ -82,7 +82,7 @@ label {
   font-weight: bold;
   transition: background-color 0.3s, transform 0.1s;
 }
-
+-->
 .login-btn:hover {
   background-color: #0056b3;
 }
@@ -151,3 +151,6 @@ label {
     width: 90%;
   }
 }
+
+
+

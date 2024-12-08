@@ -14,7 +14,15 @@
     <img [src]="userData.gender === 'female' ? 'assets/images/no.png' : 'assets/images/ferfi.png'" 
          alt="Profilkép" class="profile-picture">
     <div class="profile-details">
-      <p><strong>Név:</strong> {{ userData.firstName || '-' }} {{ userData.lastName || '-' }}</p>
+      <p><strong>Név:</strong> 
+        <ng-container *ngIf="userData.firstName && userData.lastName">
+          {{ userData.firstName }} {{ userData.lastName }}
+        </ng-container>
+        <ng-container *ngIf="!userData.firstName || !userData.lastName">
+          Név nem elérhető
+        </ng-container>
+      </p>
+      
       <p><strong>Email:</strong> {{ userData.email || '-' }}</p>
     </div>
   </div>
@@ -33,7 +41,21 @@
       <strong>{{ item.label }}:</strong> {{ item.value }}
     </div>
   </div>
-
+  <div class="section">
+    <h3 class="section-title">Kedvenc receptek</h3>
+    <div *ngIf="favRecipes$ | async as favRecipes; else noRecipes">
+      <div *ngFor="let recipe of favRecipes" class="recipe-card">
+        <img [src]="recipe.recipeImage" alt="{{ recipe.recipeName }}" class="recipe-image" />
+        <h4 class="recipe-name">{{ recipe.recipeName }}</h4>
+        <p class="recipe-description">{{ recipe.description }}</p>
+        <button (click)="viewRecipe(recipe)" class="view-recipe-button">Recept megtekintése</button>
+      </div>
+    </div>
+    <ng-template #noRecipes>
+      <p class="no-recipes">Nincs kedvenc recept.</p>
+    </ng-template>
+  </div>
+  
   <!-- Edzéstervek -->
   <div class="plans-container" *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
     <h2 class="section-title">Edzéstervek</h2>
@@ -59,8 +81,10 @@
             </ul>
             <div class="add-exercise" *ngIf="isEditing(plan)">
               <input [(ngModel)]="newExercise.name" class="input exercise-input" placeholder="Gyakorlat neve">
-              <input [(ngModel)]="newExercise.sets" type="number" class="input exercise-input" placeholder="Szett">
-              <input [(ngModel)]="newExercise.reps" type="number" class="input exercise-input" placeholder="Ismétlés">
+              <div class="sets-reps-container">
+                <input [(ngModel)]="newExercise.sets" type="number" class="input exercise-input" placeholder="Szett">
+                <input [(ngModel)]="newExercise.reps" type="number" class="input exercise-input" placeholder="Ismétlés">
+              </div>
               <button (click)="addExercise(plan, day)" class="button add-button">Hozzáadás</button>
             </div>
           </div>
@@ -71,8 +95,14 @@
       <p class="no-plans">Nincsenek edzéstervek.</p>
     </ng-template>
   </div>
+  
 
-  <!-- Étrendtervek -->
+  <div class="user-profile">
+
+    
+
+
+   
   <div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
     <h2>Étrendtervek</h2>
     <div *ngIf="dietPlans.length > 0; else noDietPlans">
@@ -92,9 +122,40 @@
     </div>
     <ng-template #noDietPlans>
       <p>Nincsenek étrendtervek.</p>
-    </ng-template>
-  </div>
+    </ng-template> 
 
+    <div class="custom-diets-container" *ngIf="costumDiets$ | async as customDiets; else loadingCustomDiets">
+      <h2>Egyedi Étrendjeid</h2>
+      <div *ngIf="customDiets.length > 0; else noCustomDiets">
+        <div *ngFor="let diet of customDiets" class="custom-diet-card">
+          <div class="custom-diet-header">
+            <strong>Étrend neve:</strong> {{ diet.dietName || '-' }}
+          </div>
+          <ul>
+            <li *ngFor="let meal of diet.meals">
+              {{ meal.name }} - {{ meal.calories }} kcal
+            </li>
+          </ul>
+          <div class="custom-diet-footer">
+            <strong>Összkalória:</strong> {{ diet.totalCalories || 0 }} kcal
+          </div>
+        </div>
+      </div>
+      <ng-template #noCustomDiets>
+        <p>Nincsenek mentett egyedi étrendjeid.</p>
+      </ng-template>
+    </div>
+    
+    <ng-template #loadingCustomDiets>
+      <p>Betöltés folyamatban...</p>
+    </ng-template>
+    
+
+
+ 
+
+    
+  </div>
   <ng-template #loadingPlans>
     <p>Edzéstervek betöltése...</p>
   </ng-template>

@@ -1,4 +1,5 @@
-<div class="form-container">
+<div *ngIf="!dataExists">
+  <div class="form-container">
   <div class="card">
     <div class="card-header">
       <h3>{{ step === 1 ? 'Mennyi a súlyod?' : 
@@ -89,4 +90,7 @@
       <button *ngIf="step === 7" [disabled]="!currentValid[6]" (click)="submit()" class="submit-button">Küldés</button>
     </div>
   </div>
+</div>
+<div *ngIf="dataExists">
+  <p>Profiladatok már léteznek az email-címhez. Kérjük, látogass el a profilodhoz!</p>
 </div>

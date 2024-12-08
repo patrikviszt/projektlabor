@@ -1,43 +1,102 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc, getDoc, QuerySnapshot } from '@angular/fire/firestore';
+import { map, Observable } from 'rxjs';
 import { Exercise, UserData, WorkoutPlan, WorkoutSession } from '../user-data.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
+  afAuth: any;
   constructor(private firestore: Firestore) {}
 
   addUserData(userData: any) {
     const userCollection = collection(this.firestore, 'users');
     return addDoc(userCollection, userData);
   }
+  checkUserDataExists(email: string): Promise<boolean> {
+    const userDataCollection = collection(this.firestore, 'users');
+    const q = query(userDataCollection, where('email', '==', email));
+  
+    return getDocs(q)
+      .then((snapshot) => !snapshot.empty)
+      .catch((error) => {
+        console.error('Error checking user data existence:', error);
+        return false;
+      });
+  }
+  
 
   getUserData(email: string): Observable<UserData | undefined> {
-    const usersRef = collection(this.firestore, 'users'); 
+    const usersRef = collection(this.firestore, 'users');
+    const userDataRef = collection(this.firestore, 'userData');
+    
     return new Observable<UserData | undefined>((observer) => {
-        getDocs(usersRef).then((querySnapshot) => {
-            let userData: UserData | undefined;
-            querySnapshot.forEach((doc) => {
-                const data = doc.data() as UserData;
-                console.log('Document Data:', data); 
-                if (data.email === email) {
-                    userData = { ...data };
-                    console.log('Retrieved User Data:', userData); 
-                }
+      getDocs(usersRef).then((querySnapshotUsers) => {
+        let userData: UserData | undefined;
+        
+        querySnapshotUsers.forEach((doc) => {
+          const data = doc.data() as UserData;
+          console.log('Users Collection Data:', data); 
+          
+          if (data.email === email) {
+            userData = { ...data };
+          }
+        });
+
+        // Ha van userData, akkor lekérjük a 'userData' kollekció adatokat
+        if (userData) {
+          getDocs(userDataRef).then((querySnapshotUserData) => {
+            querySnapshotUserData.forEach((doc) => {
+              const data = doc.data() as UserData;
+              console.log('UserData Collection Data:', data);
+              if (data.email === email) {
+                userData = { ...userData, ...data }; // Egyesítjük a két adatot
+              }
             });
-            observer.next(userData);
+
+            observer.next(userData); // Visszaadjuk az egyesített adatokat
             observer.complete();
-        }).catch((error) => {
-            console.error('Error fetching user data:', error);
+          }).catch((error) => {
+            console.error('Error fetching user data from userData collection:', error);
             observer.next(undefined);
             observer.complete();
-        });
+          });
+        } else {
+          observer.next(undefined);
+          observer.complete();
+        }
+      }).catch((error) => {
+        console.error('Error fetching user data from users collection:', error);
+        observer.next(undefined);
+        observer.complete();
+      });
     });
-}
+  }
+// getUserData2(email: string): Observable<UserData | undefined> {
+//   const usersRef = collection(this.firestore, 'userData'); 
+//   return new Observable<UserData | undefined>((observer) => {
+//       getDocs(usersRef).then((querySnapshot) => {
+//           let userData: UserData | undefined;
+//           querySnapshot.forEach((doc) => {
+//               const data = doc.data() as UserData;
+//               console.log('Document Data:', data); 
+//               if (data.email === email) {
+//                   userData = { ...data };
+//                   console.log('Retrieved User Data:', userData); 
+//               }
+//           });
+//           observer.next(userData);
+//           observer.complete();
+//       }).catch((error) => {
+//           console.error('Error fetching user data:', error);
+//           observer.next(undefined);
+//           observer.complete();
+//       });
+//   });
+// }
 
-  addWorkoutPlan(userId: string, workoutData: any) {
+ addWorkoutPlan(userId: string, workoutData: any) {
     const workoutPlansCollection = collection(this.firestore, 'workoutPlans');
   
 
@@ -268,14 +327,189 @@ export class FirestoreService {
       console.error('Error saving workout session:', error);
     }
   }
-  async saveFavoriteRecipe(recipeName: string, userEmail: string): Promise<void> {
+  async addCostumDiet(userId: string, costumDietData:any){
+    const costumDietCollection = collection(this.firestore, 'CostumDiets')
+    const CostumDiets2={
+      userId: userId,
+      userEmail: costumDietData.userEmail,
+      dietName: costumDietData.dietName,
+      meals: costumDietData.meals,
+      totalCalories: costumDietData.totalCalories,
+      createdAt: new Date(),
+    };
+    try{
+      await addDoc(costumDietCollection,costumDietData);
+      console.log('Costum Diet saved successfully!');
+    }catch(error){
+      console.error('Error saving costum diet:',error);
+    }
+    
+  }
+
+
+ /* async saveFavoriteRecipe(recipeName: string, userEmail: string): Promise<void> {
     const favoritesCollection = collection(this.firestore, 'favorites');
     await addDoc(favoritesCollection, {
       recipeName,
       userEmail,
       createdAt: new Date(),
     });
+  }*/
+  //Recept hozzáadása
+
+
+async addFavRecipe(userId: string, recipeData: any){
+  const favRecipeCollection = collection(this.firestore, 'favRecipes');
+  const recipeData2 ={
+    userId: userId,
+    userEmail: recipeData.userEmail,
+    recipeName: recipeData.recipeName,
+    createdAt: new Date(),
+  };
+
+  try {
+    await addDoc(favRecipeCollection,recipeData);
+    console.log('Recipe saved successfully!');
+  } catch (error) {
+    console.error('Error saving workout plan:', error);
   }
+}
+
+
+
+async removeFromFavorite(userId: string, recipeID: string) {
+  const favRecipeCollection = collection(this.firestore, 'favRecipes');
+  const recipeQuery = query(
+    favRecipeCollection,
+    where("userId", "==", userId),
+    where("recipeID", "==", recipeID)
+  );
+
+  try {
+    const querySnapshot = await getDocs(recipeQuery);
+
+    if (!querySnapshot.empty) {
+      const recipeDoc = querySnapshot.docs[0];
+      await deleteDoc(recipeDoc.ref);
+      console.log(`Recipe ${recipeID} removed successfully!`);
+    } else {
+      console.error(`No favorite found for recipe ${recipeID}`);
+    }
+  } catch (error) {
+    console.error("Error removing recipe:", error);
+  }
+}
+
+
+
+
+
+
+getFavRecipes(userEmail: string): Observable<any[]> {
+  const favRecipesRef = collection(this.firestore, 'favRecipes');
+  const q = query(favRecipesRef, where('userEmail', '==', userEmail));
+  
+  return new Observable<any[]>((observer) => {
+    getDocs(q)
+      .then((querySnapshot) => {
+        const favRecipes: any[] = [];
+        querySnapshot.forEach((doc) => {
+          favRecipes.push(doc.data());
+        });
+        observer.next(favRecipes);
+        observer.complete();
+      })
+      .catch((error) => {
+        console.error('Error fetching favorite recipes:', error);
+        observer.next([]);
+        observer.complete();
+      });
+  });
+}
+
+
+
+
+getCostumDiet(userEmail:string):Observable<any[]>{
+  const costumDietCollection = collection(this.firestore, 'CostumDiets');
+  const q = query(costumDietCollection,where('userEmail', '==', userEmail));
+
+  return new Observable<any[]>((observer) => {
+    getDocs(q)
+      .then((querySnapshot) => {
+        const costumDiets: any[] = [];
+        querySnapshot.forEach((doc) => {
+          costumDiets.push(doc.data());
+        });
+        observer.next(costumDiets);
+        observer.complete();
+      })
+      .catch((error) => {
+        console.error('Error fetching favorite recipes:', error);
+        observer.next([]);
+        observer.complete();
+      });
+  });
+}
+getFavorites(email: string): Observable<string[]> {
+  const favRecipesRef = collection(this.firestore, 'favRecipes');
+  const q = query(favRecipesRef, where('userEmail', '==', email));
+
+  return new Observable((observer) => {
+    getDocs(q).then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const favorites: string[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          favorites.push(data['recipeName']); // Feltételezzük, hogy a recept neve a 'recipeName' mezőben van
+        });
+        console.log('Kedvenc receptek:', favorites);  // A kedvenc receptek nevének kiírása
+        observer.next(favorites);
+      } else {
+        console.log('Nincs kedvenc recept.');
+        observer.next([]);
+      }
+    }).catch((error) => {
+      console.error('Hiba történt a kedvenc receptek lekérésekor:', error);
+      observer.error(error);
+    });
+  });
+}
+
+
+
+async addFavorite(userEmail: string, recipeName: string): Promise<void> {
+  const favoritesCollection = collection(this.firestore, 'favRecipes');
+  try {
+    await addDoc(favoritesCollection, {
+      userEmail,
+      recipeName,
+      createdAt: new Date(),
+    });
+    console.log('Recipe added to favorites!');
+  } catch (error) {
+    console.error('Error adding favorite recipe:', error);
+  }
+}
+
+async removeFavorite(userEmail: string, recipeName: string): Promise<void> {
+  const favoritesCollection = collection(this.firestore, 'favRecipes');
+  const q = query(favoritesCollection, where('userEmail', '==', userEmail), where('recipeName', '==', recipeName));
+
+  try {
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      const favoriteDocRef = doc(this.firestore, 'favRecipes', docId);
+      await deleteDoc(favoriteDocRef);
+      console.log('Recipe removed from favorites!');
+    } else {
+      console.log('Recipe not found in favorites');
+    }
+  } catch (error) {
+    console.error('Error removing favorite recipe:', error);
+  }
+}
 
   
 }

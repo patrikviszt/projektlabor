@@ -17,11 +17,15 @@ export class HeaderComponent {
   userEmail$: Observable<string | null>;
   menuActive = false;
   menuOpen: boolean = false;
-  
+  isLoggedIn$: Observable<boolean>;
+
   constructor(private router: Router, private authService: AuthService) {
 
     this.userEmail$ = this.authService.getCurrentUserEmail(); 
+    this.isLoggedIn$ = this.authService.isLoggedIn();
   }
+
+
 
 toggleMenu(): void {
   this.menuOpen = !this.menuOpen;

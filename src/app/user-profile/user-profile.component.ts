@@ -21,7 +21,11 @@ export class UserProfileComponent implements OnInit {
   dietPlans$: Observable<any[]> = of([]);
   editingPlans: WorkoutPlan[] = [];
   workoutPlans: WorkoutPlan[] = [];
-  stepCount: number = 0;
+  costumDiet:[]=[];
+  favRecipes$: Observable<any[]> = of([]);
+  costumDiets$: Observable<any[]> = of([]);  stepCount: number = 0;
+  selectedInstruction: string = ''; 
+  isModalOpen = false;
 goalSteps: number = 10000;
   newExercise: any = { name: '', sets: undefined, reps: undefined };
   meals: any[] = [];
@@ -52,6 +56,10 @@ sections = {
 
   private loadUserData(email: string) {
     this.userData$ = this.firestoreService.getUserData(email);
+    this.favRecipes$ = this.firestoreService.getFavRecipes(email);
+    this.costumDiets$ = this.firestoreService.getCostumDiet(email);
+    
+
     this.workoutPlans$ = this.firestoreService.getWorkoutPlans(email).pipe(
       map((plans) => {
         this.workoutPlans = plans;
@@ -76,6 +84,13 @@ sections = {
         this.email = userData.email;
       }
     });
+  }
+  openModal(instruction: string) {
+    this.selectedInstruction = instruction;
+    this.isModalOpen = true;
+  }
+  closeModal() {
+    this.isModalOpen = false;
   }
   private sortDays(meals: { [key: string]: any }): any[] {
     const sortedMeals: any[] = [];
@@ -111,10 +126,15 @@ sections = {
       console.error('Accelerometer API is not supported on this device');
     }
   }
+  viewRecipe(recipe: any) {
+    // Here you can display the recipe instructions in a modal or a new view
+    alert(`Recept: ${recipe.recipeName}\n\n${recipe.recipeInstruction}`);
+  }
 
   private resetUserData() {
     this.userData$ = of(undefined);
     this.workoutPlans$ = of([]);
+    this.favRecipes$ = of([]);
     this.dietPlans$ = of([]);
   }
 
