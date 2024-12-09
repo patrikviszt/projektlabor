@@ -257,7 +257,7 @@ export class HomeComponent implements OnInit {
           this.firestoreService.removeFavorite(email, recipe.recipeName);
           this.favorites = this.favorites.filter(fav => fav !== recipe.recipeName);
         } else {
-          this.firestoreService.addFavorite(email, recipe.recipeName);
+          this.firestoreService.addFavorite(email, recipe.recipeName, recipe.image, recipe.description, recipe.instruction);
           this.favorites.push(recipe.recipeName);
         }
         recipe.isFavorite = !recipe.isFavorite;

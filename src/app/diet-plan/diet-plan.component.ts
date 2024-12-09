@@ -26,6 +26,7 @@ export class DietPlanComponent implements OnInit {
   selectedMealTime: string | null = null;
   selectedDay: string | null = null;
   selectedMeal: string | null = null; // Aktuálisan kiválasztott étel
+  mealAmounts: { [key: string]: number } = {};
   meals: any = {
     Reggeli: ['Scrambled eggs', 'Ham sandwich', 'Pancakes', 'Sausages', ],
     Ebéd: ['Chicken rice', 'Spaghetti bolognese', 'Chicken salad', 'Caesar salad', 'Pepperoni pizza', 'Meatballs', 'Tofu', 'Sushi'],
@@ -44,34 +45,37 @@ export class DietPlanComponent implements OnInit {
   }
 
   // API hívás egy étel kalóriáinak lekérdezésére
-  getMealCalories(meal: string) {
-    const apiUrl = `https://api.calorieninjas.com/v1/nutrition?query=${meal}`;
+  getMealCalories(meal: string, amount?: number) {
+    const query = amount ? `${amount}g ${meal}` : meal; // Gramm hozzáadása a kéréshez
+    const apiUrl = `https://api.calorieninjas.com/v1/nutrition?query=${query}`;
     const headers = new HttpHeaders({
-      'X-API-Key': this.apiKey, // Az API kulcs itt szerepel
+      'X-API-Key': this.apiKey,
     });
   
-    this.httpClient.get<any>(apiUrl, { headers }).subscribe((data) => {
-      if (data && data.items && data.items.length > 0) {
-        // Az API válaszában az étel adatainak tárolása
-        this.mealData[meal] = {
-          calories: data.items[0].calories,
-          serving_size_g: data.items[0].serving_size_g,
-          fat_total_g: data.items[0].fat_total_g,
-          protein_g: data.items[0].protein_g,
-          sodium_mg: data.items[0].sodium_mg,
-          potassium_mg: data.items[0].potassium_mg,
-          cholesterol_mg: data.items[0].cholesterol_mg,
-          carbohydrates_total_g: data.items[0].carbohydrates_total_g,
-          fiber_g: data.items[0].fiber_g,
-          sugar_g: data.items[0].sugar_g,
-        };
-        console.log('API hivasa sikeres -1 ');
-      } else {
-        console.log('Nem található kalória adat az ételhez');
+    this.httpClient.get<any>(apiUrl, { headers }).subscribe(
+      (data) => {
+        if (data && data.items && data.items.length > 0) {
+          // Étkezési adatok tárolása
+          this.mealData[meal] = {
+            calories: data.items[0].calories,
+            serving_size_g: data.items[0].serving_size_g,
+            fat_total_g: data.items[0].fat_total_g,
+            protein_g: data.items[0].protein_g,
+            sodium_mg: data.items[0].sodium_mg,
+            potassium_mg: data.items[0].potassium_mg,
+            cholesterol_mg: data.items[0].cholesterol_mg,
+            carbohydrates_total_g: data.items[0].carbohydrates_total_g,
+            fiber_g: data.items[0].fiber_g,
+            sugar_g: data.items[0].sugar_g,
+          };
+        } else {
+          console.warn(`Nincs adat az ételhez: ${meal}`);
+        }
+      },
+      (error) => {
+        console.error('Hiba az API hívásban:', error);
       }
-    }, error => {
-      console.error('Hiba az API hívásban:', error);
-    });
+    );
   }
   
   // Az étel kiválasztásakor hívjuk meg a kalória lekérést
@@ -82,6 +86,15 @@ export class DietPlanComponent implements OnInit {
     if (!this.mealData[meal]) {
       this.getMealCalories(meal); // Ha még nem történt adatlekérés, kérjük le az adatokat
     }
+  }
+
+  setMealAmount(meal:string, amount: number){
+    this.mealAmounts[meal]=amount;
+  }
+
+  addMeal(meal: string) {
+    const amount = this.mealAmounts[meal]; // Beolvasás a gramm mezőből
+    this.getMealCalories(meal, amount); // API hívás az adott mennyiséggel
   }
 
   // Nap kiválasztása
@@ -100,11 +113,10 @@ export class DietPlanComponent implements OnInit {
   }
 
   addToDiet(meal: string, calories: number) {
-    const existingMeal = this.dietPlan.find(m => m.name === meal);
+    const existingMeal = this.dietPlan.find((m) => m.name === meal);
     if (!existingMeal) {
-      this.dietPlan.push({ name: meal, calories: calories });
+      this.dietPlan.push({ name: meal, calories });
     } else {
-      // Üzenet beállítása és modális megjelenítése
       this.errorMessage = `A(z) "${meal}" már szerepel az étrendedben!`;
       this.showModal = true;
     }
@@ -150,7 +162,7 @@ export class DietPlanComponent implements OnInit {
   }
 
   getTotalCalories() {
-    return this.dietPlan.reduce((total, meal) => total + meal.calories, 0);
+    return Math.round(this.dietPlan.reduce((total, meal) => total + meal.calories, 0));
   }
 
   closeModal() {

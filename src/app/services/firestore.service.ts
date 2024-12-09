@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc, getDoc, QuerySnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, getDocs, setDoc, doc, updateDoc, deleteDoc, getDoc, QuerySnapshot, Timestamp } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 import { Exercise, UserData, WorkoutPlan, WorkoutSession } from '../user-data.model';
 
@@ -347,6 +347,7 @@ export class FirestoreService {
   }
 
 
+  
  /* async saveFavoriteRecipe(recipeName: string, userEmail: string): Promise<void> {
     const favoritesCollection = collection(this.firestore, 'favorites');
     await addDoc(favoritesCollection, {
@@ -478,12 +479,15 @@ getFavorites(email: string): Observable<string[]> {
 
 
 
-async addFavorite(userEmail: string, recipeName: string): Promise<void> {
+async addFavorite(userEmail: string, recipeName: string, imageUrl: string, description: string, instructions: string): Promise<void> {
   const favoritesCollection = collection(this.firestore, 'favRecipes');
   try {
     await addDoc(favoritesCollection, {
       userEmail,
       recipeName,
+      imageUrl,
+      description,
+      instructions,
       createdAt: new Date(),
     });
     console.log('Recipe added to favorites!');
@@ -491,6 +495,7 @@ async addFavorite(userEmail: string, recipeName: string): Promise<void> {
     console.error('Error adding favorite recipe:', error);
   }
 }
+
 
 async removeFavorite(userEmail: string, recipeName: string): Promise<void> {
   const favoritesCollection = collection(this.firestore, 'favRecipes');
@@ -510,6 +515,55 @@ async removeFavorite(userEmail: string, recipeName: string): Promise<void> {
     console.error('Error removing favorite recipe:', error);
   }
 }
+async updateBMI(userEmail: string, bmi: number): Promise<void> {
+  const usersRef = collection(this.firestore, 'users');
+  const q = query(usersRef, where('email', '==', userEmail));
+
+  try {
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      const userDocRef = doc(this.firestore, 'users', docId);
+
+      // Frissítjük a BMI értékét a Firestore-ban
+      await updateDoc(userDocRef, {
+        bmi: bmi
+      });
+
+      console.log('BMI sikeresen frissítve!');
+    } else {
+      console.error('Nem található felhasználó a BMI frissítéséhez');
+    }
+  } catch (error) {
+    console.error('Hiba történt a BMI frissítésekor:', error);
+  }
+}
+  getWorkoutSessions(userEmail: string): Observable<WorkoutSession[]> {
+    const workoutSessionsCollection = collection(this.firestore, 'workoutSessions');
+    const q = query(workoutSessionsCollection, where('userEmail', '==', userEmail));
+  
+    return new Observable<WorkoutSession[]>((observer) => {
+      getDocs(q).then((querySnapshot) => {
+        const sessions: WorkoutSession[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data() as WorkoutSession;
+          
+          // Check if createdAt is a Firestore Timestamp and convert to Date
+          if (data.createdAt instanceof Timestamp) {
+            data.createdAt = data.createdAt.toDate();
+          }
+  
+          sessions.push(data);
+        });
+        observer.next(sessions);
+        observer.complete();
+      }).catch((error) => {
+        console.error('Error fetching workout sessions:', error);
+        observer.next([]);
+        observer.complete();
+      });
+    });
+  }
 
   
 }

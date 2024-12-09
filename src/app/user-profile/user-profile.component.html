@@ -33,6 +33,7 @@
     <div class="data-item" *ngFor="let item of [
       { label: 'Súly', value: userData.weight ? userData.weight + ' kg' : '-' },
       { label: 'Magasság', value: userData.height ? userData.height + ' cm' : '-' },
+      {label: 'BMI', value:userData.bmi ? userData.bmi : '-'},
       { label: 'Kor', value: userData.age ? userData.age + ' év' : '-' },
       { label: 'Edzési cél', value: getGoal(userData.goal) || '-' },
       { label: 'Aktivitási szint', value: getActivityLevel(userData.activityLevel) || '-' },
@@ -45,7 +46,7 @@
     <h3 class="section-title">Kedvenc receptek</h3>
     <div *ngIf="favRecipes$ | async as favRecipes; else noRecipes">
       <div *ngFor="let recipe of favRecipes" class="recipe-card">
-        <img [src]="recipe.recipeImage" alt="{{ recipe.recipeName }}" class="recipe-image" />
+        <img [src]="recipe.imageUrl" alt="{{ recipe.recipeName }}" class="recipe-image" />
         <h4 class="recipe-name">{{ recipe.recipeName }}</h4>
         <p class="recipe-description">{{ recipe.description }}</p>
         <button (click)="viewRecipe(recipe)" class="view-recipe-button">Recept megtekintése</button>
@@ -145,6 +146,37 @@
         <p>Nincsenek mentett egyedi étrendjeid.</p>
       </ng-template>
     </div>
+    <!-- Edzés történet -->
+    <div class="workout-history-container" *ngIf="workoutSessions$ | async as workoutSessions; else noWorkouts">
+      <h2 class="section-title">Edzés Történet</h2>
+      <div *ngIf="workoutSessions.length > 0; else noSessions">
+        <div *ngFor="let session of workoutSessions" class="workout-session-card">
+          <div class="workout-session-header">
+            <strong>Edzés neve:</strong> {{ session.workoutName }}
+            <span class="workout-duration">{{ session.duration | number:'1.1-1' }} perc</span>
+
+          </div>
+          <ul>
+            <li *ngFor="let exercise of session.exercises">
+              <strong>{{ exercise.name }}</strong>: 
+              {{ exercise.sets }} szett, {{ exercise.reps }} ismétlés
+            </li>
+          </ul>
+          <div class="workout-session-footer">
+            <strong>Edzés ideje:</strong> {{ session.createdAt | date: 'short' }}
+          </div>
+          
+        </div>
+      </div>
+      <ng-template #noSessions>
+        <p>Nincsenek edzések.</p>
+      </ng-template>
+    </div>
+    
+<ng-template #noWorkouts>
+  <p>Edzésadatok betöltése...</p>
+</ng-template>
+
     
     <ng-template #loadingCustomDiets>
       <p>Betöltés folyamatban...</p>

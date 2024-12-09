@@ -1,57 +1,47 @@
 <div class="workout-session-container">
-    <h2>Edzés: {{ selectedDay }}</h2>
-  
-    <div class="exercises">
-      <h3>Gyakorlatok:</h3>
-      <ul>
-        <li *ngFor="let exercise of exercises; let i = index">
-          <strong>{{ exercise.name }}</strong>
-  
-          <div *ngIf="!isWorkoutStarted">
-       
-            <p><strong>Cél:</strong> {{ exercise.sets }} sorozat, {{ exercise.reps }} ismétlés</p>
-          </div>
-  
-          <div *ngIf="completedWorkout">
-       
-            <label for="sets-{{i}}">Szettek:</label>
-            <input 
-              type="number" 
-              id="sets-{{i}}" 
-              [(ngModel)]="workoutResults[i].sets"
-              min="0" 
-              max="{{exercise.sets}}" />
-            <label for="reps-{{i}}">Ismétlések:</label>
-            <input 
-              type="number" 
-              id="reps-{{i}}" 
-              [(ngModel)]="workoutResults[i].reps"
-              min="0" 
-              max="{{exercise.reps}}" />
-          </div>
-        </li>
-      </ul>
-    </div>
-  
-    <div class="workout-header">
-      <div class="timer">
-        <h3>Eltelt idő: {{ getFormattedTime() }}</h3>
-      </div>
-      <div class="buttons">
-        <button *ngIf="!isWorkoutStarted" (click)="startWorkout()" class="start-btn">Indítás</button>
-        <button *ngIf="isWorkoutStarted && !isPaused" (click)="pauseWorkout()" class="pause-btn">Szünet</button>
-        <button *ngIf="isPaused" (click)="resumeWorkout()" class="resume-btn">Folytatás</button>
-        <button *ngIf="isWorkoutStarted" (click)="endWorkout()" class="stop-btn">Leállítás</button>
-      </div>
-    </div>
-  
+  <h2>Edzés: {{ selectedDay }}</h2>
 
-    <div *ngIf="!isWorkoutStarted && completedWorkout">
-      <h3>Edzés befejezve!</h3>
-      <p>Gratulálok! Az edzés befejeződött.</p>
-      <p>Idő eltelt: {{ getFormattedTime() }}</p>
-  
-      <button (click)="saveWorkoutSession()">Eredmények mentése</button>
+  <div class="exercises">
+    <h3>Gyakorlatok:</h3>
+    <ul>
+      <li *ngFor="let exercise of exercises; let i = index">
+        <strong>{{ exercise.name }}</strong>
+
+        <div *ngIf="!isWorkoutStarted">
+          <p><strong>Cél:</strong> {{ exercise.sets }} sorozat, {{ exercise.reps }} ismétlés</p>
+        </div>
+
+        <div *ngIf="completedWorkout">
+          <label for="sets-{{i}}">Szettek:</label>
+          <input type="number" id="sets-{{i}}" [(ngModel)]="workoutResults[i].sets" min="0" max="{{exercise.sets}}" />
+          <label for="reps-{{i}}">Ismétlések:</label>
+          <input type="number" id="reps-{{i}}" [(ngModel)]="workoutResults[i].reps" min="0" max="{{exercise.reps}}" />
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="workout-header">
+    <div class="timer">
+      <h3>Eltelt idő: {{ getFormattedTime() }}</h3>
+    </div>
+    <div class="buttons">
+      <button *ngIf="!isWorkoutStarted" (click)="startWorkout()" class="start-btn">Indítás</button>
+      <button *ngIf="isWorkoutStarted && !isPaused" (click)="pauseWorkout()" class="pause-btn">Szünet</button>
+      <button *ngIf="isPaused" (click)="resumeWorkout()" class="resume-btn">Folytatás</button>
+      <button *ngIf="isWorkoutStarted" (click)="endWorkout()" class="stop-btn">Leállítás</button>
     </div>
   </div>
-  
+
+  <div *ngIf="!isWorkoutStarted && completedWorkout" class="completed-workout-message">
+    <h3>Edzés befejezve!</h3>
+    <p>Gratulálok! Az edzés befejeződött.</p>
+    <p>Az edzésed hossza: {{ getFormattedTime() }}</p>
+
+    <button (click)="saveWorkoutSession()" class="save-btn" [disabled]="!isWorkoutValid()">Eredmények mentése</button>
+  </div>
+
+  <div *ngIf="saveStatus" class="save-status" [ngClass]="{'success': saveStatus.success, 'error': !saveStatus.success}">
+    <p>{{ saveStatus.message }}</p>
+  </div>
+</div>

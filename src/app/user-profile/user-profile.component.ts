@@ -4,7 +4,7 @@ import { FirestoreService } from '../services/firestore.service';
 import { map, Observable, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserData, WorkoutPlan } from '../user-data.model';
+import { UserData, WorkoutPlan, WorkoutSession } from '../user-data.model';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -21,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   dietPlans$: Observable<any[]> = of([]);
   editingPlans: WorkoutPlan[] = [];
   workoutPlans: WorkoutPlan[] = [];
+  workoutSessions$: Observable<WorkoutSession[]> = new Observable();
   costumDiet:[]=[];
   favRecipes$: Observable<any[]> = of([]);
   costumDiets$: Observable<any[]> = of([]);  stepCount: number = 0;
@@ -47,18 +48,22 @@ sections = {
     this.authService.user$.subscribe((user) => {
       if (user && user.email) {
         this.loadUserData(user.email);
+        this.firestoreService.getWorkoutSessions(user.email).subscribe(sessions => {
+          console.log('Workout Sessions:', sessions);
+        });
       } else {
         this.resetUserData();
       }
     });
     this.startStepCounter();
   }
+  
 
   private loadUserData(email: string) {
     this.userData$ = this.firestoreService.getUserData(email);
     this.favRecipes$ = this.firestoreService.getFavRecipes(email);
     this.costumDiets$ = this.firestoreService.getCostumDiet(email);
-    
+    this.workoutSessions$ = this.firestoreService.getWorkoutSessions(email);
 
     this.workoutPlans$ = this.firestoreService.getWorkoutPlans(email).pipe(
       map((plans) => {
@@ -75,6 +80,7 @@ sections = {
       })
     );
     
+    
    
 
     this.userData$.subscribe((userData) => {
@@ -89,6 +95,7 @@ sections = {
     this.selectedInstruction = instruction;
     this.isModalOpen = true;
   }
+  
   closeModal() {
     this.isModalOpen = false;
   }
@@ -128,7 +135,7 @@ sections = {
   }
   viewRecipe(recipe: any) {
     // Here you can display the recipe instructions in a modal or a new view
-    alert(`Recept: ${recipe.recipeName}\n\n${recipe.recipeInstruction}`);
+    alert(`Recept: ${recipe.recipeName}\n\n${recipe.instructions}`);
   }
 
   private resetUserData() {

@@ -42,18 +42,43 @@
     </div>
   </div>
 
-  <!-- Ételek megjelenítése -->
   <div class="meals-container" *ngIf="selectedMealTime && selectedDay">
     <h4>{{ selectedMealTime }} - {{ selectedDay }}</h4>
     <div class="meal-cards">
-      <div 
-        *ngFor="let meal of meals[selectedMealTime]" 
-        class="meal-card" 
-        (click)="selectMeal(meal)">
+      <div *ngFor="let meal of meals[selectedMealTime]" class="meal-card">
         <p>{{ translateMeal(meal) }}</p>
+        
+        <!-- Gramm beviteli mező -->
+        <input 
+          type="number" 
+          [(ngModel)]="mealAmounts[meal]" 
+          placeholder="Gramm" 
+          min="1"
+        />
+  
+        <!-- Hozzáadás gomb a mennyiséghez -->
+        <button (click)="addMeal(meal)">Hozzáadás</button>
+        
+        <!-- Étkezési információ -->
+        <div *ngIf="mealData[meal]">
+          <ul>
+            <li>Kalória: {{ mealData[meal].calories }}</li>
+            <li>Adag mérete: {{ mealData[meal].serving_size_g }} g</li>
+            <li>Fehérje: {{ mealData[meal].protein_g }} g</li>
+            <li>Zsír: {{ mealData[meal].fat_total_g }} g</li>
+            <li>Szénhidrát: {{ mealData[meal].carbohydrates_total_g }} g</li>
+            <li>Cukor: {{ mealData[meal].sugar_g }} g</li>
+          </ul>
+        </div>
+  
+        <!-- Hozzáadás az étrendhez gomb -->
+        <button 
+          *ngIf="mealData[meal]" 
+          (click)="addToDiet(meal, mealData[meal].calories)">
+          Hozzáadás az étrendhez
+        </button>
       </div>
     </div>
-    
   </div>
 
   <!-- Ételtípus adatainak megjelenítése -->
@@ -78,7 +103,7 @@
 
   <!-- Diétás terv megjelenítése -->
   <div *ngIf="dietPlan.length > 0" class="diet-plan">
-    <h4>Aktuális Diétás Terv</h4>
+    <h4>Étrended:</h4>
     <ul>
       <li *ngFor="let meal of dietPlan">
         {{ meal.name }} - {{ meal.calories }} kcal

@@ -623,3 +623,33 @@ a:hover {
     font-size: 0.9rem;
   }
 }
+.workout-history-container {
+  margin-top: 20px;
+}
+
+.workout-session-card {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.workout-session-header {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.workout-session-footer {
+  margin-top: 10px;
+  color: #888;
+}
+
+.workout-duration {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.workout-session-card ul {
+  list-style-type: none;
+  padding-left: 0;
+}

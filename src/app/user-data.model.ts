@@ -1,5 +1,6 @@
 // user-data.model.ts
 export interface UserData {
+    bmi: any;
     firstName: string;
     lastName: string;
     weight: number;
@@ -35,6 +36,7 @@ export interface UserData {
     day: string;
     exercises: { name: string, reps: number, sets: number }[];
     sessionDate: any; // timestamp for when the session occurred
+    createdAt: Date;
     duration: number; // duration of the session in minutes
   }
   

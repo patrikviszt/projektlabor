@@ -23,6 +23,7 @@ export class WorkoutSessionComponent implements OnInit {
   completedWorkout: boolean = false;
   workoutResults: any[] = []; 
   userEmail: string = '';
+  saveStatus: { success: boolean, message: string } | null = null;
 
   private workoutTimer$: any;
 
@@ -50,7 +51,9 @@ export class WorkoutSessionComponent implements OnInit {
     });
   
   }
-
+  isWorkoutValid(): boolean {
+    return this.workoutResults.every(result => result.sets > 0 && result.reps > 0);
+  }
   startWorkout() {
     if (this.isWorkoutStarted) {
       return; 
@@ -101,6 +104,10 @@ export class WorkoutSessionComponent implements OnInit {
 
   }
   saveWorkoutSession() {
+    if (!this.isWorkoutValid()) {
+      this.saveStatus = { success: false, message: 'Valami még nincs kitöltve. Kérlek, töltsd ki a szettek és ismétlések számát!' };
+      return;
+    }
 
     const workoutSessionData = {
       exercises: this.workoutResults.map(exercise => ({
@@ -108,20 +115,19 @@ export class WorkoutSessionComponent implements OnInit {
         reps: exercise.reps,
         sets: exercise.sets,
       })),
-      duration: this.elapsedTime / 60, 
-      createdAt: new Date(), 
+      duration: this.elapsedTime / 60,
+      createdAt: new Date(),
     };
-  
-    const userEmail = 'user@example.com'; 
-    const workoutName = `${this.selectedDay} edzésterv`; 
-  
-   
+
+    const workoutName = `${this.selectedDay} edzésterv`;
+
+    // Edzés mentése a Firestore-ba
     this.firestoreService.addWorkoutSession(this.userEmail, workoutName, workoutSessionData)
       .then(() => {
-        console.log('Edzés mentése sikeres!');
+        this.saveStatus = { success: true, message: 'Edzés sikeresen mentve!' };
       })
       .catch(error => {
-        console.error('Hiba történt az edzés mentése során:', error);
+        this.saveStatus = { success: false, message: 'Hiba történt az edzés mentése során.' };
       });
   }
   

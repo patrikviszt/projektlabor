@@ -30,7 +30,8 @@ export class UserInfoComponent implements OnInit {
     age: null,
     goal: '',
     activityLevel: '',
-    workoutPreference: ''
+    workoutPreference: '',
+    bmi:''
   };
 
   constructor(
@@ -83,6 +84,7 @@ console.log('Profile exists:', this.dataExists);
     if (this.validateInputs()) {
       this.generateDefaultWorkoutPlan();
       this.generateDefaultDietPlan();
+      this.calculateBMI();
   
       this.firestoreService.addUserData(this.userData).then(() => {
         this.snackbar.open('Adatok sikeresen mentve!', 'Ok');
@@ -284,47 +286,92 @@ console.log('Profile exists:', this.dataExists);
 
 
 
-generateDefaultDietPlan() {
-  const defaultDietPlan: { [day: string]: string[] } = {};
-
-  const mealsMapping: { [goal: string]: { [mealTime: string]: string[] } } = {
-    weight_loss: {
-      Reggeli: ['Zabkása', 'Gyümölcs turmix', 'Főtt tojás'],
-      Ebéd: ['Csirke rizs', 'Grillezett lazac', 'Sült zöldségek'],
-      Vacsora: ['Leves', 'Saláta tonhallal', 'Zöldségleves']
-    },
-    muscle_gain: {
-      Reggeli: ['Tükörtojás', 'Fehérjeturmix', 'Rántotta'],
-      Ebéd: ['Tészta', 'Csirke steak', 'Marha steak'],
-      Vacsora: ['Grillezett zöldségek', 'Sült csirke', 'Omelette']
-    },
-    healthy: {
-      Reggeli: ['Gyümölcs smoothie', 'Zabkása dióval', 'Avokádós pirítós'],
-      Ebéd: ['Quinoa saláta', 'Grillezett csirke saláta', 'Zöldséges wrap'],
-      Vacsora: ['Sült hal', 'Töltött paprika', 'Sütőtökkrémleves']
+  generateDefaultDietPlan() {
+    const defaultDietPlan: { [day: string]: string[] } = {};
+  
+    const mealsMapping: { [goal: string]: { [activityLevel: string]: { [mealTime: string]: string[] } } } = {
+      weight_loss: {
+        low: {
+          Reggeli: ['Zabkása', 'Gyümölcs turmix', 'Főtt tojás', 'Joghurt granolával', 'Túrós piték', 'Teljes kiőrlésű pirítós avokádóval', 'Almával töltött túró', 'Omelette', 'Főtt tojásos saláta', 'Kávé mandulatejjel'],
+          Ebéd: ['Csirke rizs', 'Grillezett lazac', 'Sült zöldségek', 'Grillezett pulyka', 'Töltött paprika', 'Cukkinis rakottas', 'Zöldség curry', 'Quinoa saláta', 'Zöldséges rizs', 'Csirke saláta'],
+          Vacsora: ['Leves', 'Saláta tonhallal', 'Zöldségleves', 'Tonhal saláta', 'Töltött paradicsom', 'Könnyű zöldséges pörkölt', 'Fokhagymás zöldségek', 'Vörös lencse leves', 'Párolt zöldségek', 'Sült hal salátával']
+        },
+        medium: {
+          Reggeli: ['Zabkása', 'Avokádós pirítós', 'Gyümölcs smoothie', 'Képviselőfánk', 'Kókuszos túró', 'Banános palacsinta', 'Pancake', 'Zöldséges omlett', 'Görög joghurt', 'Túrós palacsinta'],
+          Ebéd: ['Csirke quinoa', 'Grillezett hal', 'Pulyka saláta', 'Sült pulyka', 'Csirke steak', 'Lazacos wrap', 'Grillezett csirke wrap', 'Tenger gyümölcsei saláta', 'Saláta pulykával', 'Sült zöldségek'],
+          Vacsora: ['Könnyű zöldség leves', 'Töltött paprika', 'Saláta fetával', 'Tonhal pörkölt', 'Fűszeres túró', 'Rizstészta pulykával', 'Grillezett zöldségek', 'Töltött padlizsán', 'Cukkini lecsó', 'Sült tofu']
+        },
+        high: {
+          Reggeli: ['Főtt tojás', 'Gyümölcs turmix', 'Kétszersült', 'Müzli', 'Túrós piték', 'Almával töltött túró', 'Kávé tejhabbal', 'Rántotta szalonnával', 'Avokádós smoothie', 'Tükörtojás'],
+          Ebéd: ['Csirke saláta', 'Grillezett pulyka', 'Sült zöldségek', 'Grillezett lazac', 'Lazacos wrap', 'Quinoa saláta', 'Grillezett zöldségek', 'Fűszeres csirke', 'Fokhagymás hal', 'Zöldséges pulyka pörkölt'],
+          Vacsora: ['Leves', 'Zöldséges wrap', 'Pikáns tonhal saláta', 'Grillezett csirke', 'Csirke saláta', 'Grillezett lazac', 'Sült brokkoli', 'Quinoa és zöldség tál', 'Saláta tonhallal', 'Sült pulyka']
+        }
+      },
+      muscle_gain: {
+        low: {
+          Reggeli: ['Tükörtojás', 'Fehérjeturmix', 'Rántotta', 'Omelette', 'Túró', 'Kétszersült túróval', 'Főtt tojásos saláta', 'Túróval töltött palacsinta', 'Túrós palacsinta', 'Banános zabkása'],
+          Ebéd: ['Tészta', 'Csirke steak', 'Marha steak', 'Grillezett csirke', 'Füstölt hal', 'Köleses pulyka', 'Grillezett lazac', 'Burgonyás rakottas', 'Tojásos saláta', 'Sült marha'],
+          Vacsora: ['Grillezett zöldségek', 'Sült csirke', 'Omelette', 'Túró', 'Tésztasaláta', 'Sült lazac', 'Fehérjés wrap', 'Pulyka ragu', 'Zöldséges rizottó', 'Marhahúsos rakottas']
+        },
+        medium: {
+          Reggeli: ['Fehérjeturmix', 'Rántotta', 'Tükörtojás', 'Zabkása fehérjével', 'Banános palacsinta', 'Grillezett sajt', 'Főtt tojás', 'Fűszeres túró', 'Fehérje shake', 'Túró rudi'],
+          Ebéd: ['Marha steak', 'Grillezett csirke', 'Tészta pulykával', 'Grillezett lazac', 'Marha pörkölt', 'Rizs csirkével', 'Pulyka steak', 'Marhasült', 'Grillezett hal', 'Quinoa saláta'],
+          Vacsora: ['Tökéletes zöldségek', 'Sült marha', 'Sült csirke', 'Fűszeres lazac', 'Csirke wrap', 'Marhasült', 'Grillezett csirke', 'Túrós palacsinta', 'Fehérjeturmix', 'Grillezett pulyka']
+        },
+        high: {
+          Reggeli: ['Omelette', 'Főtt tojás', 'Fehérjeturmix', 'Rántotta', 'Baconos tojás', 'Zabkása fehérjével', 'Kókuszos tojás', 'Banános shake', 'Almás túró', 'Túrókrém'],
+          Ebéd: ['Marha steak', 'Grillezett csirke', 'Pulykás tészta', 'Lazac steak', 'Sült marha', 'Tészta pulykával', 'Csirke saláta', 'Grillezett hal', 'Pulykás wrap', 'Fűszeres marha'],
+          Vacsora: ['Sült csirke', 'Grillezett lazac', 'Marha saláta', 'Sült pulyka', 'Marhás pörkölt', 'Grillezett csirke saláta', 'Marha burger', 'Túróval töltött csirke', 'Pulykás rakottas', 'Zöldséges lazac']
+        }
+      },
+      healthy: {
+        low: {
+          Reggeli: ['Gyümölcs smoothie', 'Zabkása dióval', 'Avokádós pirítós', 'Teljes kiőrlésű pirítós', 'Túrós zabkása', 'Müzli', 'Tojásos saláta', 'Főtt tojás', 'Rántotta', 'Almával túró'],
+          Ebéd: ['Quinoa saláta', 'Grillezett csirke saláta', 'Zöldséges wrap', 'Vega burger', 'Grillezett pulyka', 'Csirke tál zöldségekkel', 'Sült lazac', 'Zöldséges saláta', 'Hummuszos wrap', 'Töltött paprika'],
+          Vacsora: ['Sült hal', 'Töltött paprika', 'Sütőtökkrémleves', 'Töltött cukkini', 'Zöldségleves', 'Grillezett pulyka', 'Zöldség pörkölt', 'Töltött paradicsom', 'Quinoa zöldségekkel', 'Párolt zöldségek']
+        },
+        medium: {
+          Reggeli: ['Zabkása', 'Sült tojás', 'Töltött avokádó', 'Banános palacsinta', 'Müzli', 'Zöldséges omlett', 'Túróval töltött pirítós', 'Zöldséges tojás', 'Tökéletes zabkása', 'Gyümölcsös joghurt'],
+          Ebéd: ['Csirke saláta', 'Kéksajtos zöldségek', 'Zöldségleves', 'Sült lazac', 'Saláta zöldségekkel', 'Hummuszos wrap', 'Quinoa wrap', 'Cézár saláta', 'Zöldség curry', 'Pulyka saláta'],
+          Vacsora: ['Grillezett csirke', 'Saláta zöldségekkel', 'Töltött paprika', 'Zöldséges rizs', 'Töltött cukkini', 'Grillezett pulyka', 'Töltött gomba', 'Sült zöldségek', 'Minestrone leves', 'Fűszeres tofu']
+        },
+        high: {
+          Reggeli: ['Sült tojás', 'Sült avokádó', 'Gyümölcsös zabkása', 'Kókuszos túró', 'Banános zabkása', 'Tökéletes smoothie', 'Müzli', 'Avokádós pirítós', 'Friss gyümölcs', 'Pancake'],
+          Ebéd: ['Csirke wrap', 'Grillezett lazac', 'Kéksajtos saláta', 'Lazacos tészta', 'Töltött paprika', 'Quinoa saláta', 'Fűszeres hal', 'Töltött padlizsán', 'Sült csirke', 'Zöldség tál'],
+          Vacsora: ['Töltött paprika', 'Zöldségleves', 'Sült hal', 'Sütőtökkrémleves', 'Fűszeres csirke', 'Zöldséges wrap', 'Sült csirke saláta', 'Fokhagymás zöldségek', 'Grillezett lazac', 'Zöldséges pörkölt']
+        }
+      }
+    };
+  
+    // BMI és aktivitási szint alapján
+    const { bmi, activity_level } = this.userData;
+  
+    let goal = 'healthy'; // Alapértelmezett cél
+    if (bmi >= 25) {
+      goal = 'weight_loss'; // Ha magas a BMI, akkor fogyás
+    } else if (bmi <= 18.5) {
+      goal = 'muscle_gain'; // Ha alacsony a BMI, akkor izmosodás
     }
-  };
-
-  for (const day of this.daysOfWeek) {
-    defaultDietPlan[day] = [];
-    const mealsForGoal = mealsMapping[this.userData.goal] || mealsMapping['healthy'];
-
-    for (const mealTime of this.mealTimes) {
-     
-      const mealOptions = mealsForGoal[mealTime];
-      if (mealOptions && mealOptions.length > 0) {
-        const randomMeal = mealOptions[Math.floor(Math.random() * mealOptions.length)];
-        defaultDietPlan[day].push(randomMeal);
+  
+    // Kiválasztjuk az aktivitási szinthez tartozó étrendet
+    const mealsForGoalAndActivity = mealsMapping[goal][activity_level] || mealsMapping['healthy']['medium'];
+  
+    for (const day of this.daysOfWeek) {
+      defaultDietPlan[day] = [];
+      for (const mealTime of this.mealTimes) {
+        const mealOptions = mealsForGoalAndActivity[mealTime];
+        if (mealOptions && mealOptions.length > 0) {
+          const randomMeal = mealOptions[Math.floor(Math.random() * mealOptions.length)];
+          defaultDietPlan[day].push(randomMeal);
+        }
       }
     }
+  
+    this.dietPlan = defaultDietPlan;
+    console.log('Generált étrend:', this.dietPlan);
+  
+    this.saveDietPlan();
   }
-
-  this.dietPlan = defaultDietPlan;
-  console.log('Generált étrend:', this.dietPlan);
-
-
-  this.saveDietPlan();
-}
 
 
 
@@ -363,6 +410,40 @@ async saveDietPlan() {
     console.error('Felhasználói ID vagy email hiányzik. Kérjük, győződjön meg arról, hogy a felhasználó be van jelentkezve.');
   }
 }
+
+
+async calculateBMI() {
+  const { weight, height, email } = this.userData;
+
+  if (weight && height) {
+    // A magasságot méterben kell megadni
+    const heightInMeters = height / 100;
+    const bmi = weight / (heightInMeters * heightInMeters);
+    this.userData.bmi = bmi.toFixed(2); // BMI két tizedesjegyre kerekítve
+
+    console.log(`Kiszámított BMI: ${this.userData.bmi}`);
+
+    // BMI frissítése a Firestore-ban
+    try {
+      await this.firestoreService.updateBMI(email, parseFloat(this.userData.bmi));
+      console.log('BMI sikeresen frissítve a Firestore-ban!');
+    } catch (error) {
+      console.error('Hiba történt a BMI frissítésekor:', error);
+    }
+
+  } else {
+    console.error('Súly vagy magasság hiányzik a BMI számításhoz.');
+  }
+}
+
+
+
+
+
+
+
+
+
 
 
 
