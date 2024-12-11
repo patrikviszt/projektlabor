@@ -1,19 +1,7 @@
+<div class="body">
+<div *ngIf="currentView === 'diet-creation'">
 
 
-
-<div class="diet-plan-container">
-  <!-- Étrend neve mező -->
-  <div class="diet-name">
-    <label for="dietName"><strong>Étrended neve: </strong></label>
-    <input
-      type="text"
-      id="dietName"
-      [(ngModel)]="dietName"
-      placeholder="Add meg az étrended nevét"
-      required
-    />
-  </div>
-  
   <!-- Nap kiválasztása -->
   <div class="day-selector">
     <h3>Válassz egy napot</h3>
@@ -42,8 +30,9 @@
     </div>
   </div>
 
+  <!-- Étkezések és ételek megjelenítése -->
   <div class="meals-container" *ngIf="selectedMealTime && selectedDay">
-    <h4>{{ selectedMealTime }} - {{ selectedDay }}</h4>
+    <h4>{{ selectedMealTime }}</h4>
     <div class="meal-cards">
       <div *ngFor="let meal of meals[selectedMealTime]" class="meal-card">
         <p>{{ translateMeal(meal) }}</p>
@@ -57,7 +46,7 @@
         />
   
         <!-- Hozzáadás gomb a mennyiséghez -->
-        <button (click)="addMeal(meal)">Hozzáadás</button>
+        <button (click)="addMeal(meal)">Részletek</button>
         
         <!-- Étkezési információ -->
         <div *ngIf="mealData[meal]">
@@ -81,35 +70,27 @@
     </div>
   </div>
 
-  <!-- Ételtípus adatainak megjelenítése -->
- <!-- Ételtípus adatainak megjelenítése -->
- <div *ngIf="selectedMeal && mealData[selectedMeal]" class="meal-details">
-  <h4>{{ translateMeal(selectedMeal) }}</h4>
-  <ul>
-    <li><strong>Kalória:</strong> {{ mealData[selectedMeal].calories }} kcal</li>
-    <li><strong>Adag méret:</strong> {{ mealData[selectedMeal].serving_size_g }} g</li>
-    <li><strong>Teljes zsír:</strong> {{ mealData[selectedMeal].fat_total_g }} g</li>
-    <li><strong>Fehérje:</strong> {{ mealData[selectedMeal].protein_g }} g</li>
-    <li><strong>Só:</strong> {{ mealData[selectedMeal].sodium_mg }} mg</li>
-    <li><strong>Kálium:</strong> {{ mealData[selectedMeal].potassium_mg }} mg</li>
-    <li><strong>Koleszterin:</strong> {{ mealData[selectedMeal].cholesterol_mg }} mg</li>
-    <li><strong>Szénhidrát:</strong> {{ mealData[selectedMeal].carbohydrates_total_g }} g</li>
-    <li><strong>Rost:</strong> {{ mealData[selectedMeal].fiber_g }} g</li>
-    <li><strong>Cukor:</strong> {{ mealData[selectedMeal].sugar_g }} g</li>
-  </ul>
-  <button (click)="addToDiet(selectedMeal, mealData[selectedMeal].calories)">Hozzáadás az étrendhez</button>
-</div>
-
-
   <!-- Diétás terv megjelenítése -->
   <div *ngIf="dietPlan.length > 0" class="diet-plan">
     <h4>Étrended:</h4>
     <ul>
       <li *ngFor="let meal of dietPlan">
-        {{ meal.name }} - {{ meal.calories }} kcal
+        {{ translateMeal(meal.name) }} - {{ meal.calories }} kcal
         <button (click)="removeFromDiet(meal)">Eltávolítás</button>
       </li>
     </ul>
+    <div class="diet-plan-container">
+      <!-- Étrend neve mező -->
+      <div class="diet-name">
+        <label for="dietName"><strong>Étrended neve: </strong></label>
+        <input
+          type="text"
+          id="dietName"
+          [(ngModel)]="dietName"
+          placeholder="Add meg az étrended nevét"
+          required
+        />
+      </div>
     <div class="total-calories">
       <p><strong>Kalóriaszámláló: </strong>{{ getTotalCalories() }} kcal</p>
     </div>
@@ -117,7 +98,7 @@
   </div>
 </div>
 
-
+<!-- Sikeres mentés modal -->
 <div *ngIf="showSuccessModal" class="modal">
   <div class="modal-content">
     <span class="close" (click)="closeSuccessModal()">×</span>
@@ -126,7 +107,7 @@
   </div>
 </div>
 
-
+<!-- Hiba modal -->
 <div *ngIf="showModal" class="modal">
   <div class="modal-content">
     <span class="close" (click)="closeModal()">×</span>
@@ -134,3 +115,62 @@
     <button (click)="closeModal()">Rendben</button>
   </div>
 </div>
+</div>
+
+
+<div *ngIf="currentView === 'diet-display'">
+  <div class="custom-diets-container" *ngIf="costumDiets$ | async as customDiets; else loadingCustomDiets">
+    <h2 class="section-title">Egyedi étrendjeid</h2>
+    <div *ngIf="customDiets.length > 0; else noCustomDiets">
+      <div *ngFor="let diet of customDiets" class="custom-diet-card">
+        <div class="custom-diet-header">
+          <strong>Étrend neve:</strong> {{ diet.dietName || '-' }} 
+          <span *ngIf="diet.selectedDay">({{ diet.selectedDay }})</span> <!-- A nap megjelenítése -->
+        </div>
+        <ul>
+          <li *ngFor="let meal of diet.meals">
+            {{ translateMeal(meal.name) }} - {{ meal.calories }} kcal
+          </li>
+        </ul>
+        <div class="custom-diet-footer">
+          <strong>Összkalória:</strong> {{ diet.totalCalories || 0 }} kcal
+        </div>
+      </div>
+    </div>
+    <ng-template #noCustomDiets>
+      <p>Nincsenek mentett egyedi étrendjeid.</p>
+    </ng-template>
+  </div>
+    <ng-template #loadingCustomDiets>
+      <p>Betöltés folyamatban...</p>
+    </ng-template>
+</div>
+  <!-- RECEPTES RÉSZ -->
+  <div *ngIf="currentView === 'recipes'">
+<div class="section">
+  <h3 class="section-title">Kedvenc receptek</h3>
+  <div *ngIf="favRecipes$ | async as favRecipes; else noRecipes">
+<div class="recipe-card-group">
+    <div *ngFor="let recipe of favRecipes" class="recipe-card">
+
+      <img [src]="recipe.imageUrl" alt="{{ recipe.recipeName }}" class="recipe-image" />
+      <h4 class="recipe-name">{{ recipe.recipeName }}</h4>
+      <p class="recipe-description">{{ recipe.description }}</p>
+      <button (click)="viewRecipe(recipe)" class="receptreszletek">Recept megtekintése</button>
+      
+    </div>
+    </div>
+  </div>
+  <ng-template #noRecipes>
+    <p class="no-recipes">Nincs kedvenc recept.</p>
+  </ng-template>
+</div>
+  </div>
+</div>
+<div class="footer-buttons">
+  <button class="footer-button" (click)="switchToMain()">Létrehozás</button>
+  <button class="footer-button" (click)="switchToCustomDiets()">Étrendjeim</button>
+  <button class="footer-button" (click)="switchToRecipes()">Receptjeim</button>
+</div>
+
+

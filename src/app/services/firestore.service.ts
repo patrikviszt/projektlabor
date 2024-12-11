@@ -8,6 +8,8 @@ import { Exercise, UserData, WorkoutPlan, WorkoutSession } from '../user-data.mo
 })
 export class FirestoreService {
   afAuth: any;
+  authService: any;
+  firestoreService: any;
   constructor(private firestore: Firestore) {}
 
   addUserData(userData: any) {
@@ -335,6 +337,7 @@ export class FirestoreService {
       dietName: costumDietData.dietName,
       meals: costumDietData.meals,
       totalCalories: costumDietData.totalCalories,
+      day: costumDietData.selectedDay,
       createdAt: new Date(),
     };
     try{
@@ -565,5 +568,42 @@ async updateBMI(userEmail: string, bmi: number): Promise<void> {
     });
   }
 
+
+  async updateFireStoreWeight(userEmail: string, updatedWeight: number) {
+    if (updatedWeight === undefined) {
+      console.error("Updated weight is undefined");
+      return;
+    }
   
-}
+    const userDataCollection = collection(this.firestore, 'users');
+    const q = query(userDataCollection, where('email', '==', userEmail));
+  
+    try {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const docId = querySnapshot.docs[0].id;
+        const userDocRef = doc(this.firestore, 'users', docId); // 'users' collection
+  
+        // Logoljunk ki minden információt a frissítés előtt
+        console.log(`Updating weight for user with email: ${userEmail}`);
+        console.log(`New weight: ${updatedWeight}`);
+  
+        // Frissítés a 'weight' mezőre
+        await updateDoc(userDocRef, {
+          updatedWeight: updatedWeight, // Itt a 'weight' mezőt frissítjük
+        });
+  
+        // Logoljunk, ha sikerült a frissítés
+        console.log('User weight updated successfully');
+      } else {
+        console.error('No user found for update');
+      }
+    } catch (error) {
+      console.error('Error updating user weight:', error);
+    }
+  }
+  
+
+
+  }
+

@@ -6,6 +6,10 @@
   </div>
 </ng-template>
 
+
+
+
+
 <div *ngIf="userData$ | async as userData; else notLoggedIn">
 
   <!-- Profil szekció -->
@@ -27,11 +31,34 @@
     </div>
   </div>
 
+
+  <div class="weight-tracker">
+    <h2>Álltál ma már mérlegre?</h2>
+    
+<!-- Súly frissítése szekció -->
+<div class="weight-update-container">
+  <input [(ngModel)]="updatedWeight" placeholder="Add meg a súlyod!" type="number" [value]=""  />
+  <button (click)="updateWeight()">Súly frissítése</button>
+</div>
+
+<div *ngIf="userData.updatedWeight !== null; else noData" class="weight-loss-message-container">
+  <p class="weight-loss-message">
+    Már <strong>{{ userData.weight - userData.updatedWeight }} kg-</strong>t fogytál!
+  </p>
+</div>
+<ng-template #noData>
+  <p>pöcs</p>
+</ng-template>
+
+
+
+
   <!-- Felhasználói adatok -->
   <div class="user-data-container">
     <h2>Adatok:</h2>
     <div class="data-item" *ngFor="let item of [
-      { label: 'Súly', value: userData.weight ? userData.weight + ' kg' : '-' },
+      { label: 'Eredeti súly', value: userData.weight ? userData.weight + ' kg' : '-' },
+      { label: 'Jelenlegi súly', value: userData.updatedWeight ? userData.updatedWeight + ' kg' : '-' },
       { label: 'Magasság', value: userData.height ? userData.height + ' cm' : '-' },
       {label: 'BMI', value:userData.bmi ? userData.bmi : '-'},
       { label: 'Kor', value: userData.age ? userData.age + ' év' : '-' },
@@ -42,6 +69,7 @@
       <strong>{{ item.label }}:</strong> {{ item.value }}
     </div>
   </div>
+  <!--
   <div class="section">
     <h3 class="section-title">Kedvenc receptek</h3>
     <div *ngIf="favRecipes$ | async as favRecipes; else noRecipes">
@@ -49,21 +77,23 @@
         <img [src]="recipe.imageUrl" alt="{{ recipe.recipeName }}" class="recipe-image" />
         <h4 class="recipe-name">{{ recipe.recipeName }}</h4>
         <p class="recipe-description">{{ recipe.description }}</p>
-        <button (click)="viewRecipe(recipe)" class="view-recipe-button">Recept megtekintése</button>
+        <button (click)="viewRecipe(recipe)" class="receptreszletek">Recept megtekintése</button>
+        
+
       </div>
     </div>
     <ng-template #noRecipes>
       <p class="no-recipes">Nincs kedvenc recept.</p>
     </ng-template>
   </div>
-  
+  -->
   <!-- Edzéstervek -->
   <div class="plans-container" *ngIf="workoutPlans$ | async as workoutPlans; else loadingPlans">
     <h2 class="section-title">Edzéstervek</h2>
     <div *ngIf="workoutPlans.length > 0; else noPlans">
       <div *ngFor="let plan of workoutPlans" class="plan-card">
         <div class="plan-header">
-          <h3 class="plan-name">{{ plan.workoutName || 'Névtelen edzésterv' }}</h3>
+          <h3 class="plan-name"><strong>{{ plan.workoutName || 'Névtelen edzésterv' }}</strong></h3>
           <div class="plan-controls">
             <button (click)="removeWorkoutPlan(plan, email)" class="button delete-button">Törlés</button>
             <button (click)="toggleEdit(plan)" class="button edit-button">Módosítás</button>
@@ -72,7 +102,7 @@
         <div class="plan-body">
           <h4 class="exercise-title">Gyakorlatok</h4>
           <div *ngFor="let day of plan.exercises" class="day-section">
-            <div class="day-header">{{ day.day || 'Név nélküli nap' }}</div>
+            <div class="day-header"><strong>{{ day.day || 'Név nélküli nap' }}</strong></div>
             <ul class="exercise-list">
               <li *ngFor="let exercise of day.exercises; let i = index" class="exercise-item">
                 <span class="exercise-name">{{ exercise.name || 'Ismeretlen gyakorlat' }}</span>
@@ -105,7 +135,7 @@
 
    
   <div class="diet-plans-container" *ngIf="dietPlans$ | async as dietPlans; else loadingDietPlans">
-    <h2>Étrendtervek</h2>
+    <h2 class="section-title">Étrendtervek</h2>
     <div *ngIf="dietPlans.length > 0; else noDietPlans">
       <div *ngFor="let plan of dietPlans" class="diet-plan-card">
         <div class="diet-plan-header">
@@ -113,10 +143,10 @@
         </div>
         <ul>
           <div *ngFor="let meal of plan.sortedMeals">
-            <strong>{{ meal.day }}</strong>:
-            Reggeli - {{ meal.breakfast || '-' }},
-            Ebéd - {{ meal.lunch || '-' }},
-            Vacsora - {{ meal.dinner || '-' }}
+            <strong>{{ meal.day }}</strong>:<br>
+            Reggeli - {{ meal.breakfast || '-' }},<br>
+            Ebéd - {{ meal.lunch || '-' }},<br>
+            Vacsora - {{ meal.dinner || '-' }}<br>
           </div>
         </ul>
       </div>
@@ -124,13 +154,14 @@
     <ng-template #noDietPlans>
       <p>Nincsenek étrendtervek.</p>
     </ng-template> 
-
+    <!--
     <div class="custom-diets-container" *ngIf="costumDiets$ | async as customDiets; else loadingCustomDiets">
-      <h2>Egyedi Étrendjeid</h2>
+      <h2 class="section-title">Egyedi étrendjeid</h2>
       <div *ngIf="customDiets.length > 0; else noCustomDiets">
         <div *ngFor="let diet of customDiets" class="custom-diet-card">
           <div class="custom-diet-header">
-            <strong>Étrend neve:</strong> {{ diet.dietName || '-' }}
+            <strong>Étrend neve:</strong> {{ diet.dietName || '-' }} 
+            <span *ngIf="diet.selectedDay">({{ diet.selectedDay }})</span>  A nap megjelenítése 
           </div>
           <ul>
             <li *ngFor="let meal of diet.meals">
@@ -146,6 +177,9 @@
         <p>Nincsenek mentett egyedi étrendjeid.</p>
       </ng-template>
     </div>
+  -->
+
+
     <!-- Edzés történet -->
     <div class="workout-history-container" *ngIf="workoutSessions$ | async as workoutSessions; else noWorkouts">
       <h2 class="section-title">Edzés Történet</h2>
@@ -182,10 +216,6 @@
       <p>Betöltés folyamatban...</p>
     </ng-template>
     
-
-
- 
-
     
   </div>
   <ng-template #loadingPlans>
@@ -196,3 +226,19 @@
     <p>Étrendtervek betöltése...</p>
   </ng-template>
 </div>
+
+<!-- Modális ablak a recept részleteivel -->
+<div class="modal-backdrop" *ngIf="showRecipeModal" (click)="closeRecipeModal()"></div>
+<div class="modal" *ngIf="showRecipeModal">
+  <div class="modal-content">
+    <h2>{{ selectedRecipe?.recipeName }}</h2>
+    <p>{{ selectedRecipe?.description }}</p>
+    <h4>Hozzávalók:</h4>
+    <div [innerHTML]="selectedRecipe?.ingredients"></div>
+    <h4>Elkészítés:</h4>
+    <div [innerHTML]="selectedRecipe?.instruction"></div>
+    <button class="close-button" (click)="closeRecipeModal()">Bezárás</button>
+  </div>
+</div>
+
+

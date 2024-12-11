@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
+[x: string]: any;
   userData$: Observable<UserData | undefined> = of(undefined);
   private dayOrder = ['hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat', 'vasárnap'];
   workoutPlans$: Observable<WorkoutPlan[]> = of([]);
@@ -27,9 +28,11 @@ export class UserProfileComponent implements OnInit {
   costumDiets$: Observable<any[]> = of([]);  stepCount: number = 0;
   selectedInstruction: string = ''; 
   isModalOpen = false;
+  showRecipeModal=false;
 goalSteps: number = 10000;
   newExercise: any = { name: '', sets: undefined, reps: undefined };
   meals: any[] = [];
+  updatedWeight: number= 0;
 sections = {
     data: false,
     workouts: false,
@@ -38,6 +41,8 @@ sections = {
   firstName: string = '';
   lastName: string = '';
   email: string = '';
+recipe: any;
+  selectedRecipe: any;
 
   constructor(
     private firestoreService: FirestoreService,
@@ -55,7 +60,7 @@ sections = {
         this.resetUserData();
       }
     });
-    this.startStepCounter();
+    //this.startStepCounter();
   }
   
 
@@ -111,7 +116,7 @@ sections = {
     return sortedMeals;
   }
   
-  startStepCounter() {
+ /* startStepCounter() {
     if ('Accelerometer' in window) {
       try {
         const accelerometer = new (window as any).Accelerometer({ frequency: 10 });
@@ -132,10 +137,10 @@ sections = {
     } else {
       console.error('Accelerometer API is not supported on this device');
     }
-  }
+  }*/
   viewRecipe(recipe: any) {
-    // Here you can display the recipe instructions in a modal or a new view
-    alert(`Recept: ${recipe.recipeName}\n\n${recipe.instructions}`);
+    this.selectedRecipe = recipe;  // Beállítjuk a kiválasztott receptet
+    
   }
 
   private resetUserData() {
@@ -213,4 +218,46 @@ sections = {
   getGender(gender: string): string {
     return gender === 'male' ? 'Férfi' : gender === 'female' ? 'Nő' : 'Egyéb';
   }
+
+  toggleDetails(recipe: any) {
+    this.selectedRecipe = recipe;
+    this.showRecipeModal = true;
+  }
+  closeRecipeModal() {
+    this.selectedRecipe = null;
+    this.showRecipeModal = false;
+  }
+
+
+
+  updateWeight() {
+    // Győződj meg róla, hogy az updatedWeight megfelelő értékkel rendelkezik
+    console.log('Updated weight:', this.updatedWeight);
+    //this.calculateBMI();
+    
+
+    // Ha van email és updatedWeight, frissítsük a Firestore-t
+    if (this.updatedWeight !== undefined) {
+      this.firestoreService.updateFireStoreWeight(this.email, this.updatedWeight)
+        .then(() => {
+          console.log('User weight updated successfully');
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error('Error updating user weight:', error);
+        });
+    } else {
+      console.error('No weight value to update');
+    }
+  }
+
+  
+
+
+
+
+
 }
+ 
+  
+

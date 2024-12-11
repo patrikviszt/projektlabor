@@ -95,6 +95,7 @@ console.log('Profile exists:', this.dataExists);
     } else {
       this.snackbar.open('Kérjük, érvényes adatokat adj meg!', 'Ok');
     }
+    this.router.navigate(['/home']);
   }
   
 

@@ -1,6 +1,8 @@
 // user-data.model.ts
 export interface UserData {
+userEmail: WorkoutPlan;
     bmi: any;
+    updatedWeight: any;
     firstName: string;
     lastName: string;
     weight: number;

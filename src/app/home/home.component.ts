@@ -59,6 +59,66 @@ export class HomeComponent implements OnInit {
   // A receptcsoportok
   allRecipe: RecipeGroup[] = [
     {
+      title:'Karácsonyi fogások',
+      recipes:[
+        {
+          recipeID: '31',
+          recipeName: 'Sült pulyka',
+          description: '350 kcal  120 perc',
+          image: 'assets/images/sultpulyka.jpg',
+          introduction: 'A klasszikus karácsonyi étel, mely minden ünnepi asztalon helyet kap.',
+          ingredients: 'pulyka (2 kg)<br>rozmaring (10g)<br>fokhagyma (5g)<br>citrom (1 db)<br>só, bors',
+          instruction: '1. Melegítsük elő a sütőt 180°C-ra...<br>5. Süssük 2 órán keresztül, amíg a hús átsül.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '32',
+          recipeName: 'Bejgli',
+          description: '280 kcal  60 perc',
+          image: 'assets/images/bejgli.jpg',
+          introduction: 'A hagyományos karácsonyi desszert, dióval vagy mákkal töltve.',
+          ingredients: 'liszt (300g)<br>élesztő (10g)<br>vaj (100g)<br>dió (200g)<br>cukor (50g)',
+          instruction: '1. Keverjük el az élesztőt langyos vízben...<br>4. Süssük 180°C-on 25 percig.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '33',
+          recipeName: 'Halászlé',
+          description: '150 kcal  40 perc',
+          image: 'assets/images/halaszle.jpg',
+          introduction: 'Az ünnepi étkezések elmaradhatatlan része, fűszeres és ínycsiklandó.',
+          ingredients: 'ponty (500g)<br>paradicsom (100g)<br>paprika (2 db)<br>hagymák (2 db)<br>só, bors',
+          instruction: '1. A halat tisztítsuk meg és vágjuk fel...<br>5. Főzzük 40 percig, amíg a hal megpuhul.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '34',
+          recipeName: 'Karácsonyi töltött káposzta',
+          description: '400 kcal  150 perc',
+          image: 'assets/images/toltottkaposzta.jpg',
+          introduction: 'A karácsonyi asztal egyik tradicionális étke, húsos töltelékkel.',
+          ingredients: 'káposzta (1 fej)<br>sertéshús (300g)<br>rizs (100g)<br>fűszerpaprika (10g)<br> fokhagyma (2 gerezd)',
+          instruction: '1. A káposztát főzzük le, majd a leveleit töltsük meg a húsos keverékkel...<br>5. Főzzük 2 órán keresztül.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '35',
+          recipeName: 'Mézeskalács',
+          description: '280 kcal  90 perc',
+          image: 'assets/images/mezeskalacs.jpg',
+          introduction: 'A karácsonyi mézeskalács a legjobb édesség, amit az ünnepi hangulathoz készíthetsz.',
+          ingredients: 'liszt (300g)<br>méz (150g)<br>vaj (100g)<br>tojás (1 db)<br>fahéj (1 teáskanál)<br>szegfűszeg (1/2 teáskanál)<br>cukor (100g)<br>szódabikarbóna (1 teáskanál)',
+          instruction: '1. Olvasszuk meg a vajat és a mézet...<br>4. Süssük 180°C-on 10-12 percig, amíg aranybarna nem lesz.',
+          showDetails: false,
+          isFavorite: false,
+        }
+      ]
+    },
+    {
       title: '50-100 kcal',
       recipes: [
         {
@@ -180,6 +240,67 @@ export class HomeComponent implements OnInit {
         // További receptek...
       ],
     },
+    {
+      title: '300-800 kcal',
+      recipes: [
+        {
+          recipeID: '41',
+          recipeName: 'Baconos sajtburgonya',
+          description: '820 kcal  40 perc',
+          image: 'assets/images/baconos_sajtburgonya.jpg',
+          introduction: 'Ez a gazdag és ínycsiklandó étel tökéletes választás egy kiadós ebédre vagy vacsorára.',
+          ingredients: 'krumpli (400g)<br>bacon (100g)<br>cheddar sajt (100g)<br>tejföl (50g)<br>só, bors',
+          instruction: '1. A krumplit főzzük meg, majd karikázzuk fel.<br>2. Süssük meg a bacont ropogósra.<br>3. Keverjük össze a tejfölt a sajttal és fűszerezzük.<br>4. Tálaljuk a krumplival és a baconnel, locsoljuk meg a sajtos keverékkel.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '42',
+          recipeName: 'Sült hal rozmaringgal',
+          description: '350 kcal  45 perc',
+          image: 'assets/images/sult_hal_rozmaringgal.jpg',
+          introduction: 'Egyszerű és finom sült hal, amely tökéletes karácsonyi étkezéshez.',
+          ingredients: 'halfilé (4 db)<br>rozmaring (1 ág)<br>citrom (1 db)<br>olívaolaj (2 evőkanál)<br>só, bors',
+          instruction: '1. A halfiléket öblítsük le, és fűszerezzük rozmaringgal, sóval és borssal...<br>3. Süssük 180°C-on 20-25 percig.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '43',
+          recipeName: 'Rakott krumpli',
+          description: '450 kcal  60 perc',
+          image: 'assets/images/rakottkrumpli.jpg',
+          introduction: 'A rakott krumpli egy gazdag és kiadós étel, mely minden családi összejövetel elmaradhatatlan része.',
+          ingredients: 'krumpli (1 kg)<br>tojás (3 db)<br>kolbász (200g)<br>tejföl (250g)<br>mustár (1 evőkanál)<br>só, bors',
+          instruction: '1. Főzzük meg a krumplit és a tojásokat...<br>4. Rétegezzük a hozzávalókat, és süssük 200°C-on 35-40 percig.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '42',
+          recipeName: 'Szénhidrát bombás rakott tészta',
+          description: '850 kcal  45 perc',
+          image: 'assets/images/rakott_teszta.jpg',
+          introduction: 'Ez a rakott tészta gazdag tésztában, hússal és tejfölös szósszal, amely tápláló és laktató.',
+          ingredients: 'tészta (250g)<br>darálthús (200g)<br>tejföl (100g)<br>paradicsomszósz (150g)<br>reszelt sajt (50g)<br>hagymák (1 db)<br>fűszerek',
+          instruction: '1. Főzzük meg a tésztát.<br>2. Pirítsuk meg a darálthúst, adjuk hozzá a paradicsomszószt és a fűszereket.<br>3. Rétegezzük a tésztát, húst és tejfölt egy tálban.<br>4. Szórjuk meg sajttal, és süssük 180°C-on 25 percig.',
+          showDetails: false,
+          isFavorite: false,
+        },
+        {
+          recipeID: '45',
+          recipeName: 'Töltött édesburgonya',
+          description: '380 kcal  50 perc',
+          image: 'assets/images/toltott_edesburgonya.jpg',
+          introduction: 'Az édesburgonya tökéletes alapanyag a különleges töltelékekhez, és ideális választás karácsonyi étkezéshez.',
+          ingredients: 'édesburgonya (4 db)<br>csirkemell (300g)<br>paradicsom (2 db)<br>fokhagyma (2 gerezd)<br>fűszerek (oregánó, paprika)',
+          instruction: '1. Főzzük meg az édesburgonyát...<br>4. Töltsük meg a burgonyákat a kész töltelékkel, és süssük 180°C-on 25 percig.',
+          showDetails: false,
+          isFavorite: false,
+        }
+      ]
+    }
+    
   ];
   firestore: any;
 

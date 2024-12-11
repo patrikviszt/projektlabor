@@ -1,6 +1,17 @@
+
+
+.recipe-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
 .diet-plan-container {
   margin: 20px auto;
-  padding: 20px;
+  padding-bottom: 40px;
+  padding-bottom:70px;
   max-width: 800px;
   background-color: #f9f9f9;
   border-radius: 10px;
@@ -9,19 +20,54 @@
 
 h2, h3, h4, h5 {
   color: #333;
+  padding-top: 50px;
 }
 
 .day-selector, .meal-time-selector, .meals-container, .diet-plan {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  
 }
-
-.day-cards, .meal-cards {
-  display: grid;
-  gap: 15px;
+.diet-plan{
+  padding-bottom: 50px;
+}
+.meal-cards{
+  padding-bottom: 20px;
 }
 
 .day-cards {
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Kártyák közötti távolság */
+  flex-wrap: wrap; /* Kártyák átváltása új sorra, ha szükséges */
+}
+
+.day-card {
+  width: 20px;  /* Kisebb méret */
+  height: 20px; /* Kisebb méret */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem; /* A napok betűmérete kisebb */
+  background-color: #f5f5f5;
+  color: #333;
+  border-radius: 50%; /* Igazi kör alak */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-transform: uppercase;
+}
+
+.day-card.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.day-card:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.day-card:active {
+  transform: scale(0.95);
 }
 
 .meal-cards {
@@ -38,6 +84,36 @@ h2, h3, h4, h5 {
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+
+.footer-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  min-width: 100%;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.footer-button:hover {
+  background-color: #0056b3;
+}
+
+
 
 .card:hover, .day-card:hover, .meal-time-card:hover, .meal-card:hover {
   background-color: #e0e0e0;
@@ -58,7 +134,9 @@ h2, h3, h4, h5 {
 .diet-plan li {
   margin-bottom: 10px;
 }
-
+.button-total-calories{
+  padding-bottom: 50px;
+}
 .diet-plan button, button {
   padding: 8px 12px;
   border: none;
@@ -84,59 +162,11 @@ button {
 button:hover {
   background-color: #0056b3;  /* Sötétebb kék szín */
 }
-/* Egységes betűtípus az egész alkalmazásra */
-body, button, h2, h3, h4, h5, p {
-  font-family: 'Arial', sans-serif; /* Például Arial font, vagy egy kívánt betűtípus */
-}
 
-/* Étkezések nevének gombokhoz */
-button {
-  font-family: inherit; /* örökíti a szülő betűtípusát */
-}
-
-/* Ételek nevei a listában */
-.meal-card, .meal-time-card, .day-card {
-  font-family: inherit; /* Örökli a szülő betűtípusát */
-}
-
-
-button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.diet-plan ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.diet-plan li {
-  margin-bottom: 10px;
-}
-
-.diet-plan button {
-  background-color: #ff4c4c;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.diet-plan button:hover {
-  background-color: #ff3333;
-}
 .total-calories {
   margin-top: 20px;
+  
+  padding-bottom:20px;
   font-size: 18px;
   font-weight: bold;
   color: #333;
@@ -155,7 +185,6 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
 
 .diet-name {
   margin-bottom: 20px;
@@ -179,7 +208,6 @@ button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
-
 
 .diet-name-container {
   margin-bottom: 15px;
@@ -255,4 +283,538 @@ button:hover {
   .modal-content {
     width: 90%;
   }
+
+
+
+  /* Egyedi étrendek szekció */
+.custom-diets-container {
+  padding: 20px;
+  margin-top: 50px;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.custom-diets-container:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Egyedi étrendek cím */
+.custom-diet-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Étrend kártyák */
+.custom-diet-card {
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-diet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Egyedi étrendek részletei */
+.custom-diet-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.custom-diet-card ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.custom-diet-card ul div {
+  margin-bottom: 10px;
+}
+
+.custom-diet-card strong {
+  color: #007bff;
+}
+
+.custom-diet-card span {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Ha nincs egyedi étrend */
+.noCustomDiets {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+
+
+
+.section-title{
+  padding-top: 50px;
+}
+.recipe-card {
+  width: 100%;
+  max-width: 250px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+}
+
+.recipe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.recipe-card h4 {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.recipe-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Alap stílusok */
+h1, h2, .section-title {
+  text-align: center;
+  margin-top:80px;
+  padding-top: 50px;
+  color: #333;
+  margin-top: 20px;
+}
+.weight-loss-message {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: background-color 0.3s ease;
+}
+
+.weight-loss-message:hover {
+  background-color: #e7f4ff;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+/* Linkek stílusai */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Konténerek */
+.container, .profile-container, .plans-container, .user-data-container, .diet-plans-container, .custom-diets-container, .recipe-card, .fav-recipes-container {
+  padding: 20px;
+  margin: auto;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.container:hover, .profile-container:hover, .plans-container:hover, .user-data-container:hover, .diet-plans-container:hover, .custom-diets-container:hover, .recipe-card:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+body{
+  margin-bottom: 100px;
+}
+.recipe-card-group{
+  padding-bottom: 80px;
+}
+
+/* Profil szekció */
+.profile-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 10px 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #007bff;
+}
+
+.profile-details {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.data-item {
+  font-size: 18px;
+  color: #555;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+strong {
+  color: #333;
+}
+
+/* Súly frissítése input mező és gomb */
+.weight-update-container input[type="number"] {
+  padding: 10px;
+  border: 1px solid #007bff;
+  border-radius: 8px;
+  width: 60%;
+  font-size: 1rem;
+  margin: 10px auto;
+  display: block;
+  transition: border-color 0.3s ease;
+}
+
+.weight-update-container button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: 60%;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.weight-update-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Étrendtervek */
+.diet-plan-card, .custom-diet-card {
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.diet-plan-card:hover, .custom-diet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.diet-plan-header, .custom-diet-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.diet-plan-card ul, .custom-diet-card ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.diet-plan-card ul div, .custom-diet-card ul div {
+  margin-bottom: 10px;
+}
+
+.diet-plan-card strong, .custom-diet-card strong {
+  color: #007bff;
+}
+
+.diet-plan-card span, .custom-diet-card span {
+  font-size: 16px;
+  color: #555;
+}
+.recept-reszletek{
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: 60%;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Recept kártya */
+.recipe-card {
+  width: 100%;
+  max-width: 250px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+}
+
+.recipe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.recipe-card h4 {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.recipe-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Különböző típusú gombok */
+.button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.edit-button {
+  background-color: #f39c12;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #e67e22;
+}
+
+.add-button {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.add-button:hover {
+  background-color: #27ae60;
+}
+
+.remove-exercise-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.remove-exercise-button:hover {
+  background-color: #c0392b;
+}
+
+/* Modális ablak */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.close-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #0056b3;
+/* Recept kártya */
+.recipe-card {
+  width: 100%;
+  max-width: 250px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+}
+
+.recipe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.recipe-card h4 {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.recipe-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Recept részletezés gomb */
+.recept-reszletek {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: 60%;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Gombok alap stílus */
+.button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.edit-button {
+  background-color: #f39c12;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #e67e22;
+}
+
+.add-button {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.add-button:hover {
+  background-color: #27ae60;
+}
+
+.remove-exercise-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.remove-exercise-button:hover {
+  background-color: #c0392b;
+}
+
+
+}
+
 }

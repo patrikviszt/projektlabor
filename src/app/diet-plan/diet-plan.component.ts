@@ -3,8 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../services/firestore.service';
 import { AuthService } from '../services/auth.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscribable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable, of } from 'rxjs';
+import { HomeComponent } from '../home/home.component';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-diet-plan',
@@ -14,9 +17,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   imports: [FormsModule, CommonModule],
 })
 export class DietPlanComponent implements OnInit {
-  daysOfWeek: string[] = ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat', 'Vasárnap'];
+  daysOfWeek: string[] = ['H', 'K', 'Sze', 'Cs', 'P', 'Szo', 'V'];
   mealTimes: string[] = ['Reggeli', 'Ebéd', 'Vacsora'];
   dietName: string = '';
+  selectedRecipe:any;
   showSuccessModal: boolean = false;
   showModal: boolean = false;  // A modális ablak megjelenítése
   errorMessage: string = '';   // Hibaüzenet, ha nem adják meg az étrend nevét
@@ -27,22 +31,48 @@ export class DietPlanComponent implements OnInit {
   selectedDay: string | null = null;
   selectedMeal: string | null = null; // Aktuálisan kiválasztott étel
   mealAmounts: { [key: string]: number } = {};
+  costumDiet:[]=[];
+  email: string='';
+  
+  currentView: string = 'diet-creation'; // Alapértelmezett nézet
   meals: any = {
     Reggeli: ['Scrambled eggs', 'Ham sandwich', 'Pancakes', 'Sausages', ],
     Ebéd: ['Chicken rice', 'Spaghetti bolognese', 'Chicken salad', 'Caesar salad', 'Pepperoni pizza', 'Meatballs', 'Tofu', 'Sushi'],
     Vacsora: ['Grilled cheese sandwich', 'Grilled vegetables', 'Sandwich', 'Boiled eggs', 'Yoghurt'],
   };
-
+  
   private apiKey: string = 'KpSqEUoQpkm61puzpSGKTg==9BjkRqrU73LDSZfp'; // API kulcs
+  costumDiets$: Observable<any[]> = of([]);  stepCount: number = 0;
+  favRecipes$: Observable<any[]> = of([]);
+  afAuth: any;
+  
+  constructor(private httpClient: HttpClient, private firestoreService: FirestoreService, private authService: AuthService,) {}
+  
 
-  constructor(private httpClient: HttpClient, private firestoreService: FirestoreService, private authService: AuthService) {}
+
+
 
   ngOnInit(): void {
-    // Opció: Beállíthatod az alapértelmezett napot, ha szükséges
+    this.authService.user$.subscribe((user: User | null) => {
+      if (user && user.email) {
+        this.email = user.email; // Az email a bejelentkezett felhasználó alapján
+        //this.loadUserData(user.email); // Felhasználói adat betöltése
+        this.costumDiets$ = this.firestoreService.getCostumDiet(this.email);
+      } else {
+        //this.resetUserData(); // Ha nincs bejelentkezett felhasználó, alapértelmezett adatokat állítunk
+      }
+    });
+  }
+
+
+
+
+  
+  /*ngOnInit(): void {
     if (!this.selectedDay) {
       this.selectedDay = this.daysOfWeek[0]; // Például a Hétfőt választjuk alapértelmezettnek
     }
-  }
+  }*/
 
   // API hívás egy étel kalóriáinak lekérdezésére
   getMealCalories(meal: string, amount?: number) {
@@ -191,7 +221,8 @@ export class DietPlanComponent implements OnInit {
       userEmail,
       dietName: this.dietName,
       meals: this.dietPlan,
-      totalCalories
+      totalCalories,
+      selectedDay: this.selectedDay
     };
   
     console.log('Costum Diet to Save:', costumDietData);
@@ -247,7 +278,58 @@ export class DietPlanComponent implements OnInit {
     return this.translations[meal] || meal;
   }
   
+
+
+
   
+
+  switchToMain(): void {
+    this.currentView = 'diet-creation';  // Állítsuk be a currentView-t főoldalra
+    console.log('Switching to main view');
+        // Betöltjük a főoldal tartalmát
+  }
+
+  // Az egyedi étrendek nézetre váltás
+  switchToCustomDiets(): void {
+    console.log('Switching to custom diets view');
+    console.log('Current user email:', this.email);  // Logoljuk az email változót
+  
+    if (!this.email) {
+      console.error('No email available');  // Ha az email nem létezik, hibaüzenetet adunk
+      return;
+    }
+  
+    this.costumDiets$ = this.firestoreService.getCostumDiet(this.email);
+    this.currentView = 'diet-display';
+    this.costumDiets$.subscribe({
+      next: (costumDiets) => {
+        console.log('Received custom diets:', costumDiets);  // Kiírjuk a visszakapott adatokat
+      },
+      error: (error) => {
+        console.error('Error in getting custom diets:', error);  // Kiírjuk, ha hiba történik
+      }
+    });
+  }
+
+  // A receptek nézetre váltás
+  switchToRecipes(): void {
+    this.currentView = 'recipes';  // Állítsuk be a receptek nézetét
+    this.favRecipes$ = this.firestoreService.getFavRecipes(this.email);
+
+    console.log('Switching to recipes view');
+  }
+ 
+  viewRecipe(recipe: any) {
+    this.selectedRecipe = recipe;  // Beállítjuk a kiválasztott receptet
+    
+  }
+
+ 
+
+
+
+
+
 }
 
 
