@@ -139,7 +139,7 @@ recipe: any;
     }
   }*/
   viewRecipe(recipe: any) {
-    this.selectedRecipe = recipe;  // Beállítjuk a kiválasztott receptet
+    this.selectedRecipe = recipe;  
     
   }
 
@@ -231,12 +231,9 @@ recipe: any;
 
 
   updateWeight() {
-    // Győződj meg róla, hogy az updatedWeight megfelelő értékkel rendelkezik
     console.log('Updated weight:', this.updatedWeight);
-    //this.calculateBMI();
     
 
-    // Ha van email és updatedWeight, frissítsük a Firestore-t
     if (this.updatedWeight !== undefined) {
       this.firestoreService.updateFireStoreWeight(this.email, this.updatedWeight)
         .then(() => {

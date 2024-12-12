@@ -1,4 +1,4 @@
-/* Alap beállítások */
+
 body {
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to right, #6a11cb, #2575fc); /* Háttér átmenet */
+  background: linear-gradient(to right, #6a11cb, #2575fc); 
 }
 
 .register-container {
@@ -19,9 +19,9 @@ body {
   width: 100%;
   padding: 40px;
   background-color: white;
-  border-radius: 10px; /* Hasonló a bejelentkezőhöz */
+  border-radius: 10px; 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  text-align: middle; /* Balra zárás */
+  text-align: middle; 
 }
 
 

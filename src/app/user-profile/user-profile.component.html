@@ -182,7 +182,7 @@
 
     <!-- Edzés történet -->
     <div class="workout-history-container" *ngIf="workoutSessions$ | async as workoutSessions; else noWorkouts">
-      <h2 class="section-title">Edzés Történet</h2>
+      <h2 class="section-title">Korábbi edzéseim</h2>
       <div *ngIf="workoutSessions.length > 0; else noSessions">
         <div *ngFor="let session of workoutSessions" class="workout-session-card">
           <div class="workout-session-header">

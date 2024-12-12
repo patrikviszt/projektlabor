@@ -43,7 +43,7 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
-      if (user && user.email) { // Ensure user.email is not null
+      if (user && user.email) { 
         this.userData.email = user.email;
         this.firestoreService.checkUserDataExists(user.email).then(exists => {
           this.dataExists = exists;
@@ -51,12 +51,12 @@ console.log('Profile exists:', this.dataExists);
 
           if (this.dataExists) {
             this.snackbar.open('Már létezik profil az email-címhez.', 'Ok');
-            this.router.navigate(['/userprofile']); // Redirect to another page
+            this.router.navigate(['/userprofile']); 
           }
         });
       } else {
         this.snackbar.open('Felhasználói email nem érhető el.', 'Ok');
-        this.router.navigate(['/login']); // Redirect if email is null
+        this.router.navigate(['/login']); 
       }
     });
   }
@@ -344,17 +344,17 @@ console.log('Profile exists:', this.dataExists);
       }
     };
   
-    // BMI és aktivitási szint alapján
+    
     const { bmi, activity_level } = this.userData;
   
-    let goal = 'healthy'; // Alapértelmezett cél
+    let goal = 'healthy'; 
     if (bmi >= 25) {
-      goal = 'weight_loss'; // Ha magas a BMI, akkor fogyás
+      goal = 'weight_loss'; 
     } else if (bmi <= 18.5) {
-      goal = 'muscle_gain'; // Ha alacsony a BMI, akkor izmosodás
+      goal = 'muscle_gain'; 
     }
   
-    // Kiválasztjuk az aktivitási szinthez tartozó étrendet
+    
     const mealsForGoalAndActivity = mealsMapping[goal][activity_level] || mealsMapping['healthy']['medium'];
   
     for (const day of this.daysOfWeek) {
@@ -417,14 +417,14 @@ async calculateBMI() {
   const { weight, height, email } = this.userData;
 
   if (weight && height) {
-    // A magasságot méterben kell megadni
+    
     const heightInMeters = height / 100;
     const bmi = weight / (heightInMeters * heightInMeters);
-    this.userData.bmi = bmi.toFixed(2); // BMI két tizedesjegyre kerekítve
+    this.userData.bmi = bmi.toFixed(2); 
 
     console.log(`Kiszámított BMI: ${this.userData.bmi}`);
 
-    // BMI frissítése a Firestore-ban
+    
     try {
       await this.firestoreService.updateBMI(email, parseFloat(this.userData.bmi));
       console.log('BMI sikeresen frissítve a Firestore-ban!');

@@ -21,8 +21,6 @@
 }
 
 
-
-/* Súly frissítése input mező és gomb */
 .weight-update-container input[type="number"] {
   padding: 10px;
   border: 1px solid #007bff;
@@ -179,7 +177,6 @@ strong {
   margin-right: 0; 
 }
 
-/* Input Fields */
 .exercise-input {
   padding: 5px;
   border: 1px solid #ccc;
@@ -240,9 +237,6 @@ strong {
 }
 
 
-
-
-/* Étrendtervek konténer */
 .diet-plans-container {
   padding: 20px;
   margin: auto;
@@ -258,7 +252,6 @@ strong {
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Egyes étrendtervek kártya */
 .diet-plan-card {
   margin: 15px 0;
   padding: 15px;
@@ -274,7 +267,6 @@ strong {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Étrendterv fejléc */
 .diet-plan-header {
   font-size: 20px;
   font-weight: bold;
@@ -282,7 +274,6 @@ strong {
   margin-bottom: 10px;
 }
 
-/* Ételek listája */
 .diet-plan-card ul {
   padding: 0;
   margin: 0;
@@ -302,7 +293,6 @@ strong {
   color: #555;
 }
 
-/* Reszponzív design */
 @media (max-width: 768px) {
   .diet-plans-container {
     padding: 15px;
@@ -346,7 +336,6 @@ strong {
   color: #555;
   font-size: 0.9rem;
 }
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -360,7 +349,6 @@ strong {
   z-index: 1000;
 }
 
-/* Modal Content */
 .modal-content {
   background-color: white;
   padding: 20px;
@@ -370,7 +358,7 @@ strong {
   text-align: center;
 }
 
-/* Close Button */
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -380,12 +368,17 @@ strong {
   font-size: 20px;
   cursor: pointer;
 }
-/* General Styles */
-h1, h2 {
+
+h1{
   text-align: center;
   color: #333;
   margin-top: 20px;
   padding-top: 50px;
+
+}
+h2 {
+  text-align: center;
+  color: #333;
 }
 
 .section-title {
@@ -404,7 +397,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Container for the plans */
 .plans-container {
   padding: 20px;
   margin: auto;
@@ -420,7 +412,6 @@ a:hover {
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Individual plan card */
 .plan-card {
   margin-bottom: 20px;
   border: 1px solid #ddd;
@@ -436,7 +427,6 @@ a:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Plan Header */
 .plan-header {
   display: flex;
   justify-content: space-between;
@@ -483,7 +473,7 @@ a:hover {
   background-color: #45a049;
 }
 
-/* Plan Body */
+
 .plan-body {
   margin-top: 10px;
 }
@@ -537,7 +527,7 @@ a:hover {
   background-color: #ff0000;
 }
 
-/* Add Exercise Section */
+
 .add-exercise {
   display: flex;
   flex-direction: column;
@@ -571,14 +561,14 @@ a:hover {
   background-color: #45a049;
 }
 
-/* No Plans Message */
+
 .no-plans {
   text-align: center;
   color: #777;
   font-size: 1.2rem;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .plans-container {
     padding: 15px;
@@ -598,7 +588,7 @@ a:hover {
     font-size: 0.9rem;
   }
 }
-/* Kedvenc receptek szakasz */
+
 .section-title {
   font-size: 24px;
   color: #333;

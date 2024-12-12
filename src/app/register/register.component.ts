@@ -30,7 +30,7 @@ export class RegisterComponent {
   
     this.authService.register(this.email, this.password, this.firstName, this.lastName).then(() => {
       console.log('Sikeres regisztráció!');
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/userinfo']);
     }).catch(error => {
       this.errorMessage = error.message;
       console.error('Hiba történt a regisztráció során:', error);

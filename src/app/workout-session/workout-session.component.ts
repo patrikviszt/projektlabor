@@ -121,7 +121,6 @@ export class WorkoutSessionComponent implements OnInit {
 
     const workoutName = `${this.selectedDay} edzésterv`;
 
-    // Edzés mentése a Firestore-ba
     this.firestoreService.addWorkoutSession(this.userEmail, workoutName, workoutSessionData)
       .then(() => {
         this.saveStatus = { success: true, message: 'Edzés sikeresen mentve!' };

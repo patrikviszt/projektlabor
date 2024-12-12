@@ -8,7 +8,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable, of } from 'rxjs';
 import { HomeComponent } from '../home/home.component';
 import { User } from '@angular/fire/auth';
-
 @Component({
   selector: 'app-diet-plan',
   templateUrl: './diet-plan.component.html',
@@ -20,21 +19,23 @@ export class DietPlanComponent implements OnInit {
   daysOfWeek: string[] = ['H', 'K', 'Sze', 'Cs', 'P', 'Szo', 'V'];
   mealTimes: string[] = ['Reggeli', 'Ebéd', 'Vacsora'];
   dietName: string = '';
-  selectedRecipe:any;
+  selectedRecipe:any=null;
+  favRecipes: boolean=false;
   showSuccessModal: boolean = false;
-  showModal: boolean = false;  // A modális ablak megjelenítése
-  errorMessage: string = '';   // Hibaüzenet, ha nem adják meg az étrend nevét
-  dietPlan: { name: string, calories: number }[] = []; // Explicit típus megadása
-  mealCalories: { [key: string]: number } = {}; // Kalória értékek tárolása ételenként
-  mealData: { [key: string]: any } = {}; // Étellel kapcsolatos adatokat tárolunk
+  showModal: boolean = false;  // A modális ablak 
+  errorMessage: string = '';   
+  dietPlan: { name: string, calories: number }[] = []; 
+  mealCalories: { [key: string]: number } = {}; 
+  mealData: { [key: string]: any } = {}; 
   selectedMealTime: string | null = null;
   selectedDay: string | null = null;
-  selectedMeal: string | null = null; // Aktuálisan kiválasztott étel
+  selectedMeal: string | null = null; 
   mealAmounts: { [key: string]: number } = {};
   costumDiet:[]=[];
   email: string='';
+  showRecipeDetails:boolean=false;
   
-  currentView: string = 'diet-creation'; // Alapértelmezett nézet
+  currentView: string = 'diet-creation'; 
   meals: any = {
     Reggeli: ['Scrambled eggs', 'Ham sandwich', 'Pancakes', 'Sausages', ],
     Ebéd: ['Chicken rice', 'Spaghetti bolognese', 'Chicken salad', 'Caesar salad', 'Pepperoni pizza', 'Meatballs', 'Tofu', 'Sushi'],
@@ -55,7 +56,7 @@ export class DietPlanComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe((user: User | null) => {
       if (user && user.email) {
-        this.email = user.email; // Az email a bejelentkezett felhasználó alapján
+        this.email = user.email; 
         //this.loadUserData(user.email); // Felhasználói adat betöltése
         this.costumDiets$ = this.firestoreService.getCostumDiet(this.email);
       } else {
@@ -108,13 +109,11 @@ export class DietPlanComponent implements OnInit {
     );
   }
   
-  // Az étel kiválasztásakor hívjuk meg a kalória lekérést
   selectMeal(meal: string) {
     this.selectedMeal = meal;
   
-    // Ellenőrizzük, hogy az étel adatai már lekérésre kerültek-e
     if (!this.mealData[meal]) {
-      this.getMealCalories(meal); // Ha még nem történt adatlekérés, kérjük le az adatokat
+      this.getMealCalories(meal); 
     }
   }
 
@@ -123,19 +122,17 @@ export class DietPlanComponent implements OnInit {
   }
 
   addMeal(meal: string) {
-    const amount = this.mealAmounts[meal]; // Beolvasás a gramm mezőből
+    const amount = this.mealAmounts[meal]; 
     this.getMealCalories(meal, amount); // API hívás az adott mennyiséggel
   }
 
-  // Nap kiválasztása
   selectDay(day: string) {
     this.selectedDay = this.selectedDay === day ? null : day;
     this.selectedMealTime = null;
     this.dietPlan = [];
-    this.selectedMeal = null; // Reset selected meal
+    this.selectedMeal = null; 
   }
 
-  // Étkezés típusának kiválasztása
   toggleMealTime(mealTime: string) {
     if (this.selectedDay) {
       this.selectedMealTime = this.selectedMealTime === mealTime ? null : mealTime;
@@ -153,7 +150,6 @@ export class DietPlanComponent implements OnInit {
   }
   
 
-  // Ételt eltávolítani a diétából
   removeFromDiet(meal: { name: string, calories: number }) {
     const index = this.dietPlan.indexOf(meal);
     if (index !== -1) {
@@ -161,12 +157,11 @@ export class DietPlanComponent implements OnInit {
     }
   }
 
-  // Étrend mentése a Firestore-ba
   async saveDietPlan() {
     if (!this.dietName || this.dietPlan.length === 0) {
-      // Ha nincs étrend név vagy étel, akkor megjelenítjük a hibát
+      
       this.errorMessage = "Kérjük, add meg az étrend nevét és adj hozzá ételt a tervhez.";
-      this.showModal = true;  // Megjelenítjük a modális ablakot
+      this.showModal = true;  
       return;
     }
     const userId = await this.authService.getUserId();
@@ -195,15 +190,12 @@ export class DietPlanComponent implements OnInit {
     return Math.round(this.dietPlan.reduce((total, meal) => total + meal.calories, 0));
   }
 
-  closeModal() {
-    this.showModal = false; // Bezárja a modális ablakot
-  }
+  
 
   async saveCostumDiet(dietName: string) {
     if (!this.dietName || this.dietPlan.length === 0) {
-      // Ha nincs étrend név vagy étel, akkor megjelenítjük a hibát
       this.errorMessage = "Kérjük, add meg az étrend nevét az étrend mentéséhez.";
-      this.showModal = true;  // Megjelenítjük a modális ablakot
+      this.showModal = true;  
       return;
     }
   
@@ -228,21 +220,17 @@ export class DietPlanComponent implements OnInit {
     console.log('Costum Diet to Save:', costumDietData);
     
     try {
-      // Az étrend mentése a Firestore-ba
       await this.firestoreService.addCostumDiet(userId, costumDietData);
       console.log('Costum Diet saved successfully!');
   
-      // Sikeres mentés esetén modális ablak megjelenítése
       this.showSuccessModal = true;
   
-      // Oldal resetelése
       this.resetPage();
     } catch (error) {
       console.error('Error saving Costum Diet', error);
     }
   }
   
-  // Oldal resetelése
   resetPage() {
     this.dietName = '';
     this.selectedDay = null;
@@ -251,7 +239,6 @@ export class DietPlanComponent implements OnInit {
     this.dietPlan = [];
   }
   
-  // Modális ablak bezárása
   closeSuccessModal() {
     this.showSuccessModal = false;
   }
@@ -284,18 +271,15 @@ export class DietPlanComponent implements OnInit {
   
 
   switchToMain(): void {
-    this.currentView = 'diet-creation';  // Állítsuk be a currentView-t főoldalra
+    this.currentView = 'diet-creation';  
     console.log('Switching to main view');
-        // Betöltjük a főoldal tartalmát
   }
 
-  // Az egyedi étrendek nézetre váltás
   switchToCustomDiets(): void {
     console.log('Switching to custom diets view');
-    console.log('Current user email:', this.email);  // Logoljuk az email változót
-  
+    console.log('Current user email:', this.email);  
     if (!this.email) {
-      console.error('No email available');  // Ha az email nem létezik, hibaüzenetet adunk
+      console.error('No email available');  
       return;
     }
   
@@ -303,34 +287,31 @@ export class DietPlanComponent implements OnInit {
     this.currentView = 'diet-display';
     this.costumDiets$.subscribe({
       next: (costumDiets) => {
-        console.log('Received custom diets:', costumDiets);  // Kiírjuk a visszakapott adatokat
+        console.log('Received custom diets:', costumDiets);  
       },
       error: (error) => {
-        console.error('Error in getting custom diets:', error);  // Kiírjuk, ha hiba történik
+        console.error('Error in getting custom diets:', error);  
       }
     });
   }
 
-  // A receptek nézetre váltás
   switchToRecipes(): void {
-    this.currentView = 'recipes';  // Állítsuk be a receptek nézetét
+    this.currentView = 'recipes';  
     this.favRecipes$ = this.firestoreService.getFavRecipes(this.email);
 
     console.log('Switching to recipes view');
   }
- 
+  
   viewRecipe(recipe: any) {
-    this.selectedRecipe = recipe;  // Beállítjuk a kiválasztott receptet
-    
+    console.log('Recept részletek:', recipe);
+    this.selectedRecipe = recipe;
+    console.log('Selected Recipe in viewRecipe:', this.selectedRecipe);  
+    this.showRecipeDetails = true;
   }
 
- 
-
-
-
-
-
+  closeModal() {
+    this.showRecipeDetails = false;
+    this.selectedRecipe = null;  
+  }
+  
 }
-
-
-

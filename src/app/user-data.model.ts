@@ -37,9 +37,9 @@ userEmail: WorkoutPlan;
     workoutName: string;
     day: string;
     exercises: { name: string, reps: number, sets: number }[];
-    sessionDate: any; // timestamp for when the session occurred
+    sessionDate: any; 
     createdAt: Date;
-    duration: number; // duration of the session in minutes
+    duration: number; 
   }
   
   

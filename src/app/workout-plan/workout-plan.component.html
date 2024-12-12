@@ -12,7 +12,7 @@
             <input type="text" [(ngModel)]="workoutName" placeholder="Adj nevet az edzéstervednek" />
         </div>
         <div class="day-selector">
-            <h3>Napok hozzáadása</h3>
+            <h3>Válassz napot!!</h3>
             <div class="days">
                 <button *ngFor="let day of days" (click)="selectDay(day)" [class.selected]="selectedDay === day">
                     {{ day }}
@@ -22,7 +22,7 @@
 
 
         <div *ngIf="selectedDay" class="exercise-selector">
-            <h3>Testtáj kiválasztása {{ selectedDay }}i napra</h3>
+            <h3>Válaszd ki a kívánt testtájat!<!-- {{ selectedDay }}i napra--></h3>
             <div class="body-part-buttons">
                 <button *ngFor="let part of bodyParts" (click)="toggleExercises(part)" [class.selected]="selectedPart === part">
                     {{ part }}

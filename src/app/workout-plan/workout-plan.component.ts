@@ -107,7 +107,6 @@ export class WorkoutPlanComponent implements OnInit{
       };
   
       console.log('Workout Data to Save:', workoutData); 
-  // Ez menti el a firestoreba a workout planeket
       this.firestoreService.addWorkoutPlan(userId, workoutData).then(() => {
         console.log('Workout plan saved successfully!');
         this.workoutPlan = {};
@@ -126,7 +125,6 @@ export class WorkoutPlanComponent implements OnInit{
   viewWorkoutPlans(): void {
     this.showWorkoutPlans = !this.showWorkoutPlans;
     if (this.showWorkoutPlans) {
-      // Optional: Refresh workout plans data from Firestore
       this.authService.getCurrentUserEmail().subscribe(email => {
         if (email) {
           this.firestoreService.getWorkoutPlans(email).subscribe(plans => {

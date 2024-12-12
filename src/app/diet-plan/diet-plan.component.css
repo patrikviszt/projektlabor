@@ -18,9 +18,15 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2, h3, h4, h5 {
+h2, h3, h5 {
   color: #333;
   padding-top: 50px;
+}
+.meal-time-cards{
+  padding-bottom: 30px;
+}
+.day-selector{
+  padding-bottom:30px;
 }
 
 .day-selector, .meal-time-selector, .meals-container, .diet-plan {
@@ -37,20 +43,20 @@ h2, h3, h4, h5 {
 .day-cards {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Kártyák közötti távolság */
-  flex-wrap: wrap; /* Kártyák átváltása új sorra, ha szükséges */
+  gap: 10px; 
+  flex-wrap: wrap; 
 }
 
 .day-card {
-  width: 20px;  /* Kisebb méret */
-  height: 20px; /* Kisebb méret */
+  width: 20px;  
+  height: 20px; 
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem; /* A napok betűmérete kisebb */
+  font-size: 1.2rem; 
   background-color: #f5f5f5;
   color: #333;
-  border-radius: 50%; /* Igazi kör alak */
+  border-radius: 50%; 
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
@@ -89,6 +95,7 @@ h2, h3, h4, h5 {
 .footer-buttons {
   position: fixed;
   bottom: 0;
+  width:100%;
   left: 0;
   min-width: 100%;
   background-color: #f8f8f8;
@@ -120,9 +127,9 @@ h2, h3, h4, h5 {
 }
 
 .selected {
-  background-color: #007bff;  /* Kék szín */
+  background-color: #007bff;  
   color: white;
-  border-color: #007bff;      /* Kék szín */
+  border-color: #007bff;      
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -131,8 +138,74 @@ h2, h3, h4, h5 {
   padding: 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+h4 {
+  font-size: 24px; 
+  font-weight: bold; 
+  color: #007bff; 
+  text-align: center; 
+  margin-bottom: 20px; 
+  text-transform: uppercase; 
+  letter-spacing: 2px; 
+  position: relative; 
+}
+
+h4::after {
+  content: ""; 
+  display: block;
+  width: 50px; 
+  height: 3px; 
+  background-color: #007bff; 
+  margin: 10px auto 0; 
+  border-radius: 5px; 
+}
+
+
+
+
+
+
 .diet-plan li {
-  margin-bottom: 10px;
+  margin-bottom: 15px; 
+  padding: 10px 15px; 
+  border-radius: 10px; 
+  background-color: #f9f9f9; 
+  border: 1px solid #ddd; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  transition: all 0.3s ease; 
+}
+
+.diet-plan li:hover {
+  background-color: #85b2cf; 
+  color: white;
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.diet-plan li span {
+  font-size: 16px; 
+  font-weight: bold; 
+  color: #333;
+}
+
+.diet-plan li span.calories {
+  font-weight: normal; 
+  font-size: 14px; 
+  color: #666; 
 }
 .button-total-calories{
   padding-bottom: 50px;
@@ -155,12 +228,12 @@ h2, h3, h4, h5 {
 
 button {
   margin: 5px;
-  background-color: #007bff;  /* Kék szín */
+  background-color: #007bff;  
   color: white;
 }
 
 button:hover {
-  background-color: #0056b3;  /* Sötétebb kék szín */
+  background-color: #0056b3;  
 }
 
 .total-calories {
@@ -176,7 +249,7 @@ button {
   margin: 20px 0;
   padding: 10px 20px;
   border: none;
-  background-color: #007bff; /* Kék szín a gombhoz */
+  background-color: #007bff; 
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -188,10 +261,11 @@ button:hover {
 
 .diet-name {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .diet-name input {
-  width: 100%;
+  width: 50%;
   padding: 8px;
   font-size: 16px;
   border-radius: 5px;
@@ -212,6 +286,7 @@ button:disabled {
 .diet-name-container {
   margin-bottom: 15px;
   display: flex;
+  width:100%;
   flex-direction: column;
 }
 
@@ -286,7 +361,6 @@ button:hover {
 
 
 
-  /* Egyedi étrendek szekció */
 .custom-diets-container {
   padding: 20px;
   margin-top: 50px;
@@ -302,7 +376,6 @@ button:hover {
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Egyedi étrendek cím */
 .custom-diet-header {
   font-size: 20px;
   font-weight: bold;
@@ -310,7 +383,6 @@ button:hover {
   margin-bottom: 10px;
 }
 
-/* Étrend kártyák */
 .custom-diet-card {
   margin: 15px 0;
   padding: 15px;
@@ -326,7 +398,6 @@ button:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Egyedi étrendek részletei */
 .custom-diet-header {
   font-size: 20px;
   font-weight: bold;
@@ -353,7 +424,6 @@ button:hover {
   color: #555;
 }
 
-/* Ha nincs egyedi étrend */
 .noCustomDiets {
   text-align: center;
   font-size: 1rem;
@@ -362,12 +432,10 @@ button:hover {
   margin-top: 20px;
 }
 
-
-
-
-.section-title{
-  padding-top: 50px;
+.section2{
+  padding-bottom: 50px;
 }
+
 .recipe-card {
   width: 100%;
   max-width: 250px;
@@ -402,7 +470,6 @@ button:hover {
   font-size: 0.9rem;
 }
 
-/* Alap stílusok */
 h1, h2, .section-title {
   text-align: center;
   margin-top:80px;
@@ -438,7 +505,6 @@ h1, h2, .section-title {
   margin-bottom: 15px;
 }
 
-/* Linkek stílusai */
 a {
   color: #007bff;
   text-decoration: none;
@@ -448,7 +514,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Konténerek */
 .container, .profile-container, .plans-container, .user-data-container, .diet-plans-container, .custom-diets-container, .recipe-card, .fav-recipes-container {
   padding: 20px;
   margin: auto;
@@ -471,7 +536,11 @@ body{
   padding-bottom: 80px;
 }
 
-/* Profil szekció */
+.recipe-card-group2{
+  padding-top:30px;
+}
+
+
 .profile-container {
   max-width: 600px;
   margin: 20px auto;
@@ -511,7 +580,6 @@ strong {
   color: #333;
 }
 
-/* Súly frissítése input mező és gomb */
 .weight-update-container input[type="number"] {
   padding: 10px;
   border: 1px solid #007bff;
@@ -543,7 +611,6 @@ strong {
   background-color: #0056b3;
 }
 
-/* Étrendtervek */
 .diet-plan-card, .custom-diet-card {
   margin: 15px 0;
   padding: 15px;
@@ -599,7 +666,6 @@ strong {
   margin-left: auto;
   margin-right: auto;
 }
-/* Recept kártya */
 .recipe-card {
   width: 100%;
   max-width: 250px;
@@ -634,7 +700,6 @@ strong {
   font-size: 0.9rem;
 }
 
-/* Különböző típusú gombok */
 .button {
   padding: 10px 20px;
   border-radius: 8px;
@@ -678,7 +743,6 @@ strong {
   background-color: #c0392b;
 }
 
-/* Modális ablak */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -718,7 +782,6 @@ strong {
 
 .close-button:hover {
   background-color: #0056b3;
-/* Recept kártya */
 .recipe-card {
   width: 100%;
   max-width: 250px;
@@ -753,7 +816,6 @@ strong {
   font-size: 0.9rem;
 }
 
-/* Recept részletezés gomb */
 .recept-reszletek {
   padding: 10px 20px;
   border-radius: 8px;
@@ -770,7 +832,6 @@ strong {
   margin-right: auto;
 }
 
-/* Gombok alap stílus */
 .button {
   padding: 10px 20px;
   border-radius: 8px;
@@ -817,4 +878,158 @@ strong {
 
 }
 
+
+.modal-backdrop5 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+  animation: fadeIn 0.3s ease-in-out; 
+  overflow: hidden; 
+}
+
+.modal-content5 {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+  width: 90%;
+  max-width: 600px; 
+  text-align: center;
+  position: relative;
+  animation: slideUp 0.3s ease-out; 
+  overflow: hidden; 
+}
+
+
+.close-button5 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s;
+}
+
+
+.close-button5:hover {
+  color: #ff6b6b;
+}
+
+.modal-title5 {
+  font-size: 24px;
+  color: #2980b9; 
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.modal-image5 {
+  width: 100%; 
+  height: auto;
+  max-height: 300px; 
+  object-fit: cover; 
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.modal-description5 {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  margin-top: 15px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content5 {
+    width: 95%;
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  .modal-image5 {
+    max-height: 100px; 
+  }
+
+
+  .close-button5 {
+    font-size: 20px;
+  }
+
+
+  .modal-title5 {
+    font-size: 20px;
+  }
+
+  .modal-description5 {
+    font-size: 14px;
+  }
+
+@media (min-width: 769px) {
+  .modal-backdrop5 {
+    display: flex;
+  }
+
+  .modal-content5 {
+    width: 50%; 
+    max-width: 600px;
+    padding: 20px;
+  }
+
+  .modal-image5 {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+
+
+.section-title2 {
+  font-family: 'Arial', sans-serif;  
+  font-size: 28px;  
+  font-weight: bold;  
+  text-align: center;  
+  color: #007bff;  
+  text-transform: uppercase;  
+  letter-spacing: 2px;  
+  margin: 40px 0 20px 0;  
+  padding: 10px;  
+  border-bottom: 3px solid #007bff;  
+  background-color: #f4f4f4;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+}
+}
 }

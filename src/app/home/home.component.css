@@ -1,7 +1,6 @@
-/* Bemutatkozó szövegért felelős rész */
 .intro {
-    background: linear-gradient(to right, #4a90e2, #50b3e0);
-    color: white;
+    background: linear-gradient(to right, #e6e6e6, #dfdfdf);
+    color: rgb(0, 0, 0);
     padding: 50px 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
@@ -12,18 +11,16 @@
 
 .intro h2 {
     font-size: 32px;
-    margin-bottom: 20px;
     font-weight: 600;
 }
 
 .intro p {
     font-size: 18px;
     line-height: 1.6;
-    margin-bottom: 15px;
     max-width: 750px;
     margin-left: auto;
     margin-right: auto;
-    color: #f2f2f2;
+    color: #000000;
 }
 
 .intro p:last-child {
@@ -48,6 +45,7 @@
     background-color: #f4f4f4;
     color: #333;
     padding: 20px;
+    padding-top: 0px;
     margin: 30px auto;
     max-width: 800px;
     text-align: center;
@@ -58,7 +56,7 @@
 .intro-sub p {
     font-size: 20px;
     line-height: 1.6;
-    margin-bottom: 15px;
+    padding-top: 0px;
 }
 
 .intro-sub p:last-child {
@@ -76,11 +74,11 @@
     }
 }
 
-/* Receptek szekció */
 .recipes {
     text-align: center;
     margin: 50px auto;
     padding: 20px;
+    padding-top: 0px;
     max-width: 1200px;
 }
 
@@ -91,7 +89,6 @@
     margin-bottom: 30px;
 }
 
-/* A csoportok konténere */
 .recipe-group {
     margin: 50px auto;
     padding: 20px;
@@ -108,11 +105,10 @@
     text-align: center;
 }
 
-/* A kártyák konténere (vízszintes görgethetőség) */
 .recipe-cards {
     display: flex;
-    flex-wrap: nowrap; /* Kártyák nem törhetnek új sorra */
-    overflow-x: auto; /* Vízszintes görgethetőség */
+    flex-wrap: nowrap; 
+    overflow-x: auto; 
     gap: 20px;
     padding: 10px 0;
 }
@@ -122,20 +118,20 @@
     border-radius: 10px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     width: 280px;
-    flex-shrink: 0; /* A kártyák nem zsugorodnak */
+    flex-shrink: 0; 
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
 }
 
 .recipe-card:hover {
-    transform: scale(1.05); /* Kicsit megnöveli a kártyát hover esetén */
+    transform: scale(1.05); 
 }
 
 .recipe-card img {
     width: 100%;
-    height: 180px; /* Rögzített magasság a képeknek */
-    object-fit: cover; /* Kép illesztése, ne torzuljon */
+    height: 180px; 
+    object-fit: cover; 
 }
 
 .card-content {
@@ -155,7 +151,7 @@
 }
 
 .details-button {
-    background-color: #4CAF50; /* Zöld szín */
+    background-color: #4CAF50; 
     color: white;
     padding: 10px 15px;
     border: none;
@@ -167,9 +163,8 @@
 }
 
 .details-button:hover {
-    background-color: #45a049; /* Sötétebb zöld hover esetén */
+    background-color: #45a049; 
 }
-
 .recipe-details {
     background-color: #f9f9f9;
     padding: 15px;
@@ -178,36 +173,33 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Mobil nézet */
 @media (max-width: 768px) {
     .recipe-cards {
-        gap: 15px; /* Csökkentett távolság mobil nézetben */
+        gap: 15px; 
     }
 
     .recipe-card {
-        width: 200px; /* Mobil nézetben kisebb kártyák */
+        width: 200px; 
     }
 
     .recipe-card img {
-        height: 150px; /* Kisebb képek mobilon */
+        height: 150px; 
     }
 }
 
-/* További csoportok */
 .recipe-group-2 {
-    background-color: #e9f7fc; /* Más szín a második csoportnak */
+    background-color: #e9f7fc; 
 }
 
 .recipe-group-3 {
-    background-color: #f8f4e9; /* Harmadik csoport színe */
+    background-color: #f8f4e9; 
 }
 
-/* Kezdetben rejtve vannak a recept részletek */
+
 .recipe-details {
     display: none;
 }
 
-/* Ha a show-details osztály hozzáadódik, akkor láthatóvá válik */
 .recipe-details.show-details {
     display: block;
     margin-top: 10px;
@@ -224,7 +216,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* A modal háttér homályosítása */
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -235,7 +226,6 @@
     z-index: 1000;
 }
 
-/* A modal ablak alap stílusai */
 .modal {
     position: fixed;
     top: 50%;
@@ -249,16 +239,14 @@
     max-width: 500px;
     width: 90%;
     height: auto;
-    max-height: 80vh; /* Maximális magasság a képernyőhöz képest */
-    overflow-y: auto; /* Engedélyezi a görgetést, ha a tartalom túl hosszú */
+    max-height: 80vh; 
+    overflow-y: auto; 
 }
 
-/* Modal tartalom */
 .modal-content {
     text-align: center;
 }
 
-/* A gombok stílusai */
 .details-button, .close-button {
     padding: 10px 15px;
     margin-top: 10px;
@@ -273,11 +261,10 @@
     background-color: #45a049;
 }
 
-/* Hozzávalók és Elkészítés kiemelése a modal ablakban */
 .modal-content h4 {
     font-size: 20px;
     font-weight: bold;
-    color: #4a90e2; /* Weboldalon használt kék szín */
+    color: #4a90e2; 
     margin-bottom: 15px;
     text-align: left;
 }
@@ -285,7 +272,7 @@
 .modal-content div {
     font-size: 16px;
     color: #333;
-    text-align: justify; /* Sorkizárt szöveg */
+    text-align: justify; 
     line-height: 1.6;
 }
 
@@ -293,15 +280,14 @@
     margin-bottom: 30px;
 }
 
-/* Hozzávalók és Elkészítés kiemelése */
 .modal-content h4:nth-child(1) {
-    color: #4a90e2; /* Kék szín */
+    color: #4a90e2; 
     font-size: 22px;
     font-weight: 700;
 }
 
 .modal-content h4:nth-child(2) {
-    color: #4a90e2; /* Kék szín */
+    color: #4a90e2; 
     font-size: 22px;
     font-weight: 700;
 }

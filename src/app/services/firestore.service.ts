@@ -46,18 +46,17 @@ export class FirestoreService {
           }
         });
 
-        // Ha van userData, akkor lekérjük a 'userData' kollekció adatokat
         if (userData) {
           getDocs(userDataRef).then((querySnapshotUserData) => {
             querySnapshotUserData.forEach((doc) => {
               const data = doc.data() as UserData;
               console.log('UserData Collection Data:', data);
               if (data.email === email) {
-                userData = { ...userData, ...data }; // Egyesítjük a két adatot
+                userData = { ...userData, ...data }; 
               }
             });
 
-            observer.next(userData); // Visszaadjuk az egyesített adatokat
+            observer.next(userData); 
             observer.complete();
           }).catch((error) => {
             console.error('Error fetching user data from userData collection:', error);
@@ -75,28 +74,28 @@ export class FirestoreService {
       });
     });
   }
-// getUserData2(email: string): Observable<UserData | undefined> {
-//   const usersRef = collection(this.firestore, 'userData'); 
-//   return new Observable<UserData | undefined>((observer) => {
-//       getDocs(usersRef).then((querySnapshot) => {
-//           let userData: UserData | undefined;
-//           querySnapshot.forEach((doc) => {
-//               const data = doc.data() as UserData;
-//               console.log('Document Data:', data); 
-//               if (data.email === email) {
-//                   userData = { ...data };
-//                   console.log('Retrieved User Data:', userData); 
-//               }
-//           });
-//           observer.next(userData);
-//           observer.complete();
-//       }).catch((error) => {
-//           console.error('Error fetching user data:', error);
-//           observer.next(undefined);
-//           observer.complete();
-//       });
-//   });
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  addWorkoutPlan(userId: string, workoutData: any) {
     const workoutPlansCollection = collection(this.firestore, 'workoutPlans');
@@ -351,15 +350,8 @@ export class FirestoreService {
 
 
   
- /* async saveFavoriteRecipe(recipeName: string, userEmail: string): Promise<void> {
-    const favoritesCollection = collection(this.firestore, 'favorites');
-    await addDoc(favoritesCollection, {
-      recipeName,
-      userEmail,
-      createdAt: new Date(),
-    });
-  }*/
-  //Recept hozzáadása
+
+  
 
 
 async addFavRecipe(userId: string, recipeData: any){
@@ -465,9 +457,9 @@ getFavorites(email: string): Observable<string[]> {
         const favorites: string[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          favorites.push(data['recipeName']); // Feltételezzük, hogy a recept neve a 'recipeName' mezőben van
+          favorites.push(data['recipeName']); 
         });
-        console.log('Kedvenc receptek:', favorites);  // A kedvenc receptek nevének kiírása
+        console.log('Kedvenc receptek:', favorites);  
         observer.next(favorites);
       } else {
         console.log('Nincs kedvenc recept.');
@@ -482,7 +474,7 @@ getFavorites(email: string): Observable<string[]> {
 
 
 
-async addFavorite(userEmail: string, recipeName: string, imageUrl: string, description: string, instructions: string): Promise<void> {
+async addFavorite(userEmail: string, recipeName: string, imageUrl: string, description: string, instructions: string, ingredients: string): Promise<void> {
   const favoritesCollection = collection(this.firestore, 'favRecipes');
   try {
     await addDoc(favoritesCollection, {
@@ -491,6 +483,7 @@ async addFavorite(userEmail: string, recipeName: string, imageUrl: string, descr
       imageUrl,
       description,
       instructions,
+      ingredients,
       createdAt: new Date(),
     });
     console.log('Recipe added to favorites!');
@@ -528,7 +521,6 @@ async updateBMI(userEmail: string, bmi: number): Promise<void> {
       const docId = querySnapshot.docs[0].id;
       const userDocRef = doc(this.firestore, 'users', docId);
 
-      // Frissítjük a BMI értékét a Firestore-ban
       await updateDoc(userDocRef, {
         bmi: bmi
       });
@@ -551,7 +543,6 @@ async updateBMI(userEmail: string, bmi: number): Promise<void> {
         querySnapshot.forEach((doc) => {
           const data = doc.data() as WorkoutSession;
           
-          // Check if createdAt is a Firestore Timestamp and convert to Date
           if (data.createdAt instanceof Timestamp) {
             data.createdAt = data.createdAt.toDate();
           }
@@ -582,18 +573,18 @@ async updateBMI(userEmail: string, bmi: number): Promise<void> {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const docId = querySnapshot.docs[0].id;
-        const userDocRef = doc(this.firestore, 'users', docId); // 'users' collection
+        const userDocRef = doc(this.firestore, 'users', docId); 
   
-        // Logoljunk ki minden információt a frissítés előtt
+        
         console.log(`Updating weight for user with email: ${userEmail}`);
         console.log(`New weight: ${updatedWeight}`);
   
-        // Frissítés a 'weight' mezőre
+        
         await updateDoc(userDocRef, {
-          updatedWeight: updatedWeight, // Itt a 'weight' mezőt frissítjük
+          updatedWeight: updatedWeight, 
         });
   
-        // Logoljunk, ha sikerült a frissítés
+        
         console.log('User weight updated successfully');
       } else {
         console.error('No user found for update');
